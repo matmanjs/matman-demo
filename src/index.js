@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.less';
+import { connect, Provider } from 'react-redux';
+
+import createStore from './store';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = createStore(window.__initialState);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+function mapStateToProps(state) {
+    return state;
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatch
+    };
+}
+
+const Root = connect(mapStateToProps, mapDispatchToProps)(App);
+
+ReactDOM.render((
+    <Provider store={store}>
+        <Root />
+    </Provider>
+), document.getElementById('root'));
+
