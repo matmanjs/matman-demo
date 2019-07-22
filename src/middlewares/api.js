@@ -99,14 +99,22 @@ export default store => next => action => {
                 }
             }
 
+            const isSuccess = res.data && (res.data.retcode === 0);
+
+            // 如果是失败类型则特殊处理
+            if (!isSuccess) {
+                return Promise.reject(res.data);
+            }
+
             let finalAction = actionWith({
                 type: successType,
-                data: convertData(res.data)
+                data: convertData(res.data.result)
             });
 
             next(finalAction);
 
             return finalAction;
+
         })
         .catch((err) => {
             // ios8下面 stack会存在
