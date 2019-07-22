@@ -1,0 +1,9 @@
+{
+  "description": "获取流水记录",
+  "route": "/cgi-bin/a/b/get_flow",
+  "defaultModule": "success_basic",
+  "tags": [
+    "transaction.html 流水页",
+    "xyz"
+  ]
+}
