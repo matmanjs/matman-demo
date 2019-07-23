@@ -11,7 +11,7 @@ const OPTS = {
  * @return {String}
  */
 function getPageUrl(isDev) {
-    return utils.getPageUrl('http://now.qq.com/simple', isDev);
+    return utils.getPageUrl('http://localhost:3000/simple', isDev);
 }
 
 module.exports = {
