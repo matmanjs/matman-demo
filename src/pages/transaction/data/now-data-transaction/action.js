@@ -10,7 +10,7 @@ function fetchFlow() {
     return {
         [CALL_API]: {
             types: [FLOW_REQUEST, FLOW_REQUEST_SUCCESS, FLOW_REQUEST_FAIL],
-            url: '/cgi-bin/a/b/get_flow',
+            url: '//cgi.now.qq.com/cgi-bin/a/b/get_flow',
             data: {
                 appid: 10086,
                 type: 0

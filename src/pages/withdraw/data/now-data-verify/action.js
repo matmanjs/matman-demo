@@ -10,7 +10,7 @@ function fetchVerifyInfo() {
     return {
         [CALL_API]: {
             types: [VERIFY_INFO_REQUEST, VERIFY_INFO_REQUEST_SUCCESS, VERIFY_INFO_REQUEST_FAIL],
-            url: '/cgi-bin/a/b/get_verify_status',
+            url: '//cgi.now.qq.com/cgi-bin/a/b/get_verify_status',
             type: 'get',
             data: {},
             convert: getData

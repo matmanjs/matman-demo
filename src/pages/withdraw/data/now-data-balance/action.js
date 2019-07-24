@@ -10,7 +10,7 @@ function fetchBalanceInfo() {
     return {
         [CALL_API]: {
             types: [BALANCE_INFO_REQUEST, BALANCE_INFO_REQUEST_SUCCESS, BALANCE_INFO_REQUEST_FAIL],
-            url: '/cgi-bin/a/b/get_balance',
+            url: '//cgi.now.qq.com/cgi-bin/a/b/get_balance',
             type: 'get',
             data: {
                 activeid: 10001
