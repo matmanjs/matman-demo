@@ -1,19 +1,6 @@
 {
   "name": "matman-demo",
   "private": true,
-  "main": "index.js",
-  "dependencies": {
-    "axios": "^0.19.0",
-    "classnames": "^2.2.6",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.1.0",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
-    "redux": "^4.0.4",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
-  },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
@@ -44,7 +31,18 @@
   "bugs": {
     "url": "https://github.com/matmanjs/matman-demo/issues"
   },
-  "homepage": "https://github.com/matmanjs/matman-demo#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "classnames": "^2.2.6",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
   "devDependencies": {
     "customize-cra": "^0.4.1",
     "less": "^3.9.0",

@@ -10,7 +10,7 @@ function fetchWithdrawMoney(amount) {
     return {
         [CALL_API]: {
             types: [WITHDRAW_MONEY_REQUEST, WITHDRAW_MONEY_REQUEST_SUCCESS, WITHDRAW_MONEY_REQUEST_FAIL],
-            url: '/cgi-bin/a/b/withdraw_money',
+            url: '//cgi.now.qq.com/cgi-bin/a/b/withdraw_money',
             type: 'get',
             data: {
                 amount: amount,
