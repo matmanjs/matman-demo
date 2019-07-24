@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PageSimple from './pages/simple';
 import PageIndex from './pages/index';
 import PageTransaction from './pages/transaction';
+import PageWithdraw from './pages/withdraw';
 
 import './App.less';
 
@@ -14,6 +15,7 @@ export default function App() {
                 <Route exact path={`/`} component={PageIndex} />
                 <Route path={`/simple`} component={PageSimple} />
                 <Route path={`/transaction`} component={PageTransaction} />
+                <Route path={`/withdraw`} component={PageWithdraw} />
             </Switch>
         </Router>
     );

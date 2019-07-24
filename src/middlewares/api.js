@@ -108,7 +108,9 @@ export default store => next => action => {
 
             let finalAction = actionWith({
                 type: successType,
-                data: convertData(res.data.result)
+                transferParam: opts.transferParam,
+                data: convertData(res.data.result),
+                opts: opts
             });
 
             next(finalAction);

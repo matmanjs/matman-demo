@@ -11,6 +11,8 @@ export default class PageIndex extends Component {
                 <h2>hello, world!</h2>
                 <ul>
                     <li><NavLink to={`/simple`}>简单静态页面</NavLink></li>
+                    <li><NavLink to={`/transaction`}>单一接口展示型页面</NavLink></li>
+                    <li><NavLink to={`/withdraw`}>重交互页面</NavLink></li>
                 </ul>
             </div>
         );

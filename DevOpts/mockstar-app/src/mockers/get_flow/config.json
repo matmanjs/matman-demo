@@ -3,7 +3,7 @@
   "route": "/cgi-bin/a/b/get_flow",
   "defaultModule": "success_basic",
   "tags": [
-    "transaction.html 流水页",
-    "xyz"
+    "transaction 流水页",
+    "automan"
   ]
 }

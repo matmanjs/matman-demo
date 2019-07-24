@@ -7,14 +7,14 @@ import { loadFlow } from './data/now-data-transaction';
 
 import './index.less';
 
-class PageDocument extends Component {
+class PageTransaction extends Component {
     componentDidMount() {
         this.props.loadFlow();
     }
 
     render() {
         return (
-            <div className="page-document">
+            <div className="page-transaction">
                 <Transaction />
             </div>
         );
@@ -38,5 +38,5 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageDocument);
+export default connect(mapStateToProps, mapDispatchToProps)(PageTransaction);
 
