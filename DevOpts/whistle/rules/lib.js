@@ -18,7 +18,7 @@ function getRuleName(tag) {
  * @return {String}
  */
 function getProjectRootPath() {
-    return path.join(__dirname, '../../../');
+    return path.resolve(path.join(__dirname, '../../../'));
 }
 
 module.exports = {
