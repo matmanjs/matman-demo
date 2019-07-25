@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 const checkPage = require('.');
 
-describe.only('simple.html：常规检查-普通静态页面', function () {
+describe('simple.html：常规检查-普通静态页面', function () {
     this.timeout(30000);
 
     let resultData;
@@ -48,7 +48,7 @@ describe.only('simple.html：常规检查-普通静态页面', function () {
         it('文字单行检查通过', function () {
             expect(data.oneLineText).to.eql({
                 'isExist': true,
-                'isOneLine': false,
+                'isOneLine': true,
                 'text': '我简单说两句，我很长，但是不能够换行不能够换行不能够换行不能够换行不能够换行不能够换行不能够换行'
             });
         });
