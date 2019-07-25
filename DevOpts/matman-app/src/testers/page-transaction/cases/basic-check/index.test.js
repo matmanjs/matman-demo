@@ -24,7 +24,7 @@ describe('transaction.html：常规基础信息检查', function () {
         it('数据快照校验通过', function () {
             expect(data).to.eql({
                 'transactionListInfo': {
-                    'emptyPic': '',
+                    // 'emptyPic': '',
                     'emptyWording': '',
                     'isExist': true,
                     'list': [{

@@ -32,7 +32,7 @@ describe('simple.html：常规检查-普通静态页面', function () {
 
         it('规则文案检查通过', function () {
             expect(data.middleRule).to.eql({
-                'isExist': true,
+                'isExist': true, 
                 'text': '规则说明：1.第一条规则；2.第二条规则；3.第三条规则，这条规则很长，会自动换行展示自动换行展示自动换行展示自动换行展示自动换行展示；同意不同意'
             });
         });
@@ -48,7 +48,7 @@ describe('simple.html：常规检查-普通静态页面', function () {
         it('文字单行检查通过', function () {
             expect(data.oneLineText).to.eql({
                 'isExist': true,
-                'isOneLine': false,
+                'isOneLine': true,
                 'text': '我简单说两句，我很长，但是不能够换行不能够换行不能够换行不能够换行不能够换行不能够换行不能够换行'
             });
         });
