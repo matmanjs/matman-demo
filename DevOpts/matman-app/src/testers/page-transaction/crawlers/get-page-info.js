@@ -49,7 +49,7 @@ function getTransactionListInfo() {
         result.list = list;
 
         // 列表为空时的图片
-        result.emptyPic = useJquery.getBackgroundImageUrl('.display-transaction-empty .empty-pic', parentSelector);
+        // result.emptyPic = useJquery.getBackgroundImageUrl('.display-transaction-empty .empty-pic', parentSelector);
 
         // 列表为空时的文字
         result.emptyWording = useJquery.getText('.display-transaction-empty p', parentSelector);
