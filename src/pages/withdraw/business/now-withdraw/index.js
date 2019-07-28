@@ -1,5 +1,6 @@
 import { closeCurrentWebView } from '../app-now';
-import { showAlert, showErrorTips } from '../base-tips';
+import { showErrorTips } from '../base-tips';
+import { showAlert } from '../base-alert';
 
 /**
  * 国家规定的收取税费为 20%
