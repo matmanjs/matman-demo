@@ -12,7 +12,7 @@ export default class DisplayWithdraw extends Component {
 
         this.state = {
             // 最大允许提现金额，提现金额不能够超过用户的红包余额
-            maxValue: 0,
+            maxWithdrawMoney: 0,
 
             // 当前选择要提现的金额
             withdrawMoney: 0,
@@ -25,27 +25,27 @@ export default class DisplayWithdraw extends Component {
     componentWillReceiveProps(nextProps) {
         // 可提现的最大值为用户红包的余额值
         if (nextProps.available !== this.props.available) {
-            this.initMaxValue(nextProps.available);
+            this.initMaxWithdrawMoney(nextProps.available);
         }
     }
 
     componentDidMount() {
-        this.initMaxValue(this.props.available);
+        this.initMaxWithdrawMoney(this.props.available);
     }
 
-    initMaxValue(available) {
+    initMaxWithdrawMoney(available) {
         this.setState({
-            maxValue: available
+            maxWithdrawMoney: available
         });
     }
 
     handleWithdrawMoney = () => {
-        let { withdrawMoney, afterTaxedMoney, maxValue } = this.state;
+        let { withdrawMoney, afterTaxedMoney, maxWithdrawMoney } = this.state;
 
-        this.props.withdrawMoney(withdrawMoney, afterTaxedMoney, maxValue)
-            .then((newMaxValue) => {
+        this.props.withdrawMoney(withdrawMoney, afterTaxedMoney, maxWithdrawMoney)
+            .then((newMaxWithdrawMoney) => {
                 this.setState({
-                    maxValue: newMaxValue,
+                    maxWithdrawMoney: newMaxWithdrawMoney,
                     withdrawMoney: 0,
                     afterTaxedMoney: 0
                 });
@@ -58,11 +58,11 @@ export default class DisplayWithdraw extends Component {
     };
 
     handleSelectQuota = (index) => {
-        const { maxValue } = this.state;
+        const { maxWithdrawMoney } = this.state;
         const { quotas } = this.props;
         const quotaValue = quotas[index];
 
-        const result = this.props.selectQuota(quotaValue, maxValue);
+        const result = this.props.selectQuota(quotaValue, maxWithdrawMoney);
 
         if (!result) {
             return;
@@ -76,21 +76,21 @@ export default class DisplayWithdraw extends Component {
 
     render() {
         let { uid, quotas } = this.props;
-        let { maxValue, withdrawMoney, afterTaxedMoney } = this.state;
+        let { maxWithdrawMoney, withdrawMoney, afterTaxedMoney } = this.state;
 
         return (
             <div className="display-withdraw">
                 <WithdrawWalletTips uid={uid} />
 
                 <WithdrawQuotas
-                    maxValue={maxValue}
+                    maxWithdrawMoney={maxWithdrawMoney}
                     withdrawMoney={withdrawMoney}
                     afterTaxedMoney={afterTaxedMoney}
                     quotas={quotas}
                     selectQuota={this.handleSelectQuota}
                 />
 
-                <WithdrawBalanceTips maxValue={maxValue} />
+                <WithdrawBalanceTips maxWithdrawMoney={maxWithdrawMoney} />
 
                 <WithdrawSubmit disabled={!withdrawMoney} enter={this.handleWithdrawMoney} />
             </div>

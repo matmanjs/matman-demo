@@ -21,43 +21,55 @@ class HighorderWithdraw extends Component {
         this.uid = getCurUid();
     }
 
-    handleWithdrawMoney = (withdrawMoney, afterTaxedMoney, maxValue) => {
+    /**
+     *  处理提交提现操作的逻辑
+     * @param {Number} withdrawMoney 用户需要的提现金额，单位为"分钱"
+     * @param {Number} afterTaxedMoney 税后金额，单位为"分钱"
+     * @param {Number} maxWithdrawMoney 当前用户所能够提现的最大值，单位为"分钱"
+     * @return {Promise<any>} resolve 值为提现成功之后的新的余额
+     */
+    handleWithdrawMoney = (withdrawMoney, afterTaxedMoney, maxWithdrawMoney) => {
         return new Promise((resolve, reject) => {
             let { isPhoneVerified, isIdVerified } = this.props;
 
             // 处理提现的逻辑
-            dealWithdraw(withdrawMoney, isPhoneVerified, isIdVerified, () => {
-                // 请求提现的接口
-                this.props.loadWithdrawMoney(withdrawMoney)
-                    .then((result) => {
-                        this.reportWithdrawResult(true, withdrawMoney);
+            dealWithdraw({
+                withdrawMoney,
+                maxWithdrawMoney,
+                isPhoneVerified,
+                isIdVerified,
+                withdrawHandler: () => {
+                    // 请求提现的接口
+                    this.props.loadWithdrawMoney(withdrawMoney)
+                        .then((result) => {
+                            this.reportWithdrawResult(true, withdrawMoney);
 
-                        // 处理成功的提现接口的访问结果
-                        dealWithdrawResultSuccess(result, withdrawMoney, afterTaxedMoney)
-                            .then(() => {
-                                // 为了更为准确，重新拉取一次接口
-                                this.props.loadBalanceInfo();
+                            // 处理成功的提现接口的访问结果
+                            dealWithdrawResultSuccess(result, withdrawMoney, afterTaxedMoney)
+                                .then(() => {
+                                    // 为了更为准确，重新拉取一次查询余额的接口
+                                    this.props.loadBalanceInfo();
 
-                                // 提现成功需要及时更新下余额
-                                resolve(maxValue - withdrawMoney);
-                            })
-                            .catch((err) => {
-                                reject(err);
-                            });
-                    })
-                    .catch((err) => {
-                        // console.error(err);
-                        this.reportWithdrawResult(false, withdrawMoney);
+                                    // 提现成功需要及时更新下余额，避免等接口回来时有个时间差
+                                    resolve(maxWithdrawMoney - withdrawMoney);
+                                })
+                                .catch((err) => {
+                                    reject(err);
+                                });
+                        })
+                        .catch((err) => {
+                            this.reportWithdrawResult(false, withdrawMoney);
 
-                        // 处理失败的提现接口的访问结果
-                        dealWithdrawResultFail(err)
-                            .then(() => {
-                                reject();
-                            })
-                            .catch((err) => {
-                                reject(err);
-                            });
-                    });
+                            // 处理失败的提现接口的访问结果
+                            dealWithdrawResultFail(err)
+                                .then(() => {
+                                    reject();
+                                })
+                                .catch((err) => {
+                                    reject(err);
+                                });
+                        });
+                }
             })
                 .catch((err) => {
                     reject(err);
@@ -65,14 +77,25 @@ class HighorderWithdraw extends Component {
         });
     };
 
+    /**
+     * 处理选择提现金额时的逻辑
+     * @param {Number} quotaValue 当前选中的提现额度，单位为"分钱"
+     * @param {Number} maxWithdrawMoney 当前用户所能够提现的最大值，单位为"分钱"
+     * @return {{withdrawMoney, afterTaxedMoney}}
+     */
+    handleSelectQuota = (quotaValue, maxWithdrawMoney) => {
+        return checkSelectQuota(quotaValue, maxWithdrawMoney);
+    };
+
+    /**
+     * 数据上报：提现操作的结果
+     * @param {Boolean} isSuccess 提现操作是否成功
+     * @param {Number} withdrawMoney 提现金额
+     */
     reportWithdrawResult = (isSuccess, withdrawMoney) => {
         if (process.env.NODE_ENV !== 'production') {
             console.log('reportWithdrawResult(isSuccess, withdrawMoney)', isSuccess, withdrawMoney);
         }
-    };
-
-    handleSelectQuota = (quotaValue, maxValue) => {
-        return checkSelectQuota(quotaValue, maxValue);
     };
 
     render() {

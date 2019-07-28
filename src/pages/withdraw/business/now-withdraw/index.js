@@ -72,12 +72,19 @@ export function jumpToVerifyIdPage() {
     }, 200);
 }
 
-export function dealWithdraw(withdrawMoney, isPhoneVerified, isIdVerified, goWithdrawCall) {
+export function dealWithdraw(params) {
+    const {
+        withdrawMoney,
+        isPhoneVerified,
+        isIdVerified,
+        withdrawHandler
+    } = params;
+
     return checkBeforeWithdraw(withdrawMoney, isPhoneVerified, isIdVerified)
         .then((type) => {
             switch (type) {
                 case CHECK_RESULT.GO_WITHDRAW:
-                    goWithdrawCall();
+                    withdrawHandler();
                     break;
                 case CHECK_RESULT.GO_VERIFY_PHONE:
                     jumpToVerifyPhonePage();
@@ -97,7 +104,7 @@ export function dealWithdraw(withdrawMoney, isPhoneVerified, isIdVerified, goWit
 }
 
 export function checkBeforeWithdraw(withdrawMoney, isPhoneVerified, isIdVerified) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         if (!withdrawMoney) {
             resolve(CHECK_RESULT.WITHDRAW_EMPTY);
         } else if (!isPhoneVerified) {
@@ -114,11 +121,11 @@ export function checkBeforeWithdraw(withdrawMoney, isPhoneVerified, isIdVerified
  * 检查选择提现额度选项的合法性
  *
  * @param {Number} value 当前选择的提现金额，单位为分钱
- * @param {Number} maxValue 当前用户允许提现的最大值，单位为分钱
+ * @param {Number} maxWithdrawMoney 当前用户允许提现的最大值，单位为分钱
  * @return {Object}
  */
-export function checkSelectQuota(value, maxValue) {
-    if (!value || value > maxValue) {
+export function checkSelectQuota(value, maxWithdrawMoney) {
+    if (!value || value > maxWithdrawMoney) {
         return null;
     }
 
