@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import LoadedTag from './components/now-highorder-loaded-tag';
 import Withdraw from './components/now-highorder-withdraw';
@@ -8,10 +9,18 @@ import Notice from './components/now-display-notice';
 import { loadBalanceInfo } from './data/now-data-balance';
 import { loadVerifyInfo } from './data/now-data-verify';
 
+import {reportPv} from './report'
+
 import './index.less';
-import { connect } from 'react-redux';
+
 
 class PageWithdraw extends Component {
+    constructor(...props){
+        super(...props);
+
+        reportPv();
+    }
+
     componentDidMount() {
         this.loadRemoteData();
     }
