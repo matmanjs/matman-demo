@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const checkPage = require('.');
 
-describe('transaction.html：常规基础信息检查', function () {
+describe('transaction：常规基础信息检查', function () {
     this.timeout(30000);
 
     let resultData;
