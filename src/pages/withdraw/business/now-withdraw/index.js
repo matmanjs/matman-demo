@@ -217,6 +217,6 @@ export function dealWithdrawResultFail(error = {}) {
             showErrorTips(`网络异常，请稍候再试${codeTips}`);
         }
 
-        resolve();
+        resolve(err.retcode);
     });
 }

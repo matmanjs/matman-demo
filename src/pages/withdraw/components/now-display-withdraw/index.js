@@ -59,7 +59,7 @@ export default class DisplayWithdraw extends Component {
             })
             .catch((err) => {
                 if (process.env.NODE_ENV !== 'production') {
-                    console.error('handleWithdrawMoney err', err);
+                    console.log('handleWithdrawMoney err', err);
                 }
             });
     };
