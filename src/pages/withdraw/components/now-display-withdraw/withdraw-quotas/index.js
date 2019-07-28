@@ -5,10 +5,10 @@ import './index.less';
 
 class DisplayWithdrawQuatosItem extends PureComponent {
     handleClick = () => {
-        const { selectQuota, index, num, maxValue } = this.props;
+        const { selectQuota, index, num, maxWithdrawMoney } = this.props;
 
         // 如果当前金额不足以提现，则不响应其点击
-        if (maxValue < num) {
+        if (maxWithdrawMoney < num) {
             return;
         }
 
@@ -16,12 +16,12 @@ class DisplayWithdrawQuatosItem extends PureComponent {
     };
 
     render() {
-        const { num, index, withdrawMoney, maxValue } = this.props;
+        const { num, index, withdrawMoney, maxWithdrawMoney } = this.props;
 
         const className = classnames({
             ['i' + index]: true,
             'item': true,
-            'available': num <= maxValue,
+            'available': num <= maxWithdrawMoney,
             'active': withdrawMoney === num
         });
 
@@ -32,7 +32,7 @@ class DisplayWithdrawQuatosItem extends PureComponent {
 }
 
 export default function DisplayWithdrawQuotas(props) {
-    const { maxValue, withdrawMoney, afterTaxedMoney, quotas, selectQuota } = props;
+    const { maxWithdrawMoney, withdrawMoney, afterTaxedMoney, quotas, selectQuota } = props;
 
     return (
         <div className="display-withdraw-quotas">
@@ -48,7 +48,7 @@ export default function DisplayWithdrawQuotas(props) {
                                 index={index}
                                 num={item}
                                 withdrawMoney={withdrawMoney}
-                                maxValue={maxValue}
+                                maxWithdrawMoney={maxWithdrawMoney}
                                 selectQuota={selectQuota}
                             />
                         );
