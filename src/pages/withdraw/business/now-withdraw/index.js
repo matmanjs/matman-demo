@@ -14,7 +14,8 @@ export const CHECK_RESULT = {
     GO_VERIFY_ID: 'GO_VERIFY_ID',
     GO_RULE: 'GO_RULE',
     CANCEL: 'CANCEL',
-    WITHDRAW_EMPTY: 'WITHDRAW_EMPTY'
+    WITHDRAW_EMPTY: 'WITHDRAW_EMPTY',
+    WITHDRAW_INVALID: 'WITHDRAW_INVALID'
 };
 
 /**
@@ -72,15 +73,21 @@ export function jumpToVerifyIdPage() {
     }, 200);
 }
 
+/**
+ * 处理提现操作
+ *
+ * @param {Object} params
+ * @param {Number} params.withdrawMoney 用户需要的提现金额，单位为"分钱"
+ * @param {Number} params.maxWithdrawMoney 当前用户所能够提现的最大值，单位为"分钱"
+ * @param {Boolean} params.isPhoneVerified 手机是否已认证
+ * @param {Boolean} params.isIdVerified 身份证是否已认证
+ * @param {Function} params.withdrawHandler 执行提现操作的方法
+ * @return {Promise} resolve 会返回结果类型
+ */
 export function dealWithdraw(params) {
-    const {
-        withdrawMoney,
-        isPhoneVerified,
-        isIdVerified,
-        withdrawHandler
-    } = params;
+    const { withdrawHandler } = params;
 
-    return checkBeforeWithdraw(withdrawMoney, isPhoneVerified, isIdVerified)
+    return checkResultBeforeWithdraw(params)
         .then((type) => {
             switch (type) {
                 case CHECK_RESULT.GO_WITHDRAW:
@@ -95,6 +102,9 @@ export function dealWithdraw(params) {
                 case CHECK_RESULT.WITHDRAW_EMPTY:
                     showAlert('请先选择金额之后再提现！');
                     break;
+                case CHECK_RESULT.WITHDRAW_INVALID:
+                    showAlert('提现金额有误，请重新选择！');
+                    break;
                 default:
                     break;
             }
@@ -103,10 +113,29 @@ export function dealWithdraw(params) {
         });
 }
 
-export function checkBeforeWithdraw(withdrawMoney, isPhoneVerified, isIdVerified) {
+/**
+ * 获得操作结果类型
+ *
+ * @param {Object} params
+ * @param {Number} params.withdrawMoney 用户需要的提现金额，单位为"分钱"
+ * @param {Number} params.maxWithdrawMoney 当前用户所能够提现的最大值，单位为"分钱"
+ * @param {Boolean} params.isPhoneVerified 手机是否已认证
+ * @param {Boolean} params.isIdVerified 身份证是否已认证
+ * @return {Promise} resolve 会返回结果类型
+ */
+export function checkResultBeforeWithdraw(params) {
+    const {
+        withdrawMoney,
+        maxWithdrawMoney,
+        isPhoneVerified,
+        isIdVerified
+    } = params;
+
     return new Promise((resolve) => {
         if (!withdrawMoney) {
             resolve(CHECK_RESULT.WITHDRAW_EMPTY);
+        } else if (withdrawMoney > maxWithdrawMoney) {
+            resolve(CHECK_RESULT.WITHDRAW_INVALID);
         } else if (!isPhoneVerified) {
             resolve(CHECK_RESULT.GO_VERIFY_PHONE);
         } else if (!isIdVerified) {
@@ -122,17 +151,20 @@ export function checkBeforeWithdraw(withdrawMoney, isPhoneVerified, isIdVerified
  *
  * @param {Number} value 当前选择的提现金额，单位为分钱
  * @param {Number} maxWithdrawMoney 当前用户允许提现的最大值，单位为分钱
- * @return {Object}
+ * @return {Promise}
  */
 export function checkSelectQuota(value, maxWithdrawMoney) {
-    if (!value || value > maxWithdrawMoney) {
-        return null;
-    }
+    return new Promise((resolve, reject) => {
+        if (!value || value > maxWithdrawMoney) {
+            return reject();
+        }
 
-    return {
-        withdrawMoney: value,
-        afterTaxedMoney: Math.round(value * (1 - TAX) * 100) / 100
-    };
+        // 返回提现金额及税后金额
+        resolve({
+            withdrawMoney: value,
+            afterTaxedMoney: Math.round(value * (1 - TAX) * 100) / 100
+        });
+    });
 }
 
 /**

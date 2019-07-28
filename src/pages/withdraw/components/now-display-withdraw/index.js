@@ -33,16 +33,23 @@ export default class DisplayWithdraw extends Component {
         this.initMaxWithdrawMoney(this.props.available);
     }
 
+    /**
+     * 初始化最大可提现金额
+     * @param {Number} available 接口返回的用户剩余金额
+     */
     initMaxWithdrawMoney(available) {
         this.setState({
             maxWithdrawMoney: available
         });
     }
 
+    /**
+     * 处理提交提现操作的逻辑
+     */
     handleWithdrawMoney = () => {
         let { withdrawMoney, afterTaxedMoney, maxWithdrawMoney } = this.state;
 
-        this.props.withdrawMoney(withdrawMoney, afterTaxedMoney, maxWithdrawMoney)
+        this.props.handleWithdrawMoney(withdrawMoney, afterTaxedMoney, maxWithdrawMoney)
             .then((newMaxWithdrawMoney) => {
                 this.setState({
                     maxWithdrawMoney: newMaxWithdrawMoney,
@@ -57,21 +64,27 @@ export default class DisplayWithdraw extends Component {
             });
     };
 
+    /**
+     * 处理选择提现金额时的逻辑
+     * @param {Number} index 提现额度按钮的序号
+     */
     handleSelectQuota = (index) => {
         const { maxWithdrawMoney } = this.state;
         const { quotas } = this.props;
         const quotaValue = quotas[index];
 
-        const result = this.props.selectQuota(quotaValue, maxWithdrawMoney);
-
-        if (!result) {
-            return;
-        }
-
-        this.setState({
-            withdrawMoney: result.withdrawMoney,
-            afterTaxedMoney: result.afterTaxedMoney
-        });
+        this.props.handleSelectQuota(quotaValue, maxWithdrawMoney)
+            .then((result) => {
+                this.setState({
+                    withdrawMoney: result.withdrawMoney,
+                    afterTaxedMoney: result.afterTaxedMoney
+                });
+            })
+            .catch((err) => {
+                if (process.env.NODE_ENV !== 'production') {
+                    console.error('handleSelectQuota err', err, quotaValue, maxWithdrawMoney);
+                }
+            });
     };
 
     render() {
