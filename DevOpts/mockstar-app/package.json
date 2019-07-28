@@ -6,6 +6,6 @@
     "stop": "mockstar stop"
   },
   "dependencies": {
-    "mockstar": "^1.1.3"
+    "mockstar": "^1.1.4"
   }
 }
