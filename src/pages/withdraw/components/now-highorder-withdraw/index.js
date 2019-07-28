@@ -62,8 +62,8 @@ class HighorderWithdraw extends Component {
 
                             // 处理失败的提现接口的访问结果
                             dealWithdrawResultFail(err)
-                                .then(() => {
-                                    reject();
+                                .then((retcode) => {
+                                    reject(retcode);
                                 })
                                 .catch((err) => {
                                     reject(err);
