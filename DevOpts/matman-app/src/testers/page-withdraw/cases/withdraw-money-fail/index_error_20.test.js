@@ -4,14 +4,18 @@ const RequestQueue = require('../../../../lib/request-queue');
 
 const checkPage = require('.');
 
-describe('withdraw：验证提现操作的基本逻辑', function () {
+describe.only('withdraw：验证提现失败逻辑', function () {
     this.timeout(30000);
 
     let resultData;
     let e2eQueue;
 
     before(function () {
-        return checkPage({ show: false, doNotEnd: false, useRecorder: true })
+        return checkPage({
+            show: false, doNotEnd: false, useRecorder: true, mockerMap: {
+                'withdraw_money': 'error_20_active_empty'
+            }
+        })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
@@ -130,7 +134,7 @@ describe('withdraw：验证提现操作的基本逻辑', function () {
             expect(data).to.eql({
                 'alertInfo': {
                     'btnTxt': '确定',
-                    'content': '你的5元（税前）提现申请已提交，税后实际到账4元。请到QQ钱包-点击QQ钱包余额数字-交易记录查看。',
+                    'content': '该活动不存在，请重新加载',
                     'isExist': true
                 },
                 'noticeInfo': { 'isExist': true, 'txt': '活动提现截止至2019年6月30日' },
@@ -159,7 +163,7 @@ describe('withdraw：验证提现操作的基本逻辑', function () {
         });
 
         it('弹出提示框，提示成功', function () {
-            expect(data.alertInfo.content).to.equal('你的5元（税前）提现申请已提交，税后实际到账4元。请到QQ钱包-点击QQ钱包余额数字-交易记录查看。');
+            expect(data.alertInfo.content).to.equal('该活动不存在，请重新加载');
         });
 
         it('请求了 withdraw_money 接口（提现接口）', function () {
@@ -192,16 +196,16 @@ describe('withdraw：验证提现操作的基本逻辑', function () {
                 },
                 'toastInfo': { 'isExist': false },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：163.88',
+                    'balanceTips': '可提现余额(元)：168.88',
                     'isExist': true,
-                    'isSubmitActive': false,
-                    'quota0': { 'isAvailable': true, 'isSelected': false, 'text': '5元' },
+                    'isSubmitActive': true,
+                    'quota0': { 'isAvailable': true, 'isSelected': true, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
                     'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',
-                    'taxedTips': '',
+                    'taxedTips': '实际到账：4元(根据国家税务总局规定收取20%红包个人所得税)',
                     'walletTips': '提现到QQ钱包：123456'
                 }
             });
@@ -211,38 +215,8 @@ describe('withdraw：验证提现操作的基本逻辑', function () {
             expect(data.alertInfo.isExist).to.be.false;
         });
 
-        it('余额提示： 163.88', function () {
-            expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：163.88');
-        });
-
-        it('请求了 get_balance 接口（获取余额信息）', function () {
-            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
-                activeid: 10001
-            });
-
-            expect(result).to.be.true;
-        });
-    });
-
-    describe('第五步：一秒后再次获取页面状态', function () {
-        let data;
-
-        before(function () {
-            data = resultData.data[4];
-        });
-
-        it('数据快照校验通过', function () {
-            expect(data).to.eql({
-                'alertInfo': { 'isExist': false },
-                'noticeInfo': { 'isExist': false },
-                'ruleInfo': { 'isExist': false },
-                'toastInfo': { 'isExist': false },
-                'withdrawInfo': { 'isExist': false }
-            });
-        });
-
-        it('跳转到了首页', function () {
-            expect(resultData.isRedirectToPageIndex).to.be.true;
+        it('余额提示： 168.88', function () {
+            expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：168.88');
         });
     });
 });
