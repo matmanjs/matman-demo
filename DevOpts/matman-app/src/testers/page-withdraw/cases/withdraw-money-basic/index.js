@@ -21,35 +21,33 @@ function getResult(opts, pageOpts) {
     // 5. 执行并返回 Promise 结果
     return caseParser.handleOperate(pageUrl, crawlerScriptPath, reqOpts, (testAction) => {
         // 第一步：开始操作之前
-        testAction.addAction(function (nightmareRun) {
+        testAction.addAction('init', function (nightmareRun) {
             return nightmareRun.wait(500);
         });
 
         // 第二步：选中【5元】
-        testAction.addAction(function (nightmareRun) {
+        testAction.addAction('selectQuota', function (nightmareRun) {
             return nightmareRun.click('#root .display-withdraw .display-withdraw-quotas .selection .i0');
         });
 
         // 第三步：点击【确定】按钮
-        testAction.addAction(function (nightmareRun) {
+        testAction.addAction('clickSubmit', function (nightmareRun) {
             return nightmareRun.click('#root .display-withdraw .withdraw-submit .now-button').wait(500);
         });
 
         // 第四步：点击弹窗中的【确定】按钮
-        testAction.addAction(function (nightmareRun) {
+        testAction.addAction('clickDlgOk', function (nightmareRun) {
             return nightmareRun.click('.base-alert .dialog-inner .dialog-buttons .dialog-btn.ok');
         });
 
         // 第五步：一秒后再次获取页面状态
-        testAction.addAction(function (nightmareRun) {
+        testAction.addAction('lastCheck', function (nightmareRun) {
             return nightmareRun.wait(1000);
         });
     })
         .then(function (result) {
-            // 过滤出是否跳转到其他页面
-            const pageWithdraw = '/abc/index';
-
-            result.isRedirectToPageIndex =result.isExistPage(pageWithdraw);
+            // 是否跳转到了首页
+            result.isRedirectToPageIndex = result.isExistPage('/abc/index');
 
             return result;
         });

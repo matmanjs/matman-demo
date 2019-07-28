@@ -6,7 +6,6 @@ describe('withdraw：验证提现失败逻辑 error=22', function () {
     this.timeout(30000);
 
     let resultData;
-    let e2eQueue;
 
     before(function () {
         return checkPage({
@@ -24,7 +23,7 @@ describe('withdraw：验证提现失败逻辑 error=22', function () {
         let data;
 
         before(function () {
-            data = resultData.data[0];
+            data = resultData.get('init');
         });
 
         it('数据快照校验通过', function () {
@@ -72,7 +71,7 @@ describe('withdraw：验证提现失败逻辑 error=22', function () {
         let data;
 
         before(function () {
-            data = resultData.data[1];
+            data = resultData.get('selectQuota');
         });
 
         it('数据快照校验通过', function () {
@@ -124,7 +123,7 @@ describe('withdraw：验证提现失败逻辑 error=22', function () {
         let data;
 
         before(function () {
-            data = resultData.data[2];
+            data = resultData.get('clickSubmit');
         });
 
         it('数据快照校验通过', function () {
@@ -177,7 +176,7 @@ describe('withdraw：验证提现失败逻辑 error=22', function () {
         let data;
 
         before(function () {
-            data = resultData.data[3];
+            data = resultData.get('clickDlgOk');
         });
 
         it('数据快照校验通过', function () {
