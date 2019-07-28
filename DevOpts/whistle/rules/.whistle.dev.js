@@ -5,6 +5,7 @@ module.exports = (cb, util) => {
 
     const ruleList = [
         'cgi.now.qq.com/cgi-bin 127.0.0.1:9527',
+        'now.qq.com/maybe/report statusCode://200',
         'now.qq.com 127.0.0.1:3000'
     ];
 
