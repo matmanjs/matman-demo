@@ -57,7 +57,7 @@ export function getCurUid() {
 export function jumpToIndexPage() {
     setTimeout(() => {
         window.location.href = `/abc/index`;
-    }, 200);
+    }, 1000);
 }
 
 /**
@@ -66,7 +66,7 @@ export function jumpToIndexPage() {
 export function jumpToVerifyPhonePage() {
     setTimeout(() => {
         window.location.href = `/abc/verify-phone`;
-    }, 200);
+    }, 1000);
 }
 
 /**
@@ -75,7 +75,7 @@ export function jumpToVerifyPhonePage() {
 export function jumpToVerifyIdPage() {
     setTimeout(() => {
         window.location.href = `/abc/verify-id`;
-    }, 200);
+    }, 1000);
 }
 
 /**
