@@ -10,13 +10,13 @@ const initialState = {
 };
 
 export default function verifyInfo(state = initialState, action) {
-    let { data, transferParam } = action,
-        update = {};
+    const { data, type } = action;
+    let update = {};
 
-    switch (action.type) {
-
+    switch (type) {
         case VERIFY_INFO_REQUEST:
             break;
+
         case VERIFY_INFO_REQUEST_SUCCESS:
             update = {
                 ...data,

@@ -15,25 +15,33 @@ export default class Animation extends Component {
 
     componentWillMount() {
         if (this.props.show && !this.state.show) {
-            this.state.show = true;
-            this.state.animationState = ENTERING;
+            this.setState({
+                show: true,
+                animationState: ENTERING
+            });
         }
 
         if (!this.props.show && this.state.show) {
-            this.state.show = false;
-            this.state.animationState = LEAVEING;
+            this.setState({
+                show: false,
+                animationState: LEAVEING
+            });
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.show && !this.state.show) {
-            this.state.show = true;
-            this.state.animationState = ENTERING;
+            this.setState({
+                show: true,
+                animationState: ENTERING
+            });
         }
 
         if (!nextProps.show && this.state.show) {
-            this.state.show = false;
-            this.state.animationState = LEAVEING;
+            this.setState({
+                show: false,
+                animationState: LEAVEING
+            });
         }
     }
 
