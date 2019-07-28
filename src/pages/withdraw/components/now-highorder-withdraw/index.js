@@ -22,11 +22,11 @@ class HighorderWithdraw extends Component {
     }
 
     /**
-     *  处理提交提现操作的逻辑
+     * 处理提交提现操作的逻辑
      * @param {Number} withdrawMoney 用户需要的提现金额，单位为"分钱"
      * @param {Number} afterTaxedMoney 税后金额，单位为"分钱"
      * @param {Number} maxWithdrawMoney 当前用户所能够提现的最大值，单位为"分钱"
-     * @return {Promise<any>} resolve 值为提现成功之后的新的余额
+     * @return {Promise} resolve 值为提现成功之后的新的余额
      */
     handleWithdrawMoney = (withdrawMoney, afterTaxedMoney, maxWithdrawMoney) => {
         return new Promise((resolve, reject) => {
@@ -81,7 +81,7 @@ class HighorderWithdraw extends Component {
      * 处理选择提现金额时的逻辑
      * @param {Number} quotaValue 当前选中的提现额度，单位为"分钱"
      * @param {Number} maxWithdrawMoney 当前用户所能够提现的最大值，单位为"分钱"
-     * @return {{withdrawMoney, afterTaxedMoney}}
+     * @return {Promise}
      */
     handleSelectQuota = (quotaValue, maxWithdrawMoney) => {
         return checkSelectQuota(quotaValue, maxWithdrawMoney);
@@ -107,8 +107,8 @@ class HighorderWithdraw extends Component {
                 uid={this.uid}
                 available={available}
                 quotas={quotas}
-                selectQuota={this.handleSelectQuota}
-                withdrawMoney={this.handleWithdrawMoney}
+                handleSelectQuota={this.handleSelectQuota}
+                handleWithdrawMoney={this.handleWithdrawMoney}
             />
         );
     }
