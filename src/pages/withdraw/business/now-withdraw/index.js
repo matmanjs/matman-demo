@@ -1,4 +1,3 @@
-import { closeCurrentWebView } from '../app-now';
 import { showErrorTips } from '../base-tips';
 import { showAlert } from '../base-alert';
 
@@ -53,13 +52,20 @@ export function getCurUid() {
 }
 
 /**
+ * 跳转到首页
+ */
+export function jumpToIndexPage() {
+    setTimeout(() => {
+        window.location.href = `/abc/index`;
+    }, 200);
+}
+
+/**
  * 跳转到手机认证页面
  */
 export function jumpToVerifyPhonePage() {
-    const URL = window.location.href.replace(/[^/]*\.html/gi, 'verify-phone.html');
-
     setTimeout(() => {
-        window.location.href = `${URL}`;
+        window.location.href = `/abc/verify-phone`;
     }, 200);
 }
 
@@ -67,10 +73,8 @@ export function jumpToVerifyPhonePage() {
  * 跳转到身份证认证页面
  */
 export function jumpToVerifyIdPage() {
-    const URL = window.location.href.replace(/[^/]*\.html/gi, 'verify-id.html');
-
     setTimeout(() => {
-        window.location.href = `${URL}`;
+        window.location.href = `/abc/verify-id`;
     }, 200);
 }
 
@@ -185,8 +189,8 @@ export function dealWithdrawResultSuccess(result = {}, withdrawMoney, afterTaxed
 
             showAlert(tips)
                 .then(() => {
-                    // 关闭当前页面
-                    closeCurrentWebView();
+                    // 跳转到首页
+                    jumpToIndexPage();
 
                     resolve();
                 })
