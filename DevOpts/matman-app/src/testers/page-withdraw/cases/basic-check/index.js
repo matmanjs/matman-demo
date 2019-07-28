@@ -14,6 +14,7 @@ function getResult(opts) {
     const reqOpts = Object.assign({
         proxyServer: env.getProxyServer(true),
         wait: env.OPTS.WAIT,
+        mockstarQuery: env.mockstarCases.getBasic(),
         screenshot: true
     }, opts);
 

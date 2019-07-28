@@ -12,17 +12,7 @@ const DEFAULT_MOCK = {
 };
 
 function getMockStarQuery(queryMap) {
-    const mockStarQuery = new MockStarQuery();
-
-    const map = Object.assign({}, queryMap);
-
-    const mockerNameList = Object.keys(map);
-
-    mockerNameList.forEach((mockerName) => {
-        mockStarQuery.addOne(mockerName, map[mockerName], false);
-    });
-
-    return mockStarQuery;
+    return new MockStarQuery(Object.assign({}, DEFAULT_MOCK, queryMap));
 }
 
 function getBasic() {
