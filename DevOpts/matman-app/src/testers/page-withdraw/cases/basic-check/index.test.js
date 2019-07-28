@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
 
+const RequestQueue = require('../../../../lib/request-queue');
+
 const checkPage = require('.');
 
 describe.only('withdraw：常规检查', function () {
@@ -52,6 +54,32 @@ describe.only('withdraw：常规检查', function () {
                     'walletTips': '提现到QQ钱包：123456'
                 }
             });
+        });
+    });
+
+    describe('检查接口请求及数据上报等情况', function () {
+        let data;
+        let e2eQueue;
+
+        before(function () {
+            data = resultData.data;
+            e2eQueue = new RequestQueue(resultData.globalInfo.recorder.queue);
+        });
+
+        it('请求了get_balance接口（获取余额信息）', function () {
+            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
+                activeid: 10001
+            });
+
+            expect(result).to.be.true;
+        });
+
+        it('上报了页面曝光', function () {
+            const result = e2eQueue.isExistCGI('/maybe/report/pv', {
+                report_id: 987
+            });
+
+            expect(result).to.be.true;
         });
     });
 });
