@@ -8,12 +8,14 @@ describe.only('withdraw：验证提现操作的基本逻辑', function () {
     this.timeout(30000);
 
     let resultData;
+    let e2eQueue;
 
     before(function () {
         return checkPage({ show: false, doNotEnd: false, useRecorder: true })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
+                e2eQueue = new RequestQueue(resultData.globalInfo.recorder.queue);
             });
     });
 
@@ -159,6 +161,15 @@ describe.only('withdraw：验证提现操作的基本逻辑', function () {
         it('弹出提示框，提示成功', function () {
             expect(data.alertInfo.content).to.equal('你的5元（税前）提现申请已提交，税后实际到账4元。请到QQ钱包-点击QQ钱包余额数字-交易记录查看。');
         });
+
+        it('请求了 withdraw_money 接口（提现接口）', function () {
+            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/withdraw_money', {
+                activeid: 10001,
+                amount: 500
+            });
+
+            expect(result).to.be.true;
+        });
     });
 
     describe('第四步：点击弹窗中的【确定】按钮', function () {
@@ -204,9 +215,13 @@ describe.only('withdraw：验证提现操作的基本逻辑', function () {
             expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：163.88');
         });
 
-        // TODO 拉取了一次接口
+        it('请求了 get_balance 接口（获取余额信息）', function () {
+            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
+                activeid: 10001
+            });
 
-        // TODO 数据上报
+            expect(result).to.be.true;
+        });
     });
 
     describe('第五步：一秒后再次获取页面状态', function () {
@@ -226,7 +241,7 @@ describe.only('withdraw：验证提现操作的基本逻辑', function () {
             });
         });
 
-        it('【5元】按钮未被选中', function () {
+        it('跳转到了首页', function () {
             expect(resultData.isRedirectToPageIndex).to.be.true;
         });
     });
