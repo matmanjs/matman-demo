@@ -7,7 +7,3 @@ export function showErrorTips(msg) {
         delay: 2000
     });
 }
-
-export function showAlert(opts) {
-    console.log('==showAlert==', opts);
-}
