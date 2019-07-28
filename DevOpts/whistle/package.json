@@ -1,0 +1,7 @@
+{
+  "name": "whistle",
+  "scripts": {
+    "start-dev-8080": "./start-dev-8080.sh",
+    "start-prod-8080": "./start-prod-8080.sh"
+  }
+}
