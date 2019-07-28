@@ -4,7 +4,7 @@ const RequestQueue = require('../../../../lib/request-queue');
 
 const checkPage = require('.');
 
-describe.only('withdraw：常规检查', function () {
+describe('withdraw：常规检查', function () {
     this.timeout(30000);
 
     let resultData;
