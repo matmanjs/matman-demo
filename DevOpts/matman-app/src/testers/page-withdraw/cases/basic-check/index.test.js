@@ -8,12 +8,14 @@ describe('withdraw：常规检查', function () {
     this.timeout(30000);
 
     let resultData;
+    let e2eQueue;
 
     before(function () {
         return checkPage({ show: false, doNotEnd: false, useRecorder: true })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
+                e2eQueue = new RequestQueue(resultData.globalInfo.recorder.queue);
             });
     });
 
@@ -59,17 +61,21 @@ describe('withdraw：常规检查', function () {
 
     describe('检查接口请求及数据上报等情况', function () {
         let data;
-        let e2eQueue;
 
         before(function () {
             data = resultData.data;
-            e2eQueue = new RequestQueue(resultData.globalInfo.recorder.queue);
         });
 
-        it('请求了get_balance接口（获取余额信息）', function () {
+        it('请求了 get_balance 接口（获取余额信息）', function () {
             const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
                 activeid: 10001
             });
+
+            expect(result).to.be.true;
+        });
+
+        it('请求了 get_verify_status 接口（获取认证状态）', function () {
+            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/get_verify_status');
 
             expect(result).to.be.true;
         });
