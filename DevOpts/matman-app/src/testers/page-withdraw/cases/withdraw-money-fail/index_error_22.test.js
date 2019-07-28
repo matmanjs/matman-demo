@@ -1,10 +1,8 @@
 const expect = require('chai').expect;
 
-const RequestQueue = require('../../../../lib/request-queue');
-
 const checkPage = require('.');
 
-describe.only('withdraw：验证提现失败逻辑', function () {
+describe('withdraw：验证提现失败逻辑 error=22', function () {
     this.timeout(30000);
 
     let resultData;
@@ -19,7 +17,6 @@ describe.only('withdraw：验证提现失败逻辑', function () {
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
-                e2eQueue = new RequestQueue(resultData.globalInfo.recorder.queue);
             });
     });
 
@@ -167,7 +164,7 @@ describe.only('withdraw：验证提现失败逻辑', function () {
         });
 
         it('请求了 withdraw_money 接口（提现接口）', function () {
-            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/withdraw_money', {
+            const result = resultData.isExistXHR('//cgi.now.qq.com/cgi-bin/a/b/withdraw_money', {
                 activeid: 10001,
                 amount: 500
             });
