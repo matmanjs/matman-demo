@@ -44,7 +44,7 @@ function showByBaseDialog(opts) {
     let params = Object.assign({
         text: '提示文案',
         enterText: '确定',
-        skin: 'mid'
+        skin: 'base-alert'
     }, opts);
 
     let dlg;

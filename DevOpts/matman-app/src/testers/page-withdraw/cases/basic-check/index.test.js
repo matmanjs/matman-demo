@@ -24,6 +24,12 @@ describe.only('withdraw：常规检查', function () {
 
         it('数据快照校验通过', function () {
             expect(data).to.eql({
+                'alertInfo': {
+                    'isExist': false
+                },
+                'toastInfo': {
+                    'isExist': false
+                },
                 'noticeInfo': { 'isExist': true, 'txt': '活动提现截止至2019年6月30日' },
                 'ruleInfo': {
                     'count': 3,
