@@ -1,5 +1,11 @@
+import Toast from '../../components/now-base-toast';
+
 export function showErrorTips(msg) {
-    console.log('==showErrorTips==', msg);
+    Toast.create({
+        type: 'error',
+        content: msg,
+        delay: 2000
+    });
 }
 
 export function showAlert(opts) {
