@@ -15,7 +15,6 @@ export default class Button extends Component {
 
     render() {
         let {
-            style,
             type,
             size,
             disabled,

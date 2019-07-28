@@ -1,7 +1,4 @@
-import {
-    WITHDRAW_MONEY_REQUEST_SUCCESS,
-    WITHDRAW_MONEY_REQUEST_FAIL
-} from './action';
+import { WITHDRAW_MONEY_REQUEST_FAIL, WITHDRAW_MONEY_REQUEST_SUCCESS } from './action';
 
 /**
  * @type {Object}
@@ -14,17 +11,19 @@ const initialState = {
 };
 
 export default function withdrawMoneyInfo(state = initialState, action) {
-    let { data, transferParam } = action,
-        update = {};
+    const { transferParam, type } = action;
+    let update = {};
 
-    switch (action.type) {
+    switch (type) {
         case WITHDRAW_MONEY_REQUEST_SUCCESS:
             update.isLoaded = true;
             update.amount = transferParam.amount;
             break;
+
         case WITHDRAW_MONEY_REQUEST_FAIL:
             update.isLoaded = true;
             break;
+
         default:
             break;
     }

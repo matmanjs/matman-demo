@@ -63,7 +63,7 @@ function getItemData(data = {}) {
         opType: data.flow_op,
 
         // 流水对应的任务ID，即：获得这个流水的原因
-        taskId: data.ext_info && data.ext_info.task_id || ''
+        taskId: (data.ext_info && data.ext_info.task_id) || ''
     };
 
     // 展示的日期，例如 2019.10.08

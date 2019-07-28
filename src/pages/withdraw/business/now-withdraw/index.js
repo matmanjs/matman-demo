@@ -56,7 +56,7 @@ export function getCurUid() {
  * 跳转到手机认证页面
  */
 export function jumpToVerifyPhonePage() {
-    const URL = window.location.href.replace(/[^\/]*\.html/gi, 'verify-phone.html');
+    const URL = window.location.href.replace(/[^/]*\.html/gi, 'verify-phone.html');
 
     setTimeout(() => {
         window.location.href = `${URL}`;
@@ -67,7 +67,7 @@ export function jumpToVerifyPhonePage() {
  * 跳转到身份证认证页面
  */
 export function jumpToVerifyIdPage() {
-    const URL = window.location.href.replace(/[^\/]*\.html/gi, 'verify-id.html');
+    const URL = window.location.href.replace(/[^/]*\.html/gi, 'verify-id.html');
 
     setTimeout(() => {
         window.location.href = `${URL}`;
