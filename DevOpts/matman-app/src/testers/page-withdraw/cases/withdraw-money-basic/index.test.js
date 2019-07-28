@@ -1,21 +1,17 @@
 const expect = require('chai').expect;
 
-const RequestQueue = require('../../../../lib/request-queue');
-
 const checkPage = require('.');
 
 describe('withdraw：验证提现操作的基本逻辑', function () {
     this.timeout(30000);
 
     let resultData;
-    let e2eQueue;
 
     before(function () {
         return checkPage({ show: false, doNotEnd: false, useRecorder: true })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
-                e2eQueue = new RequestQueue(resultData.globalInfo.recorder.queue);
             });
     });
 
@@ -163,7 +159,7 @@ describe('withdraw：验证提现操作的基本逻辑', function () {
         });
 
         it('请求了 withdraw_money 接口（提现接口）', function () {
-            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/withdraw_money', {
+            const result = resultData.isExistXHR('//cgi.now.qq.com/cgi-bin/a/b/withdraw_money', {
                 activeid: 10001,
                 amount: 500
             });
@@ -216,7 +212,7 @@ describe('withdraw：验证提现操作的基本逻辑', function () {
         });
 
         it('请求了 get_balance 接口（获取余额信息）', function () {
-            const result = e2eQueue.isExistCGI('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
+            const result = resultData.isExistXHR('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
                 activeid: 10001
             });
 

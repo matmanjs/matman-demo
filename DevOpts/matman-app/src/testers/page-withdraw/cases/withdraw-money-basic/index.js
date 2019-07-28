@@ -1,4 +1,3 @@
-const RequestQueue = require('../../../../lib/request-queue');
 const env = require('../../env');
 
 function getResult(opts, pageOpts) {
@@ -50,7 +49,7 @@ function getResult(opts, pageOpts) {
             // 过滤出是否跳转到其他页面
             const pageWithdraw = '/abc/index';
 
-            result.isRedirectToPageIndex = new RequestQueue(result.globalInfo.recorder.queue).isExistPage(pageWithdraw);
+            result.isRedirectToPageIndex =result.isExistPage(pageWithdraw);
 
             return result;
         });
