@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "matman": "^4.0.4",
-    "mockstar": "^1.1.3",
+    "mockstar": "^1.1.4",
     "url-parse": "^1.4.4",
     "web-crawl-util": "^0.1.1"
   },
