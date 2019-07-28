@@ -4,7 +4,9 @@ module.exports = () => {
     return {
         noticeInfo: getNoticeInfo(),
         withdrawInfo: getWithdrawInfo(),
-        ruleInfo: getRuleInfo()
+        ruleInfo: getRuleInfo(),
+        alertInfo: getAlertInfo(),
+        toastInfo: getToastInfo()
     };
 };
 
@@ -95,6 +97,41 @@ function getRuleInfo() {
         result.rule0 = getRuleItem(1);
         result.rule1 = getRuleItem(2);
         result.rule2 = getRuleItem(3);
+    }
+
+    return result;
+}
+
+/**
+ * 弹窗提示，某些情况下才可能会出现
+ */
+function getAlertInfo() {
+    const parentSelector = '.base-alert';
+
+    const result = {
+        isExist: useJquery.isExist(parentSelector)
+    };
+
+    if (result.isExist) {
+        result.content = useJquery.getText('.dialog-inner .dialog-text .text', parentSelector);
+        result.btnTxt = useJquery.getText('.dialog-inner .dialog-buttons .dialog-btn.ok', parentSelector);
+    }
+
+    return result;
+}
+
+/**
+ * toast提示，某些情况下才可能会出现
+ */
+function getToastInfo() {
+    const parentSelector = '.now-apptoast';
+
+    const result = {
+        isExist: useJquery.isExist(parentSelector)
+    };
+
+    if (result.isExist) {
+        result.content = useJquery.getText(parentSelector);
     }
 
     return result;
