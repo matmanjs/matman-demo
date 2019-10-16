@@ -7,6 +7,7 @@ import PageSimple from './pages/simple';
 import PageIndex from './pages/index';
 import PageTransaction from './pages/transaction';
 import PageWithdraw from './pages/withdraw';
+import PageDebug from './pages/debug';
 
 import './App.less';
 
@@ -19,6 +20,7 @@ export default function App() {
                 <Route path={`/simple`} component={PageSimple} />
                 <Route path={`/transaction`} component={PageTransaction} />
                 <Route path={`/withdraw`} component={PageWithdraw} />
+                <Route path={`/debug`} component={PageDebug} />
             </Switch>
         </Router>
     );
