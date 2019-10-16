@@ -7,8 +7,8 @@ export default function PageSimple() {
 
     return (
         <div id="container">
-            <div id="ua" className="section">
-                <code>{ua}</code>
+            <div id="debug-ua" className="section">
+                <code className={'ua'}>{ua}</code>
             </div>
         </div>
     );
