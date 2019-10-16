@@ -9,15 +9,15 @@
     "test-8080": "cross-env WHISTLE_PORT=8080 npm run test"
   },
   "dependencies": {
-    "matman": "^4.0.5",
+    "matman": "^4.0.6",
     "mockstar": "^1.1.4",
     "url-parse": "^1.4.4",
     "web-crawl-util": "^0.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.2.1",
     "mocha": "^5.2.0",
-    "mochawesome": "^4.0.1"
+    "mochawesome": "^4.1.0"
   }
 }
