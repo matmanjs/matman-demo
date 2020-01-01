@@ -1,40 +1,39 @@
 # matman自动化测试演示项目
 
-本项目是 [matmanjs](https://matmanjs.gitbook.io/cookbook/) 的配套演示项目。
+本项目是 [matmanjs](https://matmanjs.gitbook.io/cookbook/) 的配套演示项目，提供了一些示例，详解了如何使用 matman 这套框架来做端对端测试。
+
 
 ## 1. 如何运行
 
-### 1.1 开发环境配置
+### 1.1 开发过程
 
-安装依赖
+本项目是基于 [create-react-app](https://github.com/facebook/create-react-app)  来初始化项目的，因此大部分资料可以直接查看官方文档即可。
+
+安装依赖：
 
 ```
 $ npm install
 ```
 
-### 1.2 开发过程
-
-#### 1.2.1 命令
-
-运行项目
+执行如下命令即可启动开发，而在开发模式下，会默认启动 `3000` 端口，一般情况下会自动打开浏览器并加载 http://localhost:3000/ 页面。
 
 ```sh
 # 开发模式
 $ npm start
 ```
 
-项目会自动展示在localhost:3000端口上。
 
-### 1.3 代理
+### 1.2 代理
 
-注意： 本项目仅为演示项目，因此实际并未发布到现网，因此所有页面的访问必须通过代理来访问，否则会被跳转到 404 页面的。
+> 注意: 本项目仅为演示项目，因此实际并未发布到现网，因此所有页面的访问必须通过代理来访问，否则会被跳转到 404 页面的。
+
+为了模拟真实场景，我们假设这个项目是已经部署，业务地址详见 "2. 业务介绍"。
 
 推荐使用 [whistle](https://github.com/avwo/whistle) 来设置代理，进入到 `DevOpts/whistle` 下，执行相关命令（可以查看 DevOpts/whistle/README.md），可以快速设置上述的 whistle 代理。
 
 ```
 $ npm run start-dev
 ```
-
 
 也可以自己手动设置，其中 `[project_path]` 为本地项目的绝对路径，需要按实际情况替换。
 
