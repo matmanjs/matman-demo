@@ -1,24 +1,17 @@
-# whistle 启动脚本
+# whistle 配置
 
-快速启动 whistle，并且设置好本项目的 whistle 配置。
+whistle 官方文档： https://wproxy.org/whistle/ 。
 
-## 内置命令说明
+## 启动 whistle
 
-已内置了四个命令：
-
-- `npm run start-dev`，使用 `8899` 端口启用 whistle，且使用 `dev` 模式规则，对应于 `rules/.whistle.dev.js`
-- `npm run start-prod`，使用 `8899` 端口启用 whistle，且使用 `prod` 模式规则，对应于 `rules/.whistle.prod.js`
-- `npm run start-dev-8080`，使用 `8080` 端口启用 whistle，且使用 `dev` 模式规则，对应于 `rules/.whistle.dev.js`
-- `npm run start-prod-8080`，使用 `8080` 端口启用 whistle，且使用 `prod` 模式规则，对应于 `rules/.whistle.prod.js`
+一般情况使用 `w2 start` 启动项目即可，如果需要制定端口，可以使用 `-p` 来指定端口，例如 `w2 start -p 8080` 。
 
 
-## 自定义启动命令
+## 使用自定义规则的生成文件
 
-若内置命令说明不够用，可以自行定义启动脚本 `start.sh` 参数，
+语法规则： `w2 add [filepath]` 。详见： https://wproxy.org/whistle/cli.html 。
 
-- `-p`，指定 whistle 的端口，默认值为 `8899`
-- `-m`，指定哪种 whistle 规则，默认值为 `dev`（开发模式下），其他可选值包括 `prod`（适合代理生产环境build模式下的文件）
+推荐如下实践：
 
-```
-$ ./start.sh -p 8080 -m prod
-```
+- 因为可能有多个规则文件，因此规则文件放置在 `rules` 目录下集中管理；
+- 规则文件命名规则为 `.whistle.xxx.js` ，例如 `.whistle.dev.js` 和 `.whistle.prod.js`； 
