@@ -29,11 +29,11 @@ $ npm start
 
 为了模拟真实场景，我们假设这个项目是已经部署，业务地址详见 "2. 业务介绍"。
 
-推荐使用 [whistle](https://github.com/avwo/whistle) 来设置代理，进入到 `DevOpts/whistle` 下，执行相关命令（可以查看 DevOpts/whistle/README.md），可以快速设置上述的 whistle 代理。
+#### 1.2.1 自动设置代理
 
-```
-$ npm run start-dev
-```
+推荐使用 [whistle](https://github.com/avwo/whistle) 来设置代理，此时可以使用 `npm run start-whistle` 来同时启动项目和使用代理配置。具体可以阅读 DevOpts/whistle/README.md。
+
+#### 1.2.2 手动设置代理
 
 也可以自己手动设置，其中 `[project_path]` 为本地项目的绝对路径，需要按实际情况替换。
 
@@ -43,6 +43,7 @@ $ npm run start-dev
 cgi.now.qq.com/cgi-bin 127.0.0.1:9527
 now.qq.com/maybe/report statusCode://200
 now.qq.com 127.0.0.1:3000
+now.qq.com/manifest.json [project_path]/build/manifest.json
 ```
 
 如果要测试 build 之后的代码，则配置为：
