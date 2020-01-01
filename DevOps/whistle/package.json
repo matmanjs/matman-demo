@@ -1,9 +1,10 @@
 {
-  "name": "whistle",
-  "scripts": {
-    "start-dev": "./start.sh",
-    "start-prod": "./start.sh -m prod",
-    "start-dev-8080": "./start.sh -p 8080",
-    "start-prod-8080": "./start.sh -p 8080 -m prod"
-  }
+    "name": "whistle",
+    "scripts": {
+        "start-dev": "w2 use rules/.whistle.dev.js --force",
+        "start-3001-dev": "cross-env PORT=3001 w2 use rules/.whistle.dev.js --force"
+    },
+    "devDependencies": {
+        "cross-env": "^6.0.3"
+    }
 }
