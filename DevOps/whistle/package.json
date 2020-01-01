@@ -1,10 +1,7 @@
 {
     "name": "whistle",
     "scripts": {
-        "start-dev": "w2 use rules/.whistle.dev.js --force",
-        "start-3001-dev": "cross-env PORT=3001 w2 use rules/.whistle.dev.js --force"
-    },
-    "devDependencies": {
-        "cross-env": "^6.0.3"
+        "start-dev": "w2 add rules/.whistle.dev.js",
+        "start-dev-force": "w2 add rules/.whistle.dev.js --force"
     }
 }
