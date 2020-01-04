@@ -9,7 +9,6 @@ const lib = require('./lib');
  * @param {Function} util.existsPlugin 判断指定的 whistle 插件是否存在，接受一个 name 参数，返回一个 Boolean 值
  */
 module.exports = (cb, util) => {
-    console.log('util', util);
     // 项目在 dev 场景下使用的端口，请按自己项目情况进行修改
     // 而这里的写法是因为我们用了 create-react-app
     // https://github.com/facebook/create-react-app/issues/1083
