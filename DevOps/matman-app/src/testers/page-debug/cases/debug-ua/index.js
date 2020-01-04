@@ -1,7 +1,7 @@
 const env = require('../../env');
 
 function getResult(opts) {
-    // 1. 获取 caseParser对象
+    // 1. 获取 caseParser 对象
     const caseParser = env.getCaseParser(__dirname);
 
     // 2. 获取页面的 url
@@ -32,12 +32,12 @@ function getResult(opts) {
 
 module.exports = getResult;
 
-getResult({ show: true, doNotEnd: true, useRecorder: false })
-    .then(function (result) {
-        console.log(JSON.stringify(result));
-    })
-    .catch(function (error) {
-        console.error('failed:', error);
-    });
+// getResult({ show: true, doNotEnd: true, useRecorder: false })
+//     .then(function (result) {
+//         console.log(JSON.stringify(result));
+//     })
+//     .catch(function (error) {
+//         console.error('failed:', error);
+//     });
 
 

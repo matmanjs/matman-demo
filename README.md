@@ -79,19 +79,19 @@ $ npm start
 
 ### 2.1 简单静态页面(simple)
 
-纯静态页面，无接口请求，无用户操作。
+移动端 H5 纯静态页面，无接口请求，无用户操作。
 
 - 调试地址: https://now.qq.com/simple
 
 ### 2.2 单一接口展示型页面(transaction)
 
-页面依赖单一的接口来展示。
+移动端 H5 页面，依赖单一的接口来展示。
 
 - 调试地址: https://now.qq.com/transaction
 
 ### 2.3 重交互页面(withdraw)
 
-页面依赖多个的接口来展示，且有多个用户交互逻辑。
+移动端 H5 页面，依赖多个的接口来展示，且有多个用户交互逻辑。
 
 - 调试地址: https://now.qq.com/withdraw
 
