@@ -3,10 +3,7 @@
     "private": true,
     "scripts": {
         "start": "react-app-rewired start",
-        "start-whistle": "npm run start & npm run use-whistle-dev",
-        "start-3001": "cross-env PORT=3001 npm run start",
-        "start-3001-whistle": "cross-env PORT=3001 npm run start-whistle",
-        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
+        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev-force",
         "build": "react-app-rewired build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

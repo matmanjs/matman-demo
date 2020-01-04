@@ -15,7 +15,7 @@
 $ npm install
 ```
 
-执行如下命令即可启动开发，而在开发模式下，会默认启动 `3000` 端口，一般情况下会自动打开浏览器并加载 http://localhost:3000/ 页面。
+执行如下命令即可启动开发，而在开发模式下，会默认启动 `3000` 端口，正常情况下会自动打开浏览器并加载 http://localhost:3000/ 页面。
 
 ```sh
 # 开发模式
@@ -31,13 +31,18 @@ $ npm start
 
 #### 1.2.1 自动设置代理
 
-推荐使用 [whistle](https://github.com/avwo/whistle) 来设置代理，此时可以使用 `npm run start-whistle` 来同时启动项目和使用代理配置。具体可以阅读 DevOpts/whistle/README.md。
+推荐使用 [whistle](https://github.com/avwo/whistle) 来设置代理，运行如下命令自动设置代理，具体可以阅读 DevOps/whistle/README.md。
+
+```
+$ npm run use-whistle-dev
+```
+
 
 #### 1.2.2 手动设置代理
 
 也可以自己手动设置，其中 `[project_path]` 为本地项目的绝对路径，需要按实际情况替换。
 
-开发场景下的代理为：
+场景一： 开发场景，代理如下：
 
 ```
 cgi.now.qq.com/cgi-bin 127.0.0.1:9527
@@ -46,7 +51,7 @@ now.qq.com 127.0.0.1:3000
 now.qq.com/manifest.json [project_path]/build/manifest.json
 ```
 
-如果要测试 build 之后的代码，则配置为：
+场景二： 生产环境，代理如下：
 
 ```
 cgi.now.qq.com/cgi-bin 127.0.0.1:9527
@@ -56,14 +61,15 @@ now.qq.com/manifest.json [project_path]/build/manifest.json
 /^https?://now\.qq\.com/([\w\-]*)(.*)$/ [project_path]/build/index
 ```
 
-### 1.4 mockstar 桩数据
+### 1.3 mockstar 桩数据
 
-进入到 `DevOpts/mockstar-app` 中，执行安装和启动命令即可
+进入到 `DevOps/mockstar-app` 中，执行安装和启动命令即可
 
 ```
 $ npm install
 $ npm start
 ```
+
 
 ## 2. 业务介绍
 
