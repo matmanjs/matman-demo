@@ -27,7 +27,7 @@ module.exports = (cb, util) => {
         'cgi.now.qq.com/cgi-bin 127.0.0.1:9527',
         'now.qq.com/maybe/report statusCode://200',
         `now.qq.com 127.0.0.1:${projectDevPort}`,
-        `now.qq.com/manifest.json ${projectRootPath}/build/manifest.json`
+        `now.qq.com/manifest.json ${projectRootPath}/public/manifest.json`
     ];
 
     // 设置返回，这样才能生效
