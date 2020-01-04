@@ -11,7 +11,7 @@
   "dependencies": {
     "matman": "^4.0.6",
     "mockstar": "^1.1.4",
-    "url-parse": "^1.4.4",
+    "url-parse": "^1.4.7",
     "web-crawl-util": "^0.1.1"
   },
   "devDependencies": {
