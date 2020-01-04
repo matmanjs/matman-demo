@@ -5,7 +5,11 @@ const {
 
 module.exports = () => {
     return {
-        debugUA: getDebugUA()
+        debugUA: getDebugUA(),
+        info: {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
     };
 };
 
