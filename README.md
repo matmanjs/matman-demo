@@ -34,7 +34,11 @@ $ npm start
 推荐使用 [whistle](https://github.com/avwo/whistle) 来设置代理，运行如下命令自动设置代理，具体可以阅读 DevOps/whistle/README.md。
 
 ```
+# 开发场景
 $ npm run use-whistle-dev
+
+# 生产环境
+$ npm run use-whistle-prod
 ```
 
 
@@ -48,7 +52,7 @@ $ npm run use-whistle-dev
 cgi.now.qq.com/cgi-bin 127.0.0.1:9527
 now.qq.com/maybe/report statusCode://200
 now.qq.com 127.0.0.1:3000
-now.qq.com/manifest.json [project_path]/build/manifest.json
+now.qq.com/manifest.json [project_path]/public/manifest.json
 ```
 
 场景二： 生产环境，代理如下：

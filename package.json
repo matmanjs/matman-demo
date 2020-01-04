@@ -3,7 +3,8 @@
     "private": true,
     "scripts": {
         "start": "react-app-rewired start",
-        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev-force",
+        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
+        "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
         "build": "react-app-rewired build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
