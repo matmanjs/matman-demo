@@ -53,6 +53,7 @@ cgi.now.qq.com/cgi-bin 127.0.0.1:9527
 now.qq.com/maybe/report statusCode://200
 now.qq.com 127.0.0.1:3000
 now.qq.com/manifest.json [project_path]/public/manifest.json
+cgi.now.qq.com resCors://enable
 ```
 
 场景二： 生产环境，代理如下：
