@@ -113,7 +113,7 @@ function getItemData(data = {}) {
 export function getData(data = {}) {
     const obj = {
         // 当前的流水类型，0=红包流水
-        flowType: data.flow_type || '',
+        flowType: data.flow_type || 0,
         appid: data.appid || 0,
         list: (data.flow_data || []).map(getItemData)
     };
