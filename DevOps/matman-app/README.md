@@ -1,19 +1,32 @@
 # matman-app
 
-本项目旨在提供数据模拟和进行端对端测试。
+本项目用于端对端测试。
 
-## 如何启动数据模拟服务
 
-管理后台启动命令如下，服务启动之后，可以打开 `http://localhost:9527` 进行管理端操作。
+## 编写端对端测试用例
 
-```
-npm start
-```
+本项目的端对端测试是基于 [matmanjs](https://github.com/matmanjs/matman) 来实现，更多资料请查看官方文档。
 
-使用了 [pm2](https://www.npmjs.com/package/pm2) 来启动，命名为 `matman-app`，启动之后服务会常驻内存。关于 pm2 常用的操作包括：
 
-- `pm2 list` ： 查看所有服务
-- `pm2 logs` ： 查看日志
+### 准备工作
+
+在开始写端对端测试用例之前，需要先将开发环境准备好：
+
+- 启动项目构建
+- 启动 whistle，并配置好代理
+- 启动 mockstar
+
+正如自己要开发项目一样，准备好了上述条件之后，才便于编写端对端测试用例。
+
+
+### 编写端对端测试脚本和用例
+
+建议先写端对端测试脚本，例如 `src/testers/page-simple/cases/basic-check/index.js`  ，编写前端爬虫脚本，例如 `src/testers/page-simple/crawlers/get-page-info.js` 。
+
+端对端测试脚本是一个纯 node 模板，因此可以直接执行。需要注意的是，前端爬虫脚本因为要打包成一个 js 文件，因此需要运行 `npm run build` 构建一下。
+
+
+测试脚本完成之后，再写测试用例，例如 `src/testers/page-simple/cases/basic-check/index.test.js` 。
 
 
 ## 如何进行端对端测试

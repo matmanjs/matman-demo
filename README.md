@@ -1,4 +1,4 @@
-# matman自动化测试演示项目
+# matman 自动化测试演示项目
 
 本项目是 [matmanjs](https://matmanjs.gitbook.io/cookbook/) 的配套演示项目，提供了一些示例，详解了如何使用 matman 这套框架来做端对端测试。
 
@@ -7,11 +7,11 @@
 
 ### 1.1 开发过程
 
-本项目是基于 [create-react-app](https://github.com/facebook/create-react-app)  来初始化项目的，因此大部分资料可以直接查看官方文档即可。
+本项目是基于 [create-react-app](https://github.com/facebook/create-react-app)  来初始化项目的，更多资料可以直接查看官方文档。
 
 安装依赖：
 
-```
+```sh
 $ npm install
 ```
 
@@ -83,11 +83,13 @@ $ npm start
 
 - 调试地址: https://now.qq.com/simple
 
+
 ### 2.2 单一接口展示型页面(transaction)
 
 移动端 H5 页面，依赖单一的接口来展示。
 
 - 调试地址: https://now.qq.com/transaction
+
 
 ### 2.3 重交互页面(withdraw)
 
