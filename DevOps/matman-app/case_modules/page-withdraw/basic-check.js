@@ -18,7 +18,15 @@ function getResult(opts) {
 
 module.exports = getResult;
 
-// getResult({ show: true, doNotCloseBrowser: true, useRecorder: false })
+// getResult({
+//     show: true,
+//     doNotCloseBrowser: true,
+//     useRecorder: false,
+//     queryDataMap:{
+//         // 查询余额
+//         // 'get_balance': 'success_499',
+//     }
+// })
 //     .then(function (result) {
 //         console.log(JSON.stringify(result));
 //     })
