@@ -3,11 +3,9 @@
     "private": true,
     "scripts": {
         "start": "react-app-rewired start",
-        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
-        "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
         "build": "react-app-rewired build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
+        "use-whistle-prod": "cd DevOps/whistle && npm run start-prod"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -49,7 +47,6 @@
         "customize-cra": "^0.4.1",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
-        "react-app-rewired": "^2.1.5",
-        "react-scripts": "^3.3.0"
+        "react-app-rewired": "^2.1.5"
     }
 }
