@@ -1,15 +1,16 @@
 const matman = require('matman');
+const { createMockStarQuery } = require('mockstar');
 
 /**
  * 创建端对端测试的 page driver
  *
  * @param {String} caseModuleFilePath caseModule的根目录，必须要绝对路径
  * @param {Object} opts 额外参数
- * @return {opts}
+ * @return {matman.PageDriver}
  * @author helinjiang
  */
 function createPageDriver(caseModuleFilePath, opts) {
-    return matman
+    const pageDriver = matman
 
         // 创建 PageDriver，页面驱动控制器
         .createPageDriver(caseModuleFilePath, opts)
@@ -25,6 +26,13 @@ function createPageDriver(caseModuleFilePath, opts) {
 
         // 设置截屏
         .setScreenshotConfig(true);
+
+    // 使用 mockstar 来做构造假数据
+    if (opts.queryDataMap) {
+        pageDriver.useMockstar(createMockStarQuery(opts.queryDataMap));
+    }
+
+    return pageDriver;
 }
 
 module.exports = {
