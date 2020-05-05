@@ -1,11 +1,7 @@
-const { createMockStarQuery } = require('mockstar');
 const env = require('./env');
 
 function getResult(opts) {
     return env.createPageDriver(__filename, opts)
-
-        // 使用 mockstar 来做构造假数据
-        .useMockstar(createMockStarQuery(opts.queryDataMap))
 
         // 加载页面地址
         .goto(env.getPageUrl())
