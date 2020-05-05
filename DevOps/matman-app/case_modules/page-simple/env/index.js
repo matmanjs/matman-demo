@@ -1,21 +1,26 @@
-const utils = require('../../../lib/utils');
+const { createPageDriver } = require('../../../helpers');
 
-const OPTS = {
-    WAIT: '#container'
+/**
+ * 运行爬虫脚本之前的条件
+ *
+ * @type {{READY: string}}
+ */
+const WAIT = {
+    READY: '#container'
 };
 
 /**
  * 获取页面的地址
- * @param isDev
+ *
+ * @param [isDev]
  * @return {String}
  */
 function getPageUrl(isDev) {
-    return utils.getPageUrl('http://now.qq.com/simple', isDev);
+    return 'http://now.qq.com/simple';
 }
 
 module.exports = {
     getPageUrl,
-    getProxyServer: utils.getProxyServer,
-    getCaseParser: utils.getCaseParser,
-    OPTS
+    WAIT,
+    createPageDriver
 };
