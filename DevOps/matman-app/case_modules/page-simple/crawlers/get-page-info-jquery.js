@@ -1,14 +1,10 @@
-/* eslint-disable no-use-before-define */
-const {
-    useJquery
-} = require('web-crawl-util');
-
 module.exports = () => {
     return {
         topImageInfo: getTopImageInfo(),
         middleRule: getMiddleRule(),
         buttonCondition: getButtonCondition(),
-        oneLineText: getOneLineText()
+        oneLineText: getOneLineText(),
+        remarks: 'Got data by native jQuery!'
     };
 };
 
