@@ -1,3 +1,4 @@
+import cookie from 'js-cookie';
 import { showErrorTips } from '../base-tips';
 import { showAlert } from '../base-alert';
 
@@ -48,7 +49,7 @@ export const ERR_MSG = {
 };
 
 export function getCurUid() {
-    return '123456';
+    return cookie.get('myuin') || '0';
 }
 
 /**

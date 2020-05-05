@@ -42,6 +42,9 @@ module.exports = {
         // 设置默认的桩数据
         opts.queryDataMap = Object.assign({}, BASIC_QUERY_DATA_MAP, opts.queryDataMap);
 
-        return createPageDriver(caseModuleFilePath, opts);
+        return createPageDriver(caseModuleFilePath, opts)
+
+            // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
+            .setCookies('myuin=123456');
     }
 };
