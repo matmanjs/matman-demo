@@ -10,7 +10,7 @@ function getResult(opts) {
         .wait('#container')
 
         // 爬虫脚本的函数，用于获取页面中的数据
-        .evaluate('./crawlers/get-page-info.js')
+        .evaluate('./crawlers/get-page-info-jquery.js')
 
         // 结束，获取结果
         .end();
@@ -18,13 +18,13 @@ function getResult(opts) {
 
 module.exports = getResult;
 
-// getResult({ show: true, doNotCloseBrowser: true, useRecorder: false })
-//     .then(function (result) {
-//         console.log(JSON.stringify(result));
-//     })
-//     .catch(function (error) {
-//         console.error('failed:', error);
-//     });
+getResult({ show: true, doNotCloseBrowser: true, useRecorder: false })
+    .then(function (result) {
+        console.log(JSON.stringify(result));
+    })
+    .catch(function (error) {
+        console.error('failed:', error);
+    });
 
 
 
