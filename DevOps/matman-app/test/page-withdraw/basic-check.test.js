@@ -8,11 +8,7 @@ describe('withdraw 页面：常规检查', function () {
     let resultData;
 
     before(function () {
-        return checkPage({
-            show: false,
-            doNotEnd: false,
-            useRecorder: false
-        })
+        return checkPage({ show: false, doNotEnd: false, useRecorder: true })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
@@ -28,210 +24,58 @@ describe('withdraw 页面：常规检查', function () {
 
         it('数据快照校验通过', function () {
             expect(data).to.eql({
-                'transactionListInfo': {
-                    // 'emptyPic': '',
-                    'emptyWording': '',
+                'alertInfo': {
+                    'isExist': false
+                },
+                'toastInfo': {
+                    'isExist': false
+                },
+                'noticeInfo': { 'isExist': true, 'txt': '活动提现截止至2019年6月30日' },
+                'ruleInfo': {
+                    'count': 3,
                     'isExist': true,
-                    'list': [{
-                        'id': 'id_1_1539224581000_6',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.09',
-                        'name': '摇一摇新手红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_1_1539224580000_10001',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.19',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_1_1539224579000_10002',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.29',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_1_1539224578000_10003',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.39',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_1_1539224577000_10004',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.49',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_1_1539224576000_10005',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.59',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_1_1539224575000_10079',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '+0.69',
-                        'name': 'QQ春节红包',
-                        'time': '2018.10.11'
-                    }, {
-                        'id': 'id_2_1539138181000_6',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.09',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_2_1539138180000_10001',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.19',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_2_1539138179000_10002',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.29',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_2_1539138178000_10003',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.39',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_2_1539138177000_10004',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.49',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_2_1539138176000_10005',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.59',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_2_1539138175000_10079',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-1.69',
-                        'name': '提现',
-                        'time': '2018.10.10'
-                    }, {
-                        'id': 'id_3_1539051781000_6',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.09',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_3_1539051780000_10001',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.19',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_3_1539051779000_10002',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.29',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_3_1539051778000_10003',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.39',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_3_1539051777000_10004',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.49',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_3_1539051776000_10005',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.59',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_3_1539051775000_10079',
-                        'isExist': true,
-                        'isExpire': false,
-                        'money': '-2.69',
-                        'name': '兑换商品',
-                        'time': '2018.10.09'
-                    }, {
-                        'id': 'id_4_1538965381000_6',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.09',
-                        'name': '摇一摇新手红包',
-                        'time': '2018.10.08'
-                    }, {
-                        'id': 'id_4_1538965380000_10001',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.19',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.08'
-                    }, {
-                        'id': 'id_4_1538965379000_10002',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.29',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.08'
-                    }, {
-                        'id': 'id_4_1538965378000_10003',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.39',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.08'
-                    }, {
-                        'id': 'id_4_1538965377000_10004',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.49',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.08'
-                    }, {
-                        'id': 'id_4_1538965376000_10005',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.59',
-                        'name': '摇一摇任务红包',
-                        'time': '2018.10.08'
-                    }, {
-                        'id': 'id_4_1538965375000_10079',
-                        'isExist': true,
-                        'isExpire': true,
-                        'money': '+3.69',
-                        'name': 'QQ春节红包',
-                        'time': '2018.10.08'
-                    }],
-                    'total': 28
+                    'rule0': { 'rules': ['1. 规则说明一；', '2. 规则说明二；', '3. 规则说明三；'], 'title': '提现及税费规则' },
+                    'rule1': { 'rules': ['这是税费说明。'], 'title': '税费说明' },
+                    'rule2': { 'rules': ['这是代缴方案说明。'], 'title': '代缴方案' }
+                },
+                'withdrawInfo': {
+                    'balanceTips': '可提现余额(元)：168.88',
+                    'isExist': true,
+                    'isSubmitActive': false,
+                    'quota0': { 'isAvailable': true, 'isSelected': false, 'text': '5元' },
+                    'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
+                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
+                    'quotaCount': 3,
+                    'quotaTitle': '提现金额(元)',
+                    'submitTxt': '确定',
+                    'taxedTips': '',
+                    'walletTips': '提现到QQ钱包：123456'
                 }
             });
+        });
+    });
+
+    describe('检查接口请求及数据上报等情况', function () {
+        it('请求了 get_balance 接口（获取余额信息）', function () {
+            const result = resultData.isExistXHR('//cgi.now.qq.com/cgi-bin/a/b/get_balance', {
+                activeid: 10001
+            });
+
+            expect(result).to.be.true;
+        });
+
+        it('请求了 get_verify_status 接口（获取认证状态）', function () {
+            const result = resultData.isExistXHR('//cgi.now.qq.com/cgi-bin/a/b/get_verify_status');
+
+            expect(result).to.be.true;
+        });
+
+        it('上报了页面曝光', function () {
+            const result = resultData.isExistXHR('/maybe/report/pv', {
+                report_id: 987
+            });
+
+            expect(result).to.be.true;
         });
     });
 });
