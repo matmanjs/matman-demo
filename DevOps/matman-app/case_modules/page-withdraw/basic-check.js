@@ -18,24 +18,10 @@ function getResult(opts) {
 
 module.exports = getResult;
 
-getResult({
-    show: true,
-    doNotCloseBrowser: true,
-    useRecorder: false,
-    queryDataMap: {
-        // 查询余额
-        'get_balance': 'success_16888',
-
-        // 拉取认证状态
-        'get_verify_status': 'success_all_ok',
-
-        // 申请提现
-        'withdraw_money': 'success'
-    }
-})
-    .then(function (result) {
-        console.log(JSON.stringify(result));
-    })
-    .catch(function (error) {
-        console.error('failed:', error);
-    });
+// getResult({ show: true, doNotCloseBrowser: true, useRecorder: false })
+//     .then(function (result) {
+//         console.log(JSON.stringify(result));
+//     })
+//     .catch(function (error) {
+//         console.error('failed:', error);
+//     });
