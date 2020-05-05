@@ -9,7 +9,7 @@ const { createMockStarQuery } = require('mockstar');
  * @return {matman.PageDriver}
  * @author helinjiang
  */
-function createPageDriver(caseModuleFilePath, opts) {
+function createPageDriver(caseModuleFilePath, opts = {}) {
     const pageDriver = matman
 
         // 创建 PageDriver，页面驱动控制器
