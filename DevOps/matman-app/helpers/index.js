@@ -16,7 +16,7 @@ function createPageDriver(caseModuleFilePath, opts) {
         .createPageDriver(caseModuleFilePath, opts)
 
         // 无头浏览器使用 nightmare.js 框架提供，其底层用的是 Google 的 electron，基于 chromium 内核
-        .useNightmare({ show: opts.show })
+        .useNightmare({ show: process.env.SHOW || opts.show })
 
         // 设置浏览器参数
         .setDeviceConfig('mobile')
