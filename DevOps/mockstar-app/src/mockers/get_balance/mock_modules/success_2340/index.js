@@ -2,6 +2,6 @@ const base = require('../../base');
 
 module.exports = function (params) {
     return base.getSuccessData({
-        'cur_money': 1666
+        'cur_money': 2340
     });
 };

@@ -39,12 +39,12 @@ describe('withdraw 页面：常规检查', function () {
                     'rule2': { 'rules': ['这是代缴方案说明。'], 'title': '代缴方案' }
                 },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：168.88',
+                    'balanceTips': '可提现余额(元)：23.4',
                     'isExist': true,
                     'isSubmitActive': false,
                     'quota0': { 'isAvailable': true, 'isSelected': false, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
-                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
+                    'quota2': { 'isAvailable': false, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',

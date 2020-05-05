@@ -7,7 +7,7 @@ const { createPageDriver } = require('../../../helpers');
  */
 const BASIC_QUERY_DATA_MAP = {
     // 查询余额
-    'get_balance': 'success_16888',
+    'get_balance': 'success_2340',
 
     // 拉取认证状态
     'get_verify_status': 'success_all_ok',

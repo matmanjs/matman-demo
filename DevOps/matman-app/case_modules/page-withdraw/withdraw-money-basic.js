@@ -50,7 +50,14 @@ function getResult(opts) {
 
 module.exports = getResult;
 
-// getResult({ show: true, doNotCloseBrowser: true, useRecorder: true })
+// getResult({
+//     show: true,
+//     doNotCloseBrowser: true,
+//     useRecorder: true,
+//     queryDataMap: {
+//         'get_balance': 'success_499'
+//     }
+// })
 //     .then(function (result) {
 //         console.log(JSON.stringify(result));
 //     })
