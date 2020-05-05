@@ -1,8 +1,8 @@
-const expect = require('chai').expect;
+const {expect} = require('chai');
 
-const checkPage = require('.');
+const checkPage = require('../../case_modules/page-simple/basic-check-native-jquery');
 
-describe('simple.html：常规检查-普通静态页面', function () {
+describe('simple.html：常规检查-普通静态页面(使用原生jQuery语法)', function () {
     this.timeout(30000);
 
     let resultData;
