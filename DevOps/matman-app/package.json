@@ -6,8 +6,9 @@
     "build": "matman build",
     "build-dev": "matman build --dev",
     "test": "npm run build && mocha",
-    "test-back": "npm run build && mocha src/testers/**/*.test.js",
-    "test-8080": "cross-env WHISTLE_PORT=8080 npm run test"
+    "test:show": "cross-env SHOW=1 npm run test",
+    "test:oldback": "npm run build && mocha src/testers/**/*.test.js",
+    "test:8080": "cross-env WHISTLE_PORT=8080 npm run test"
   },
   "dependencies": {
     "matman": "^5.0.2",
