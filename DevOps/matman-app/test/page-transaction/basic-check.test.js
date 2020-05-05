@@ -8,7 +8,14 @@ describe('transaction 页面：常规基础信息检查', function () {
     let resultData;
 
     before(function () {
-        return checkPage({ show: false, doNotEnd: false, useRecorder: false })
+        return checkPage({
+            show: false,
+            doNotEnd: false,
+            useRecorder: false,
+            queryDataMap: {
+                'get_flow': 'success_basic'
+            }
+        })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
