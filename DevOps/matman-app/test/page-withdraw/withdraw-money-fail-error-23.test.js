@@ -42,12 +42,12 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
                 },
                 'toastInfo': { 'isExist': false },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：168.88',
+                    'balanceTips': '可提现余额(元)：23.4',
                     'isExist': true,
                     'isSubmitActive': false,
                     'quota0': { 'isAvailable': true, 'isSelected': false, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
-                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
+                    'quota2': { 'isAvailable': false, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',
@@ -90,12 +90,12 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
                 },
                 'toastInfo': { 'isExist': false },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：168.88',
+                    'balanceTips': '可提现余额(元)：23.4',
                     'isExist': true,
                     'isSubmitActive': true,
                     'quota0': { 'isAvailable': true, 'isSelected': true, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
-                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
+                    'quota2': { 'isAvailable': false, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',
@@ -117,8 +117,8 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
             expect(data.withdrawInfo.isSubmitActive).to.be.true;
         });
 
-        it('余额提示： 168.88', function () {
-            expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：168.88');
+        it('余额提示： 23.4', function () {
+            expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：23.4');
         });
     });
 
@@ -146,12 +146,12 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
                 },
                 'toastInfo': { 'isExist': false },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：168.88',
+                    'balanceTips': '可提现余额(元)：23.4',
                     'isExist': true,
                     'isSubmitActive': true,
                     'quota0': { 'isAvailable': true, 'isSelected': true, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
-                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
+                    'quota2': { 'isAvailable': false, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',
@@ -195,12 +195,12 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
                 },
                 'toastInfo': { 'isExist': false },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：168.88',
+                    'balanceTips': '可提现余额(元)：23.4',
                     'isExist': true,
                     'isSubmitActive': true,
                     'quota0': { 'isAvailable': true, 'isSelected': true, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
-                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
+                    'quota2': { 'isAvailable': false, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',
@@ -214,8 +214,8 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
             expect(data.alertInfo.isExist).to.be.false;
         });
 
-        it('余额提示： 168.88', function () {
-            expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：168.88');
+        it('余额提示： 23.4', function () {
+            expect(data.withdrawInfo.balanceTips).to.equal('可提现余额(元)：23.4');
         });
     });
 });
