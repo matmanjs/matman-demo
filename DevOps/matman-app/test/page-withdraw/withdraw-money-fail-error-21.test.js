@@ -133,7 +133,7 @@ describe('withdraw：验证提现失败逻辑 error=21', function () {
             expect(data).to.eql({
                 'alertInfo': {
                     'btnTxt': '确定',
-                    'content': '该活动不存在，请重新加载',
+                    'content': '一/二/三期红包活动已结束，请关注参与下期红包活动',
                     'isExist': true
                 },
                 'noticeInfo': { 'isExist': true, 'txt': '活动提现截止至2019年6月30日' },
@@ -162,7 +162,7 @@ describe('withdraw：验证提现失败逻辑 error=21', function () {
         });
 
         it('弹出提示框，提示成功', function () {
-            expect(data.alertInfo.content).to.equal('该活动不存在，请重新加载');
+            expect(data.alertInfo.content).to.equal('一/二/三期红包活动已结束，请关注参与下期红包活动');
         });
 
         it('请求了 withdraw_money 接口（提现接口）', function () {
