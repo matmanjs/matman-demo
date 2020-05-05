@@ -6,7 +6,7 @@ const { createPageDriver } = require('../../../helpers');
  * @type {Object}
  */
 const WAIT = {
-    READY: '#container'
+    READY_UA: '#debug-ua .ua'
 };
 
 /**
@@ -16,7 +16,7 @@ const WAIT = {
  * @return {String}
  */
 function getPageUrl(isDev) {
-    return 'http://now.qq.com/simple';
+    return 'http://now.qq.com/debug';
 }
 
 module.exports = {
