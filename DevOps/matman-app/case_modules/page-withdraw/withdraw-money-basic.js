@@ -12,22 +12,37 @@ function getResult(opts) {
             return nightmare.wait(500);
         })
 
-        // 第二步：选中【5元】
-        .addAction('selectQuota', function (nightmare) {
-            return nightmare.click('#root .display-withdraw .display-withdraw-quotas .selection .i0');
+        // 第二步：还未选择提现金额之前，直接点击【确定】按钮
+        .addAction('clickSubmitBeforeSelect', function (nightmare) {
+            return nightmare.click('#root .display-withdraw .withdraw-submit .now-button').wait(500);
         })
 
-        // 第三步：点击【确定】按钮
+        // 第三步：点击提示没有选择金额的弹窗中的【确定】按钮
+        .addAction('clickNotSelectMoneyDlgOk', function (nightmare) {
+            return nightmare.click('.base-alert .dialog-inner .dialog-buttons .dialog-btn.ok');
+        })
+
+        // 第四步：选中【30元】
+        .addAction('selectQuota30', function (nightmare) {
+            return nightmare.click('#root .display-withdraw .display-withdraw-quotas .selection .i2');
+        })
+
+        // 第五步：选中【15元】
+        .addAction('selectQuota15', function (nightmare) {
+            return nightmare.click('#root .display-withdraw .display-withdraw-quotas .selection .i1');
+        })
+
+        // 第六步：点击【确定】按钮
         .addAction('clickSubmit', function (nightmare) {
             return nightmare.click('#root .display-withdraw .withdraw-submit .now-button').wait(500);
         })
 
-        // 第四步：点击弹窗中的【确定】按钮
+        // 第七步：点击弹窗中的【确定】按钮
         .addAction('clickDlgOk', function (nightmare) {
             return nightmare.click('.base-alert .dialog-inner .dialog-buttons .dialog-btn.ok');
         })
 
-        // 第五步：一秒后再次获取页面状态
+        // 第八步：一秒后再次获取页面状态
         .addAction('lastCheck', function (nightmare) {
             return nightmare.wait(1000);
         })
@@ -50,14 +65,7 @@ function getResult(opts) {
 
 module.exports = getResult;
 
-// getResult({
-//     show: true,
-//     doNotCloseBrowser: true,
-//     useRecorder: true,
-//     queryDataMap: {
-//         'get_balance': 'success_499'
-//     }
-// })
+// getResult({ show: true, doNotCloseBrowser: true, useRecorder: true })
 //     .then(function (result) {
 //         console.log(JSON.stringify(result));
 //     })
