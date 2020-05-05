@@ -2,7 +2,7 @@ const {expect} = require('chai');
 
 const checkPage = require('../../case_modules/page-simple/basic-check');
 
-describe('simple.html：常规检查-普通静态页面', function () {
+describe('simple 页面：常规检查-普通静态页面', function () {
     this.timeout(30000);
 
     let resultData;
