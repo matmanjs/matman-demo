@@ -169,7 +169,7 @@ describe('withdraw：验证提现失败逻辑 error=21', function () {
             const result = resultData.isExistXHR('//cgi.now.qq.com/cgi-bin/a/b/withdraw_money', {
                 activeid: 10001,
                 amount: 500
-            });
+            }, 200);
 
             expect(result).to.be.true;
         });
