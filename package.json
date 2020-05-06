@@ -5,7 +5,9 @@
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
-        "use-whistle-prod": "cd DevOps/whistle && npm run start-prod"
+        "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
+        "test:e2e": "cd DevOps/matman-app && npm run build ",
+        "test:unit": "mocha test/unit-test"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -44,11 +46,13 @@
         "redux-thunk": "^2.3.0"
     },
     "devDependencies": {
+        "chai": "^4.2.0",
         "cross-env": "^6.0.3",
         "customize-cra": "^0.4.1",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
-        "react-scripts": "^3.3.0",
-        "react-app-rewired": "^2.1.5"
+        "mocha": "^7.1.2",
+        "react-app-rewired": "^2.1.5",
+        "react-scripts": "^3.3.0"
     }
 }
