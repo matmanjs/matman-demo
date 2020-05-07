@@ -10,7 +10,7 @@ function startMockstar(port) {
 
             const mockstarPort = process.env.MOCKSTAR_PORT || 9527;
 
-            return runCmd.runByExec(`npm run build`, { cwd: mockstarAppPath })
+            return runCmd.runByExec(`mockstar start -p ${mockstarPort}`, { cwd: mockstarAppPath })
                 .then(() => {
                     console.log(`mockstar 已经启动，端口为 ${mockstarPort}`);
                     return mockstarPort;
