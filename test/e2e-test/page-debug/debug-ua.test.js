@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const checkPage = require('../../case_modules/page-debug/debug-ua');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-debug/debug-ua');
 
 describe('debug 页面：调试UA', function () {
     this.timeout(30000);

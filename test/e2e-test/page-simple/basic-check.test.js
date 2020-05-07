@@ -1,8 +1,8 @@
 const {expect} = require('chai');
 
-const checkPage = require('../../case_modules/page-simple/basic-check-native-jquery');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-simple/basic-check');
 
-describe('simple 页面：常规检查-普通静态页面(使用原生jQuery语法)', function () {
+describe('simple 页面：常规检查-普通静态页面', function () {
     this.timeout(30000);
 
     let resultData;

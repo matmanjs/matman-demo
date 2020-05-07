@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 
-const checkPage = require('../../case_modules/page-withdraw/withdraw-money-fail');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-withdraw/withdraw-money-fail');
 
-describe('withdraw：验证提现失败逻辑 error=23', function () {
+describe('withdraw：验证提现失败逻辑 error=20', function () {
     this.timeout(30000);
 
     let resultData;
@@ -13,7 +13,7 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
             doNotEnd: false,
             useRecorder: true,
             queryDataMap: {
-                'withdraw_money': 'error_23_trans_total_limit'
+                'withdraw_money': 'error_20_active_empty'
             }
         })
             .then(function (result) {
@@ -133,7 +133,7 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
             expect(data).to.eql({
                 'alertInfo': {
                     'btnTxt': '确定',
-                    'content': '今日提现名额已发放完毕，请明日再来',
+                    'content': '该活动不存在，请重新加载',
                     'isExist': true
                 },
                 'noticeInfo': { 'isExist': true, 'txt': '活动提现截止至2019年6月30日' },
@@ -162,7 +162,7 @@ describe('withdraw：验证提现失败逻辑 error=23', function () {
         });
 
         it('弹出提示框，提示成功', function () {
-            expect(data.alertInfo.content).to.equal('今日提现名额已发放完毕，请明日再来');
+            expect(data.alertInfo.content).to.equal('该活动不存在，请重新加载');
         });
 
         it('请求了 withdraw_money 接口（提现接口）', function () {
