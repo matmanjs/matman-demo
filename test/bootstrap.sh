@@ -30,6 +30,9 @@ fi
 # 可能端口被占用，删除之
 lsof -i:$whistle_port | grep $whistle_port  | grep -v grep | awk '{print $2}' | xargs kill -9
 
+# 项目构建
+cd "$PROJECT_ROOT" || exit
+npm run build
 
 # 启动 whistle
 w2 stop
