@@ -6,12 +6,13 @@
         "build": "react-app-rewired build",
         "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
         "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
-        "test": "npm run test:unit",
+        "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "mocha test/unit-test",
-        "test:e2e": "node test/run-e2e-test.js",
+        "test:e2e": "cross-env-shell MOCKSTAR_PORT=9520 WHISTLE_PORT=9521 \"npm run e2e-bootstrap && npm run test:e2e:direct\"",
         "test:e2e:direct": "mocha test/e2e-test",
-        "test:e2e:direct:show": "cross-env SHOW=1 npm run test:e2e",
-        "test:e2e:direct:show:8080": "cross-env SHOW=1 WHISTLE_PORT=8080 npm run test:e2e"
+        "test:e2e:direct:show": "cross-env SHOW=1 npm run test:e2e:direct",
+        "test:e2e:direct:show:8080": "cross-env SHOW=1 WHISTLE_PORT=8080 npm run test:e2e:direct",
+        "e2e-bootstrap": "./test/bootstrap.sh"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -53,6 +54,7 @@
         "chai": "^4.2.0",
         "cross-env": "^6.0.3",
         "customize-cra": "^0.4.1",
+        "devops-web-test": "^1.0.0",
         "fs-extra": "^9.0.0",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
