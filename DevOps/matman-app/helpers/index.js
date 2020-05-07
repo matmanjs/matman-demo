@@ -22,7 +22,7 @@ function createPageDriver(caseModuleFilePath, opts = {}) {
         .setDeviceConfig('mobile')
 
         // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
-        .useProxyServer(`127.0.0.1:${process.env.PORT || 8899}`)
+        .useProxyServer(`127.0.0.1:${process.env.WHISTLE_PORT || 8899}`)
 
         // 设置截屏
         .setScreenshotConfig(true);
