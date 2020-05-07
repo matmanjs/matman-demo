@@ -8,11 +8,12 @@
         "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
         "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "mocha test/unit",
-        "test:e2e": "cross-env-shell MOCKSTAR_PORT=9520 WHISTLE_PORT=9521 \"npm run e2e-bootstrap && npm run test:e2e:direct\"",
+        "test:e2e": "cross-env-shell MOCKSTAR_PORT=9520 WHISTLE_PORT=9521 \"npm run e2e-bootstrap && npm run test:e2e:direct && npm run e2e-clean\"",
         "test:e2e:direct": "mocha test/e2e",
         "test:e2e:direct:show": "cross-env SHOW_BROWSER=1 npm run test:e2e:direct",
         "test:e2e:direct:show:8080": "cross-env SHOW_BROWSER=1 WHISTLE_PORT=8080 npm run test:e2e:direct",
-        "e2e-bootstrap": "./test/bootstrap.sh"
+        "e2e-bootstrap": "./test/bootstrap.sh",
+        "e2e-clean": "./test/clean.sh"
     },
     "eslintConfig": {
         "extends": "react-app"
