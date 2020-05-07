@@ -1,14 +1,21 @@
 const { expect } = require('chai');
 
-const checkPage = require('../../case_modules/page-withdraw/basic-check');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-withdraw/basic-check');
 
-describe('withdraw 页面：常规检查', function () {
+describe('withdraw 页面：常规检查(168.88元)', function () {
     this.timeout(30000);
 
     let resultData;
 
     before(function () {
-        return checkPage({ show: false, doNotEnd: false, useRecorder: true })
+        return checkPage({
+            show: false,
+            doNotEnd: false,
+            useRecorder: true,
+            queryDataMap: {
+                'get_balance': 'success_16888'
+            }
+        })
             .then(function (result) {
                 // console.log(JSON.stringify(result));
                 resultData = result;
@@ -39,12 +46,12 @@ describe('withdraw 页面：常规检查', function () {
                     'rule2': { 'rules': ['这是代缴方案说明。'], 'title': '代缴方案' }
                 },
                 'withdrawInfo': {
-                    'balanceTips': '可提现余额(元)：23.4',
+                    'balanceTips': '可提现余额(元)：168.88',
                     'isExist': true,
                     'isSubmitActive': false,
                     'quota0': { 'isAvailable': true, 'isSelected': false, 'text': '5元' },
                     'quota1': { 'isAvailable': true, 'isSelected': false, 'text': '15元' },
-                    'quota2': { 'isAvailable': false, 'isSelected': false, 'text': '30元' },
+                    'quota2': { 'isAvailable': true, 'isSelected': false, 'text': '30元' },
                     'quotaCount': 3,
                     'quotaTitle': '提现金额(元)',
                     'submitTxt': '确定',
@@ -62,8 +69,8 @@ describe('withdraw 页面：常规检查', function () {
             expect(data.withdrawInfo.quota1.isAvailable).to.be.true;
         });
 
-        it('【30元】按钮不可选择', function () {
-            expect(data.withdrawInfo.quota2.isAvailable).to.be.false;
+        it('【30元】按钮可被选择', function () {
+            expect(data.withdrawInfo.quota2.isAvailable).to.be.true;
         });
     });
 

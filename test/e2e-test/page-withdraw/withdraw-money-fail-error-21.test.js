@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const checkPage = require('../../case_modules/page-withdraw/withdraw-money-fail');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-withdraw/withdraw-money-fail');
 
 describe('withdraw：验证提现失败逻辑 error=21', function () {
     this.timeout(30000);

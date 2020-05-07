@@ -6,7 +6,10 @@
         "build": "react-app-rewired build",
         "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
         "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
-        "test:e2e": "cd DevOps/matman-app && npm run build ",
+        "test": "npm run test:unit",
+        "test:e2e": "mocha test/e2e-test",
+        "test:e2e:show": "cross-env SHOW=1 npm run test:e2e",
+        "test:e2e:show:8080": "cross-env SHOW=1 WHISTLE_PORT=8080 npm run test:e2e",
         "test:unit": "mocha test/unit-test"
     },
     "eslintConfig": {

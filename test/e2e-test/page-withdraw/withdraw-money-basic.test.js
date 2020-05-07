@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const checkPage = require('../../case_modules/page-withdraw/withdraw-money-basic');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-withdraw/withdraw-money-basic');
 
 describe('withdraw：验证提现操作的基本逻辑', function () {
     this.timeout(30000);

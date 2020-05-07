@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const checkPage = require('../../case_modules/page-transaction/basic-check');
+const checkPage = require('../../../DevOps/matman-app/case_modules/page-transaction/basic-check');
 
 describe('transaction 页面：常规基础信息检查', function () {
     this.timeout(30000);
