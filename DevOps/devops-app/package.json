@@ -1,0 +1,13 @@
+{
+    "name": "devops-app",
+    "scripts": {
+        "test": "cross-env DEBUG=nightmare node debug/test.js"
+    },
+    "dependencies": {
+        "devops-web-test": "^1.0.1",
+        "lodash": "^4.17.15"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.2"
+    }
+}
