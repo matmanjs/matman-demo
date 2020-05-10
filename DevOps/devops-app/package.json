@@ -1,7 +1,9 @@
 {
     "name": "devops-app",
     "scripts": {
-        "test": "cross-env DEBUG=nightmare node debug/test.js"
+        "test": "cross-env DEBUG=nightmare node debug/test.js",
+        "test:unit": "cross-env DWT_MODE=unit npm test",
+        "test:e2e": "cross-env DWT_MODE=e2e npm test"
     },
     "dependencies": {
         "devops-web-test": "^1.0.1",
