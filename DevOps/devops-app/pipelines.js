@@ -16,25 +16,25 @@ const {
  * 业务项目
  *
  * @param shouldRunE2ETest
- * @param customPluginParams
+ * @param opts
  * @return {PluginProject}
  */
-function getPluginProject(shouldRunE2ETest, customPluginParams) {
+function getPluginProject(shouldRunE2ETest, opts) {
     return new PluginProject('project', _.merge({
         shouldSkip: !shouldRunE2ETest,
         rootPath: path.join(__dirname, '../../'),
         buildCmd: 'npm run build'
-    }, customPluginParams['project']));
+    }, opts));
 }
 
 /**
  * 单元测试
  *
  * @param shouldRunUnitTest
- * @param customPluginParams
+ * @param opts
  * @return {PluginUnitTest}
  */
-function getPluginUnitTest(shouldRunUnitTest, customPluginParams) {
+function getPluginUnitTest(shouldRunUnitTest, opts) {
     return new PluginUnitTest('unitTest', _.merge({
         shouldSkip: !shouldRunUnitTest,
         runTestPath: path.join(__dirname, '../../'),
@@ -77,61 +77,44 @@ function getPluginUnitTest(shouldRunUnitTest, customPluginParams) {
         coverageCompleteCheck: async function (testRecord) {
             return util.checkAndWaitFileAvailable(path.join(this.coverageOutputPath, 'index.html'));
         }
-    }, customPluginParams['unitTest']));
+    }, opts));
 }
 
 /**
  * 数据 mock
  *
  * @param shouldRunE2ETest
- * @param customPluginParams
+ * @param opts
  * @return {PluginMockstar}
  */
-function getPluginMockstar(shouldRunE2ETest, customPluginParams) {
+function getPluginMockstar(shouldRunE2ETest, opts) {
     return new PluginMockstar('mockstar', _.merge({
         shouldSkip: !shouldRunE2ETest,
         rootPath: path.join(__dirname, '../mockstar-app')
-    }, customPluginParams['mockstar']));
+    }, opts));
 }
 
 /**
  * 代理配置
  *
- * @param devopsAppBasePath
  * @param shouldRunE2ETest
- * @param customPluginParams
  * @param opts
  * @return {PluginWhistle}
  */
-function getPluginWhistle(devopsAppBasePath, shouldRunE2ETest, customPluginParams, opts) {
+function getPluginWhistle(shouldRunE2ETest, opts) {
     return new PluginWhistle('whistle', _.merge({
-        shouldSkip: !shouldRunE2ETest,
-        getWhistleRules: function (testRecord) {
-            if (typeof opts.getWhistleRules === 'function') {
-                return opts.getWhistleRules(testRecord, {
-                    projectRootPath: testRecord.getPlugin('project').rootPath,
-                    shouldUseMockstar: true,
-                    mockstarPort: testRecord.getPlugin('mockstar').port,
-                    name: testRecord.getPlugin('whistle')._processKey
-                });
-            } else {
-                return {
-                    name: `unknown-whistle-rules-${Date.now()}`,
-                    rules: `#也许你应该设置一下whistle配置：${devopsAppBasePath}`
-                };
-            }
-        }
-    }, customPluginParams['whistle']));
+        shouldSkip: !shouldRunE2ETest
+    }, opts));
 }
 
 /**
  * 端对端测试
  *
  * @param shouldRunE2ETest
- * @param customPluginParams
+ * @param opts
  * @return {PluginE2ETest}
  */
-function getPluginE2ETest(shouldRunE2ETest, customPluginParams) {
+function getPluginE2ETest(shouldRunE2ETest, opts) {
     return new PluginE2ETest('e2eTest', _.merge({
         shouldSkip: !shouldRunE2ETest,
         runTestPath: path.join(__dirname, '../../'),
@@ -164,16 +147,16 @@ function getPluginE2ETest(shouldRunE2ETest, customPluginParams) {
                 }
             });
         }
-    }, customPluginParams['e2eTest']));
+    }, opts));
 }
 
 /**
  * 归档
  *
- * @param customPluginParams
+ * @param opts
  * @return {PluginArchive}
  */
-function getPluginArchive(customPluginParams) {
+function getPluginArchive(opts) {
     return new PluginArchive('archive', _.merge({
         getPlugins: function (testRecord) {
             return {
@@ -182,47 +165,7 @@ function getPluginArchive(customPluginParams) {
                 pluginWhistle: testRecord.getPlugin('whistle')
             };
         }
-    }, customPluginParams['archive']));
-}
-
-/**
- * 获得自动化测试的配置
- *
- * @param {String} dwtPath devops-app 的根目录
- * @param {Object} [opts] 额外选项
- * @param {Boolean} [opts.shouldRunE2ETest] 是否执行端对端测试，默认值为 true
- * @param {Boolean} [opts.shouldRunUnitTest] 是否执行单元你测试，默认值为 true
- * @param {Function} [opts.getWhistleRules] 获得 whistle 的配置，接受两个参数 testRecord 和 opts<projectRootPath,shouldUseMockstar,mockstarPort,name>
- * @param {Object} [opts.customPluginParams] 插件的自定义配置，是一个 map ，key 值为 插件名字， value 为插件的自定义配置
- * @return {Object}
- */
-function getTestConfig(dwtPath, opts = {}) {
-    const { shouldRunUnitTest = true, shouldRunE2ETest = true, customPluginParams = {} } = opts;
-
-    const common = {
-        dwtPath,
-        plugins: [
-            // 业务项目
-            getPluginProject(shouldRunE2ETest, customPluginParams),
-
-            // 单元测试
-            getPluginUnitTest(shouldRunUnitTest, customPluginParams),
-
-            // 数据 mock
-            getPluginMockstar(shouldRunE2ETest, customPluginParams),
-
-            // 代理配置
-            getPluginWhistle(dwtPath, shouldRunE2ETest, customPluginParams, opts),
-
-            // 端对端测试
-            getPluginE2ETest(shouldRunE2ETest, customPluginParams),
-
-            // 归档
-            getPluginArchive(customPluginParams)
-        ]
-    };
-
-    return Object.assign(common, opts);
+    }, opts));
 }
 
 module.exports = {
@@ -231,6 +174,5 @@ module.exports = {
     getPluginMockstar,
     getPluginWhistle,
     getPluginE2ETest,
-    getPluginArchive,
-    getTestConfig
+    getPluginArchive
 };
