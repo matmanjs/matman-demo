@@ -7,7 +7,7 @@
         "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
         "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
         "test": "npm run test:unit && npm run test:e2e",
-        "test:unit": "mocha test/unit",
+        "test:unit": "cross-env BABEL_ENV=test mocha test/unit",
         "test:e2e": "cross-env-shell MOCKSTAR_PORT=9520 WHISTLE_PORT=9521 \"npm run e2e-bootstrap && npm run test:e2e:direct && npm run e2e-clean\"",
         "test:e2e:direct": "mocha test/e2e",
         "test:e2e:direct:show": "cross-env SHOW_BROWSER=1 npm run test:e2e:direct",
@@ -52,6 +52,10 @@
         "redux-thunk": "^2.3.0"
     },
     "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-react": "^6.24.1",
+        "babel-preset-stage-0": "^6.24.1",
         "chai": "^4.2.0",
         "cross-env": "^6.0.3",
         "customize-cra": "^0.4.1",
