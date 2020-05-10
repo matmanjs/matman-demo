@@ -7,7 +7,8 @@ const {
     getPluginMockstar,
     getPluginWhistle,
     getPluginE2ETest,
-    getPluginArchive
+    getPluginArchive,
+    getActionConfigByDWTMode
 } = require('./pipelines');
 
 /**
@@ -21,35 +22,7 @@ const {
  * @return {Object}
  */
 function getTestConfig(opts = {}) {
-    const { shouldRunUnitTest, shouldRunE2ETest } = ((dwtMode) => {
-        let shouldRunUnitTest;
-        let shouldRunE2ETest;
-
-        const DWT_MODE = {
-            UNIT: 'unit',
-            E2E: 'e2e'
-        };
-
-        switch (dwtMode) {
-            case DWT_MODE.UNIT:
-                shouldRunUnitTest = true;
-                shouldRunE2ETest = false;
-                break;
-            case DWT_MODE.E2E:
-                shouldRunUnitTest = false;
-                shouldRunE2ETest = true;
-                break;
-            default:
-                shouldRunUnitTest = true;
-                shouldRunE2ETest = true;
-                break;
-        }
-
-        return {
-            shouldRunUnitTest,
-            shouldRunE2ETest
-        };
-    })(process.env.DWT_MODE);
+    const { shouldRunUnitTest, shouldRunE2ETest } = getActionConfigByDWTMode(process.env.DWT_MODE);
 
     const config = {
         dwtPath: __dirname,

@@ -170,11 +170,48 @@ function getPluginArchive(opts) {
     }, opts));
 }
 
+/**
+ * 根据运行模式确定一些行为
+ *
+ * @param {String} [dwtMode] 运行模式
+ * @return {Object}
+ */
+function getActionConfigByDWTMode(dwtMode) {
+    let shouldRunUnitTest;
+    let shouldRunE2ETest;
+
+    const DWT_MODE = {
+        UNIT: 'unit',
+        E2E: 'e2e'
+    };
+
+    switch (dwtMode) {
+        case DWT_MODE.UNIT:
+            shouldRunUnitTest = true;
+            shouldRunE2ETest = false;
+            break;
+        case DWT_MODE.E2E:
+            shouldRunUnitTest = false;
+            shouldRunE2ETest = true;
+            break;
+        default:
+            shouldRunUnitTest = true;
+            shouldRunE2ETest = true;
+            break;
+    }
+
+    return {
+        shouldRunUnitTest,
+        shouldRunE2ETest
+    };
+}
+
 module.exports = {
     getPluginProject,
     getPluginUnitTest,
     getPluginMockstar,
     getPluginWhistle,
     getPluginE2ETest,
-    getPluginArchive
+    getPluginArchive,
+    getActionConfigByDWTMode
 };
