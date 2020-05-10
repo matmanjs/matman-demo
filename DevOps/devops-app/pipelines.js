@@ -151,7 +151,7 @@ function getPluginE2ETest(shouldRunE2ETest, customPluginParams) {
         },
         onBeforeTest: async function (testRecord, runCmd) {
             // 安装 reporters 依赖
-            await runCmd.runByExec('tnpm install mocha-multi-reporters mochawesome mocha-junit-reporter --no-save', { cwd: this.rootPath });
+            await runCmd.runByExec('npm install mocha-multi-reporters mochawesome mocha-junit-reporter --no-save', { cwd: this.runTestPath });
 
             // 生成 mocha-multi-reporters 的 configFile
             fse.outputJsonSync(path.join(this.outputPath, 'mocha-multi-reporters-config.json'), {
