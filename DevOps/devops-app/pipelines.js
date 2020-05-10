@@ -41,7 +41,9 @@ function getPluginUnitTest(shouldRunUnitTest, opts) {
         testCmd: function (testRecord) {
             const relativePath = path.relative(this.runTestPath, this.outputPath);
 
-            return `npx mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${relativePath}/mocha-multi-reporters-config.json`;
+            // 之所以要设置 BABEL_ENV=test，是指定测试时使用 .babelrc 文件中名为 test 的配置
+            // 避免与 create-react-app 项目的配置冲突
+            return `npx cross-env BABEL_ENV=test mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${relativePath}/mocha-multi-reporters-config.json`;
         },
         testCompleteCheck: function (data) {
             // 这样可以保证在覆盖率生成之后强制结束

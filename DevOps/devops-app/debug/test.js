@@ -12,8 +12,35 @@ const {
 
 const dwtPath = path.join(__dirname, '../');
 
-const shouldRunUnitTest = true;
-const shouldRunE2ETest = true;
+const { shouldRunUnitTest, shouldRunE2ETest } = ((dwtMode) => {
+    let shouldRunUnitTest;
+    let shouldRunE2ETest;
+
+    const DWT_MODE = {
+        UNIT: 'unit',
+        E2E: 'e2e'
+    };
+
+    switch (dwtMode) {
+        case DWT_MODE.UNIT:
+            shouldRunUnitTest = true;
+            shouldRunE2ETest = false;
+            break;
+        case DWT_MODE.E2E:
+            shouldRunUnitTest = false;
+            shouldRunE2ETest = true;
+            break;
+        default:
+            shouldRunUnitTest = true;
+            shouldRunE2ETest = true;
+            break;
+    }
+
+    return {
+        shouldRunUnitTest,
+        shouldRunE2ETest
+    };
+})(process.env.DWT_MODE);
 
 const config = {
     plugins: [
