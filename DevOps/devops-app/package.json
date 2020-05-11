@@ -8,7 +8,7 @@
         "test-dev": "cross-env DEBUG=nightmare node debug/test-dev.js",
         "test-dev:unit": "cross-env DWT_MODE=unit npm run test-dev",
         "test-dev:e2e": "cross-env DWT_MODE=e2e npm run test-dev",
-        "bootstrap-dev": "cross-env MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap-dev.js"
+        "bootstrap-dev": "cross-env PROJECT_PORT=3000 MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap-dev.js"
     },
     "dependencies": {
         "devops-web-test": "^1.0.1",

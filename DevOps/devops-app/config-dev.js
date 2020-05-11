@@ -83,6 +83,7 @@ function getTestConfig(opts = {}) {
 function getBootstrapConfig(opts = {}) {
     const shouldRunE2ETest = true;
 
+    const projectPort = process.env.PROJECT_PORT;
     const mockstarPort = process.env.MOCKSTAR_PORT;
     const whistlePort = process.env.WHISTLE_PORT;
 
@@ -92,6 +93,7 @@ function getBootstrapConfig(opts = {}) {
             // 业务项目
             getPluginProject(shouldRunE2ETest, {
                 usePort: true,
+                port: projectPort,
                 buildCmd: function (testRecord, port) {
                     return port ? `npx cross-env PORT=${port} npm start` : 'npm start';
                 },
