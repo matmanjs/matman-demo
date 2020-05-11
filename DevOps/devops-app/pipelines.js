@@ -23,7 +23,7 @@ function getPluginProject(shouldRunE2ETest, opts) {
     return new PluginProject('project', _.merge({
         shouldSkip: !shouldRunE2ETest,
         rootPath: path.join(__dirname, '../../'),
-        buildCmd: 'npm run build'
+        buildCmd: 'npx cross-env ENABLE_E2E_TEST=1 npm run build'
     }, opts));
 }
 
