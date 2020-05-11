@@ -92,9 +92,9 @@ function getBootstrapConfig(opts = {}) {
             }),
 
             // 代理配置
-            // TODO 需要 clean 还是复用
             getPluginWhistle(shouldRunE2ETest, {
                 port: whistlePort,
+                shouldReuse: true,
                 getWhistleRules: function (testRecord) {
                     const whistleSetting = require(path.join(__dirname, '../whistle'));
 
@@ -102,7 +102,7 @@ function getBootstrapConfig(opts = {}) {
                         projectRootPath: testRecord.getPlugin('project').rootPath,
                         shouldUseMockstar: true,
                         mockstarPort: testRecord.getPlugin('mockstar').port,
-                        name: testRecord.getPlugin('whistle')._processKey
+                        name: 'matman-demo[prod]'
                     });
                 }
             })
