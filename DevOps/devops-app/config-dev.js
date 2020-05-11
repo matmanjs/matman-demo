@@ -51,6 +51,7 @@ function getTestConfig(opts = {}) {
 
                     return whistleSetting.getDevRules({
                         projectRootPath: testRecord.getPlugin('project').rootPath,
+                        projectDevPort: testRecord.getPlugin('project').port,
                         shouldUseMockstar: true,
                         mockstarPort: testRecord.getPlugin('mockstar').port,
                         name: testRecord.getPlugin('whistle')._processKey
@@ -116,6 +117,7 @@ function getBootstrapConfig(opts = {}) {
 
                     return whistleSetting.getDevRules({
                         projectRootPath: testRecord.getPlugin('project').rootPath,
+                        projectDevPort: testRecord.getPlugin('project').port,
                         shouldUseMockstar: true,
                         mockstarPort: testRecord.getPlugin('mockstar').port,
                         name: this.shouldReuse ? '' : testRecord.getPlugin('whistle')._processKey
