@@ -6,14 +6,10 @@
         "build": "react-app-rewired build",
         "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
         "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
-        "test": "npm run test:unit && npm run test:e2e",
-        "test:unit": "mocha test/unit",
-        "test:e2e": "cross-env-shell MOCKSTAR_PORT=9520 WHISTLE_PORT=9521 \"npm run e2e-bootstrap && npm run test:e2e:direct && npm run e2e-clean\"",
-        "test:e2e:direct": "mocha test/e2e",
-        "test:e2e:direct:show": "cross-env SHOW_BROWSER=1 npm run test:e2e:direct",
-        "test:e2e:direct:show:8080": "cross-env SHOW_BROWSER=1 WHISTLE_PORT=8080 npm run test:e2e:direct",
-        "e2e-bootstrap": "./test/bootstrap.sh",
-        "e2e-clean": "./test/clean.sh"
+        "test": "cd DevOps/devops-app && npm install && npm run test",
+        "test:unit": "cross-env BABEL_ENV=test mocha test/unit",
+        "test:e2e": "cd DevOps/devops-app && npm install && npm run test:e2e",
+        "test:e2e:direct": "mocha test/e2e"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -52,10 +48,15 @@
         "redux-thunk": "^2.3.0"
     },
     "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-react": "^6.24.1",
+        "babel-preset-stage-0": "^6.24.1",
         "chai": "^4.2.0",
         "cross-env": "^6.0.3",
         "customize-cra": "^0.4.1",
         "fs-extra": "^9.0.0",
+        "istanbul-instrumenter-loader": "^3.0.1",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
         "mocha": "^7.1.2",

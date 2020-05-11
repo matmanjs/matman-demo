@@ -37,7 +37,7 @@ function getDevRules(opts = {}) {
     // 项目在 dev 场景下使用的端口，请按自己项目情况进行修改
     // 而这里的写法是因为我们用了 create-react-app
     // https://github.com/facebook/create-react-app/issues/1083
-    const projectDevPort = opts.projectDevPort || process.env.PORT || 3000;
+    const projectDevPort = opts.projectDevPort || process.env.PROJECT_PORT || 3000;
 
     // mockstar 启动时需要的端口号
     const mockstarPort = opts.mockstarPort || process.env.MOCKSTAR_PORT || 9527;
