@@ -9,6 +9,7 @@ const {
     PluginUnitTest,
     PluginE2ETest,
     PluginArchive,
+    PluginExit,
     util
 } = require('devops-web-test');
 
@@ -171,6 +172,16 @@ function getPluginArchive(opts) {
 }
 
 /**
+ * 强制关闭
+ *
+ * @param opts
+ * @return {PluginArchive}
+ */
+function getPluginExit(opts) {
+    return new PluginExit('exit', _.merge({}, opts));
+}
+
+/**
  * 根据运行模式确定一些行为
  *
  * @param {String} [dwtMode] 运行模式
@@ -213,5 +224,6 @@ module.exports = {
     getPluginWhistle,
     getPluginE2ETest,
     getPluginArchive,
+    getPluginExit,
     getActionConfigByDWTMode
 };

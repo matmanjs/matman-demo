@@ -8,6 +8,7 @@ const {
     getPluginWhistle,
     getPluginE2ETest,
     getPluginArchive,
+    getPluginExit,
     getActionConfigByDWTMode
 } = require('./pipelines');
 
@@ -63,7 +64,10 @@ function getTestConfig(opts = {}) {
             getPluginE2ETest(shouldRunE2ETest),
 
             // 归档
-            getPluginArchive()
+            getPluginArchive(),
+
+            // 退出
+            getPluginExit()
         ]
     };
 
@@ -89,7 +93,6 @@ function getBootstrapConfig(opts = {}) {
 
     const config = {
         dwtPath: __dirname,
-        doNotExit: true,
         plugins: [
             // 业务项目
             getPluginProject(shouldRunE2ETest, {
