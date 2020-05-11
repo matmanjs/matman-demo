@@ -5,8 +5,10 @@
         "test:unit": "cross-env DWT_MODE=unit npm test",
         "test:e2e": "cross-env DWT_MODE=e2e npm test",
         "bootstrap-prod": "cross-env MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap.js",
-        "bootstrap-dev": "cross-env MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap-dev.js",
-        "bootstrap": "cross-env-shell MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 \"npm run e2e-bootstrap && npm run test:e2e:direct && npm run e2e-clean\""
+        "test-dev": "cross-env DEBUG=nightmare node debug/test-dev.js",
+        "test-dev:unit": "cross-env DWT_MODE=unit npm run test-dev",
+        "test-dev:e2e": "cross-env DWT_MODE=e2e npm run test-dev",
+        "bootstrap-dev": "cross-env MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap-dev.js"
     },
     "dependencies": {
         "devops-web-test": "^1.0.1",
