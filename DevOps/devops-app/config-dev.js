@@ -89,11 +89,13 @@ function getBootstrapConfig(opts = {}) {
 
     const config = {
         dwtPath: __dirname,
+        doNotExit: true,
         plugins: [
             // 业务项目
             getPluginProject(shouldRunE2ETest, {
                 usePort: true,
                 port: projectPort,
+                shouldReuse: true,
                 buildCmd: function (testRecord, port) {
                     return port ? `npx cross-env PORT=${port} npm start` : 'npm start';
                 },
