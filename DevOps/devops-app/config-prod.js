@@ -102,7 +102,7 @@ function getBootstrapConfig(opts = {}) {
                         projectRootPath: testRecord.getPlugin('project').rootPath,
                         shouldUseMockstar: true,
                         mockstarPort: testRecord.getPlugin('mockstar').port,
-                        name: 'matman-demo[prod]'
+                        name: this.shouldReuse ? '' : testRecord.getPlugin('whistle')._processKey
                     });
                 }
             })

@@ -69,6 +69,66 @@ function getTestConfig(opts = {}) {
     return _.merge(config, opts);
 }
 
+/**
+ * 获得自动化测试的配置
+ *
+ * @param {Object} [opts] 额外选项
+ * @param {Boolean} [opts.shouldRunE2ETest] 是否执行端对端测试，默认值为 true
+ * @param {Boolean} [opts.shouldRunUnitTest] 是否执行单元你测试，默认值为 true
+ * @param {Function} [opts.getWhistleRules] 获得 whistle 的配置，接受两个参数 testRecord 和 opts<projectRootPath,shouldUseMockstar,mockstarPort,name>
+ * @param {Object} [opts.customPluginParams] 插件的自定义配置，是一个 map ，key 值为 插件名字， value 为插件的自定义配置
+ * @return {Object}
+ */
+function getBootstrapConfig(opts = {}) {
+    const shouldRunE2ETest = true;
+
+    const mockstarPort = process.env.MOCKSTAR_PORT;
+    const whistlePort = process.env.WHISTLE_PORT;
+
+    const config = {
+        dwtPath: __dirname,
+        plugins: [
+            // 业务项目
+            getPluginProject(shouldRunE2ETest, {
+                usePort: true,
+                buildCmd: function (testRecord, port) {
+                    return port ? `npx cross-env PORT=${port} npm start` : 'npm start';
+                },
+                buildCompleteCheck: function (data) {
+                    return data && data.indexOf('Compiled successfully') > -1;
+                }
+            }),
+
+            // 数据 mock
+            getPluginMockstar(shouldRunE2ETest, {
+                port: mockstarPort,
+                startCmd: function (testRecord, port) {
+                    return `npx mockstar start -p ${port}`;
+                }
+            }),
+
+            // 代理配置
+            getPluginWhistle(shouldRunE2ETest, {
+                port: whistlePort,
+                shouldReuse: true,
+                getWhistleRules: function (testRecord) {
+                    const whistleSetting = require(path.join(__dirname, '../whistle'));
+
+                    return whistleSetting.getDevRules({
+                        projectRootPath: testRecord.getPlugin('project').rootPath,
+                        shouldUseMockstar: true,
+                        mockstarPort: testRecord.getPlugin('mockstar').port,
+                        name: this.shouldReuse ? '' : testRecord.getPlugin('whistle')._processKey
+                    });
+                }
+            })
+        ]
+    };
+
+    return _.merge(config, opts);
+}
+
 module.exports = {
-    getTestConfig
+    getTestConfig,
+    getBootstrapConfig
 };
