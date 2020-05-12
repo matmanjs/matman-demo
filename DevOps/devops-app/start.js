@@ -223,6 +223,12 @@ async function run() {
             // 产生自定义报告
             await dwt.saveOutputIndexHtml(indexData, testRecord.archive.rootPath);
 
+            // 存储一下测试过程的缓存数据
+            await dwt.saveJsonFile(path.join(testRecord.archive.rootPath, 'test-record.json'), testRecord);
+
+            // 压缩打包产物
+            await dwt.compressDir(testRecord.archive.rootPath, path.join(testRecord.archive.rootPath, 'output.zip'));
+
         }
     } catch (err) {
         console.error('run catch err', err);
