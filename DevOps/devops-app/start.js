@@ -70,15 +70,31 @@ async function run() {
         });
 
         // whistle 启动
-        const whistleStartCmd = await dwt.runByExec(`w2 run -S ${dwt.seqId} -p ${whistlePort}`, {}, (data) => {
+        const whistleStartCmd = await dwt.runByExec(`w2 start -S ${dwt.seqId} -p ${whistlePort}`, {}, (data) => {
             return data && data.indexOf(`127.0.0.1:${whistlePort}`) > -1;
         });
 
-        // 检查 whistle 是否真正启动成功了
-        await dwt.checkIfWhistleIsStarted(whistlePort);
-
         // 锁定这个已被占用的端口
         await dwt.lockPort('whistle', whistlePort, whistleStartCmd.pid);
+
+        // 检查 whistle 是否实际ok
+        await dwt.checkIfWhistleIsStarted(whistlePort);
+
+        // 产生 whistle 规则配置文件
+        const whistleRulesConfigFile = path.join(dwt.outputPath, 'test.whistle.js');
+        await dwt.generateWhistleRulesConfigFile(whistleRulesConfigFile, () => {
+            const whistleSetting = require(path.join(__dirname, '../whistle'));
+
+            return whistleSetting.getProdRules({
+                projectRootPath: dwt.getCacheData().projectRootPath,
+                shouldUseMockstar: true,
+                mockstarPort: dwt.getCacheData().mockstarPort,
+                name: `whistle-e2etest-${dwt.seqId}`
+            });
+        });
+
+        // 使用这个 whistle 规则文件
+        await dwt.runByExec(`w2 use ${whistleRulesConfigFile} -S ${dwt.seqId} --force`);
 
     } catch (err) {
         console.error('run catch err', err);
