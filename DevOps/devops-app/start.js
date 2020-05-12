@@ -42,7 +42,24 @@ async function run() {
         await dwt.runByExec(`npx cross-env BABEL_ENV=test mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${unitTestReporterConfigFile}`, { cwd: dwt.getCacheData().projectRootPath });
 
         // 项目构建
-        // await dwt.runByExec('npx cross-env ENABLE_E2E_TEST=1 npm run build', { cwd: dwt.getCacheData().projectRootPath });
+        await dwt.runByExec('npx cross-env ENABLE_E2E_TEST=1 npm run build', { cwd: dwt.getCacheData().projectRootPath });
+
+        // mockstar-app 安装依赖
+        await dwt.runByExec('npm install', { cwd: dwt.getCacheData().mockstarAppRootPath });
+
+        // 需要获得一个没有被占用的端口
+        const mockstarPort = await dwt.findAvailablePort('mockstar');
+        dwt.addCacheData({
+            mockstarPort
+        });
+
+        // mockstar-app 启动
+        const mockstarStartCmd = await dwt.runByExec(`npx mockstar run -p ${mockstarPort}`, { cwd: dwt.getCacheData().mockstarAppRootPath }, (data) => {
+            return data && data.indexOf(`127.0.0.1:${this.port}`) > -1;
+        });
+
+        // 消费了这个端口要标注下，便于后续清理
+        await dwt.setPortUsed('mockstar', mockstarPort, mockstarStartCmd.pid);
 
     } catch (err) {
         console.error('run catch err', err);
