@@ -1,85 +1,99 @@
 const path = require('path');
 const { DevOpsWebTest } = require('devops-web-test');
 
+async function generateMochaReporterConfigFile(dwt, outputPath) {
+    const mochaReporterConfigFile = path.join(outputPath, 'mocha-multi-reporters-config.json');
+
+    await dwt.saveJsonFile(mochaReporterConfigFile, {
+        'reporterEnabled': 'mochawesome, mocha-junit-reporter',
+        'mochaJunitReporterReporterOptions': {
+            'mochaFile': `${outputPath}/test-result.xml`
+        },
+        'mochawesomeReporterOptions': {
+            'reportDir': `${outputPath}`
+        }
+    });
+
+    return mochaReporterConfigFile;
+}
+
 async function run() {
     const dwt = new DevOpsWebTest(__dirname);
 
+    // 工作区间
+    const workspacePath = path.join(__dirname, '../../');
+
+    const shouldRunUnitTest = true;
+    const shouldRunE2ETest = true;
+
+    const testRecord = {
+        project: {
+            rootPath: workspacePath
+        },
+        mockstar: {
+            rootPath: path.join(workspacePath, 'DevOps/mockstar-app')
+        },
+        matman: {
+            rootPath: path.join(workspacePath, 'DevOps/matman-app')
+        },
+        unitTest: {
+            runTestPath: workspacePath,
+            outputPath: path.join(dwt.outputPath, 'unit_test_report'),
+            coverageOutputPath: path.join(dwt.outputPath, 'unit_test_report/coverage')
+        },
+        e2eTest: {
+            runTestPath: workspacePath,
+            outputPath: path.join(dwt.outputPath, 'e2e_test_report'),
+            coverageOutputPath: path.join(dwt.outputPath, 'e2e_test_report/coverage')
+        },
+        whistle: {
+            namespace: `dwt_${dwt.seqId}`
+        }
+    };
+
+    dwt.testRecord = testRecord;
+
     try {
-        // 工作区间
-        const workspacePath = path.join(__dirname, '../../');
-
-        dwt.addCacheData({
-            projectRootPath: workspacePath,
-            mockstarAppRootPath: path.join(workspacePath, 'DevOps/mockstar-app'),
-            matmanAppRootPath: path.join(workspacePath, 'DevOps/matman-app'),
-            unitTest: {
-                runTestPath: workspacePath,
-                outputPath: path.join(dwt.outputPath, 'unit_test_report'),
-                coverageOutputPath: path.join(dwt.outputPath, 'unit_test_report/coverage')
-            },
-            e2eTest: {
-                runTestPath: workspacePath,
-                outputPath: path.join(dwt.outputPath, 'e2e_test_report'),
-                coverageOutputPath: path.join(dwt.outputPath, 'e2e_test_report/coverage')
-            }
-        });
-
         // 项目 install
-        await dwt.runByExec('npm install', { cwd: dwt.getCacheData().projectRootPath });
+        await dwt.runByExec('npm install', { cwd: testRecord.project.rootPath });
 
-        // 执行单元测试之前需要安装一些额外的依赖
-        await dwt.runByExec('npm install mocha-multi-reporters mochawesome mocha-junit-reporter --no-save', { cwd: dwt.getCacheData().projectRootPath });
+        // 需要安装自动化测试需要的 reporter 等组件的依赖
+        await dwt.runByExec('npm install cross-env mocha-multi-reporters mochawesome mocha-junit-reporter --no-save', { cwd: testRecord.project.rootPath });
 
-        // 单元测试需要一些配置文件
-        const unitTestOutputPath = dwt.getCacheData().unitTest.outputPath;
-        const unitTestReporterConfigFile = path.join(unitTestOutputPath, 'mocha-multi-reporters-config.json');
-        await dwt.saveJsonFile(unitTestReporterConfigFile, {
-            'reporterEnabled': 'mochawesome, mocha-junit-reporter',
-            'mochaJunitReporterReporterOptions': {
-                'mochaFile': `${unitTestOutputPath}/test-result.xml`
-            },
-            'mochawesomeReporterOptions': {
-                'reportDir': `${unitTestOutputPath}`
-            }
-        });
+        // 为单元测试配置生成 reporter 配置
+        const unitTestReporterConfigFile = await generateMochaReporterConfigFile(dwt, testRecord.unitTest.outputPath);
 
         // 执行单元测试
-        await dwt.runByExec(`npx cross-env BABEL_ENV=test mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${unitTestReporterConfigFile}`, { cwd: dwt.getCacheData().unitTest.runTestPath });
+        await dwt.runByExec(`npx cross-env BABEL_ENV=test mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${unitTestReporterConfigFile}`, { cwd: testRecord.unitTest.runTestPath });
 
-        // 项目构建
-        await dwt.runByExec('npx cross-env ENABLE_E2E_TEST=1 npm run build', { cwd: dwt.getCacheData().projectRootPath });
+        // 构建项目
+        await dwt.runByExec('npx cross-env ENABLE_E2E_TEST=1 npm run build', { cwd: testRecord.project.rootPath });
 
         // mockstar-app 安装依赖
-        await dwt.runByExec('npm install', { cwd: dwt.getCacheData().mockstarAppRootPath });
+        await dwt.runByExec('npm install', { cwd: testRecord.mockstar.rootPath });
 
-        // 需要获得一个没有被占用的端口
+        // 为 mockstar 获得一个没有被占用的端口
         const mockstarPort = await dwt.findAvailablePort('mockstar');
-
-        dwt.addCacheData({
-            mockstarPort
-        });
+        testRecord.mockstar.port = mockstarPort;
 
         // mockstar-app 启动
-        const mockstarStartCmd = await dwt.runByExec(`npx mockstar run -p ${mockstarPort}`, { cwd: dwt.getCacheData().mockstarAppRootPath }, (data) => {
+        const mockstarStartCmd = await dwt.runByExec(`npx mockstar run -p ${mockstarPort}`, { cwd: testRecord.mockstar.rootPath }, (data) => {
             return data && data.indexOf(`127.0.0.1:${mockstarPort}`) > -1;
         });
 
-        // 锁定这个已被占用的端口
+        // 为 mockstar 锁定这个已被占用的端口
         await dwt.lockPort('mockstar', mockstarPort, mockstarStartCmd.pid);
 
-        // 需要获得一个没有被占用的端口
+        // 为 whistle 获得一个没有被占用的端口
         const whistlePort = await dwt.findAvailablePort('whistle');
-
-        dwt.addCacheData({
-            whistlePort
-        });
+        testRecord.whistle.port = whistlePort;
 
         // whistle 启动
-        const whistleStartCmd = await dwt.runByExec(`w2 start -S ${dwt.seqId} -p ${whistlePort}`, {}, (data) => {
+        const whistleStartCmd = await dwt.runByExec(`w2 start -S ${testRecord.whistle.namespace} -p ${whistlePort}`, {}, (data) => {
             return data && data.indexOf(`127.0.0.1:${whistlePort}`) > -1;
         });
 
-        // 锁定这个已被占用的端口
+        // 为 whistle 锁定这个已被占用的端口
         await dwt.lockPort('whistle', whistlePort, whistleStartCmd.pid);
 
         // 检查 whistle 是否实际ok
@@ -91,37 +105,27 @@ async function run() {
             const whistleSetting = require(path.join(__dirname, '../whistle'));
 
             return whistleSetting.getProdRules({
-                projectRootPath: dwt.getCacheData().projectRootPath,
+                projectRootPath: testRecord.project.rootPath,
                 shouldUseMockstar: true,
-                mockstarPort: dwt.getCacheData().mockstarPort,
-                name: `whistle-e2etest-${dwt.seqId}`
+                mockstarPort: testRecord.mockstar.port,
+                name: testRecord.whistle.namespace
             });
         });
 
         // 使用这个 whistle 规则文件
-        await dwt.runByExec(`w2 use ${whistleRulesConfigFile} -S ${dwt.seqId} --force`);
+        await dwt.runByExec(`w2 use ${whistleRulesConfigFile} -S ${testRecord.whistle.namespace} --force`);
 
         // matman-app 安装依赖
-        await dwt.runByExec('npm install', { cwd: dwt.getCacheData().matmanAppRootPath });
+        await dwt.runByExec('npm install', { cwd: testRecord.matman.rootPath });
 
         // matman-app 构建
-        await dwt.runByExec('npm run build', { cwd: dwt.getCacheData().matmanAppRootPath });
+        await dwt.runByExec('npm run build', { cwd: testRecord.matman.rootPath });
 
-        // 端对端测试需要一些配置文件
-        const e2eTestOutputPath = dwt.getCacheData().e2eTest.outputPath;
-        const e2eTestReporterConfigFile = path.join(e2eTestOutputPath, 'mocha-multi-reporters-config.json');
-        await dwt.saveJsonFile(e2eTestReporterConfigFile, {
-            'reporterEnabled': 'mochawesome, mocha-junit-reporter',
-            'mochaJunitReporterReporterOptions': {
-                'mochaFile': `${e2eTestOutputPath}/test-result.xml`
-            },
-            'mochawesomeReporterOptions': {
-                'reportDir': `${e2eTestOutputPath}`
-            }
-        });
+        // 为端对端测试配置生成 reporter 配置
+        const e2eTestReporterConfigFile = await generateMochaReporterConfigFile(dwt, testRecord.e2eTest.outputPath);
 
         // 执行端对端测试
-        await dwt.runByExec(`npx cross-env WHISTLE_PORT=${whistlePort} mocha test/e2e --reporter mocha-multi-reporters --reporter-options configFile=${e2eTestReporterConfigFile}`, { cwd: dwt.getCacheData().e2eTest.runTestPath });
+        await dwt.runByExec(`npx cross-env WHISTLE_PORT=${whistlePort} mocha test/e2e --reporter mocha-multi-reporters --reporter-options configFile=${e2eTestReporterConfigFile}`, { cwd: testRecord.e2eTest.runTestPath });
 
     } catch (err) {
         console.error('run catch err', err);
