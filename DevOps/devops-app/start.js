@@ -154,6 +154,18 @@ async function run() {
             // 执行端对端测试
             testRecord.e2eTest.testCmd = `npx cross-env WHISTLE_PORT=${whistlePort} mocha test/e2e --reporter mocha-multi-reporters --reporter-options configFile=${e2eTestReporterConfigFile}`;
             await dwt.runByExec(testRecord.e2eTest.testCmd, { cwd: testRecord.e2eTest.runTestPath });
+
+            // 生成端对端测试覆盖率
+            const generatedE2ECoverageDir = path.join(testRecord.matman.rootPath, 'build/coverage');
+            await dwt.createE2ECoverage(path.join(testRecord.matman.rootPath, 'build/coverage_output/**/*.json'), generatedE2ECoverageDir);
+
+            // 将端对端测试的一些文件复制到测试归档目录中
+            await dwt.copyMatmanBuildOutputToArchive({
+                srcPath: path.join(testRecord.matman.rootPath, 'build'),
+                distPath: path.join(dwt.outputPath, 'e2e_test_build_output'),
+                generatedE2ECoverageDir,
+                coverageOutputPath: testRecord.e2eTest.coverageOutputPath
+            });
         }
     } catch (err) {
         console.error('run catch err', err);
