@@ -58,13 +58,28 @@ async function run() {
         await dwt.runByExec('npm install', { cwd: testRecord.project.rootPath });
 
         // 需要安装自动化测试需要的 reporter 等组件的依赖
-        await dwt.runByExec('npm install cross-env mocha-multi-reporters mochawesome mocha-junit-reporter --no-save', { cwd: testRecord.project.rootPath });
+        await dwt.runByExec('npm install cross-env nyc mocha-multi-reporters mochawesome mocha-junit-reporter --no-save', { cwd: testRecord.project.rootPath });
 
         // 为单元测试配置生成 reporter 配置
         const unitTestReporterConfigFile = await generateMochaReporterConfigFile(dwt, testRecord.unitTest.outputPath);
 
         // 执行单元测试
-        await dwt.runByExec(`npx cross-env BABEL_ENV=test mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${unitTestReporterConfigFile}`, { cwd: testRecord.unitTest.runTestPath });
+        testRecord.unitTest.testCmdToExecute = `npx cross-env BABEL_ENV=test mocha test/unit --reporter mocha-multi-reporters --reporter-options configFile=${unitTestReporterConfigFile}`;
+        await dwt.runByExec(testRecord.unitTest.testCmdToExecute, { cwd: testRecord.unitTest.runTestPath });
+
+        // 执行单元测试覆盖率
+        await dwt.runByExec(() => {
+            const { testCmdToExecute, coverageOutputPath } = testRecord.unitTest;
+
+            const cmdArr = [
+                `npx nyc --silent ${testCmdToExecute}`,
+                `npx nyc report --reporter=html --report-dir=${coverageOutputPath}`,
+                `npx nyc report --reporter=cobertura --report-dir=${coverageOutputPath}`,
+                `npx nyc report --reporter=lcovonly --report-dir=${coverageOutputPath}`
+            ];
+
+            return cmdArr.join(' && ');
+        }, { cwd: testRecord.project.rootPath });
 
         // 构建项目
         await dwt.runByExec('npx cross-env ENABLE_E2E_TEST=1 npm run build', { cwd: testRecord.project.rootPath });
