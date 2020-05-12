@@ -178,7 +178,7 @@ async function run() {
                 mochawesomeFilePath: path.join(testRecord.unitTest.outputPath, 'mochawesome.json'),
                 coverageHtmlPath: path.join(testRecord.unitTest.coverageOutputPath, `index.html`)
             });
-            testRecord.unitTest.testResult = unitTestReport.testResult;
+            testRecord.unitTest.report = unitTestReport;
 
             // 获得端对端测试报告数据
             const e2eTestReport = dwt.getTestReport('端对端测试', {
@@ -186,7 +186,42 @@ async function run() {
                 mochawesomeFilePath: path.join(testRecord.e2eTest.outputPath, 'mochawesome.json'),
                 coverageHtmlPath: path.join(testRecord.e2eTest.coverageOutputPath, `index.html`)
             });
-            testRecord.e2eTest.testResult = e2eTestReport.testResult;
+            testRecord.e2eTest.report = e2eTestReport;
+
+            const indexData = {
+                totalCost: `${dwt.getTotalCost() / 1000} 秒`,
+                unitTest: {
+                    msg: testRecord.unitTest.report.testResult.summary,
+                    isTestSuccess: testRecord.unitTest.report.isTestSuccess,
+                    isCoverageSuccess: testRecord.unitTest.report.isCoverageSuccess,
+                    testOutputUrl: `${path.relative(dwt.outputPath, testRecord.unitTest.outputPath)}/mochawesome.html`,
+                    coverageOutputUrl: `${path.relative(dwt.outputPath, testRecord.unitTest.coverageOutputPath)}/index.html`,
+                    coverageMsg: testRecord.unitTest.report.coverageResult.htmlResult
+                },
+                e2eTest: {
+                    msg: testRecord.e2eTest.report.testResult.summary,
+                    isTestSuccess: testRecord.e2eTest.report.isTestSuccess,
+                    isCoverageSuccess: testRecord.e2eTest.report.isCoverageSuccess,
+                    testOutputUrl: `${path.relative(dwt.outputPath, testRecord.e2eTest.outputPath)}/mochawesome.html`,
+                    coverageOutputUrl: `${path.relative(dwt.outputPath, testRecord.e2eTest.coverageOutputPath)}/index.html`,
+                    coverageMsg: testRecord.e2eTest.report.coverageResult.htmlResult
+                },
+                moreLinks: [{
+                    url: `output.zip`,
+                    msg: 'output.zip'
+                }, {
+                    url: `test-record.json`,
+                    msg: 'test-record.json'
+                }, testRecord.e2eTest.enableTest ? {
+                    url: path.basename(testRecord.whistle.whistleRulesConfigFile),
+                    msg: path.basename(testRecord.whistle.whistleRulesConfigFile)
+                } : undefined]
+            };
+
+            // console.log(indexData);
+
+            // 产生自定义报告
+            await dwt.saveOutputIndexHtml(indexData, testRecord.archive.rootPath);
 
         }
     } catch (err) {
