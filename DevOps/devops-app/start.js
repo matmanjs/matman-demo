@@ -47,20 +47,38 @@ async function run() {
         // // mockstar-app 安装依赖
         // await dwt.runByExec('npm install', { cwd: dwt.getCacheData().mockstarAppRootPath });
 
+        // // 需要获得一个没有被占用的端口
+        // const mockstarPort = await dwt.findAvailablePort('mockstar');
+        //
+        // dwt.addCacheData({
+        //     mockstarPort
+        // });
+        //
+        // // mockstar-app 启动
+        // const mockstarStartCmd = await dwt.runByExec(`npx mockstar run -p ${mockstarPort}`, { cwd: dwt.getCacheData().mockstarAppRootPath }, (data) => {
+        //     return data && data.indexOf(`127.0.0.1:${mockstarPort}`) > -1;
+        // });
+        //
+        // // 锁定这个已被占用的端口
+        // await dwt.lockPort('mockstar', mockstarPort, mockstarStartCmd.pid);
+
         // 需要获得一个没有被占用的端口
-        const mockstarPort = await dwt.findAvailablePort('mockstar');
+        const whistlePort = await dwt.findAvailablePort('whistle');
 
         dwt.addCacheData({
-            mockstarPort
+            whistlePort
         });
 
-        // mockstar-app 启动
-        const mockstarStartCmd = await dwt.runByExec(`npx mockstar run -p ${mockstarPort}`, { cwd: dwt.getCacheData().mockstarAppRootPath }, (data) => {
-            return data && data.indexOf(`127.0.0.1:${this.port}`) > -1;
+        // whistle 启动
+        const whistleStartCmd = await dwt.runByExec(`w2 run -S ${dwt.seqId} -p ${whistlePort}`, {}, (data) => {
+            return data && data.indexOf(`127.0.0.1:${whistlePort}`) > -1;
         });
+
+        // 检查 whistle 是否真正启动成功了
+        await dwt.checkIfWhistleIsStarted(whistlePort);
 
         // 锁定这个已被占用的端口
-        await dwt.lockPort('mockstar', mockstarPort, mockstarStartCmd.pid);
+        await dwt.lockPort('whistle', whistlePort, whistleStartCmd.pid);
 
     } catch (err) {
         console.error('run catch err', err);
