@@ -37,17 +37,22 @@ async function run() {
             rootPath: path.join(workspacePath, 'DevOps/matman-app')
         },
         unitTest: {
+            enableTest: shouldRunUnitTest,
             runTestPath: workspacePath,
             outputPath: path.join(dwt.outputPath, 'unit_test_report'),
             coverageOutputPath: path.join(dwt.outputPath, 'unit_test_report/coverage')
         },
         e2eTest: {
+            enableTest: shouldRunE2ETest,
             runTestPath: workspacePath,
             outputPath: path.join(dwt.outputPath, 'e2e_test_report'),
             coverageOutputPath: path.join(dwt.outputPath, 'e2e_test_report/coverage')
         },
         whistle: {
             namespace: `dwt_${dwt.seqId}`
+        },
+        archive: {
+            rootPath: dwt.outputPath
         }
     };
 
@@ -166,6 +171,23 @@ async function run() {
                 generatedE2ECoverageDir,
                 coverageOutputPath: testRecord.e2eTest.coverageOutputPath
             });
+
+            // 获得单元测试报告数据
+            const unitTestReport = dwt.getTestReport('单元测试', {
+                enableTest: testRecord.unitTest.enableTest,
+                mochawesomeFilePath: path.join(testRecord.unitTest.outputPath, 'mochawesome.json'),
+                coverageHtmlPath: path.join(testRecord.unitTest.coverageOutputPath, `index.html`)
+            });
+            testRecord.unitTest.testResult = unitTestReport.testResult;
+
+            // 获得端对端测试报告数据
+            const e2eTestReport = dwt.getTestReport('端对端测试', {
+                enableTest: testRecord.e2eTest.enableTest,
+                mochawesomeFilePath: path.join(testRecord.e2eTest.outputPath, 'mochawesome.json'),
+                coverageHtmlPath: path.join(testRecord.e2eTest.coverageOutputPath, `index.html`)
+            });
+            testRecord.e2eTest.testResult = e2eTestReport.testResult;
+
         }
     } catch (err) {
         console.error('run catch err', err);
@@ -178,7 +200,7 @@ async function run() {
 
 run()
     .then((data) => {
-        console.log(data);
+        console.log(JSON.stringify(data, null, 2));
     })
     .catch((err) => {
         console.error(err);
