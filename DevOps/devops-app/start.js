@@ -90,7 +90,8 @@ async function run() {
         testRecord.mockstar.port = mockstarPort;
 
         // mockstar-app 启动
-        const mockstarStartCmd = await dwt.runByExec(`npx mockstar run -p ${mockstarPort}`, { cwd: testRecord.mockstar.rootPath }, (data) => {
+        testRecord.mockstar.startCmd = `npx mockstar run -p ${mockstarPort}`;
+        const mockstarStartCmd = await dwt.runByExec(testRecord.mockstar.startCmd, { cwd: testRecord.mockstar.rootPath }, (data) => {
             return data && data.indexOf(`127.0.0.1:${mockstarPort}`) > -1;
         });
 
