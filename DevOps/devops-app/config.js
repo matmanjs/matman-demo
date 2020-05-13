@@ -14,14 +14,16 @@ const {
     getActionConfigByDWTMode
 } = require('./start');
 
-function getCommonConfig(dwt) {
+function createDWT() {
+    const dwt = new DevOpsWebTest(__dirname);
+
     // 项目工作区间
     const workspacePath = path.join(__dirname, '../../');
 
     // 是否单元测试和端对端测试
     const { shouldRunUnitTest, shouldRunE2ETest } = getActionConfigByDWTMode(process.env.DWT_MODE);
 
-    return {
+    dwt.testRecord = {
         shouldRunUnitTest,
         shouldRunE2ETest,
         project: {
@@ -52,12 +54,12 @@ function getCommonConfig(dwt) {
             rootPath: dwt.outputPath
         }
     };
+
+    return dwt;
 }
 
 async function start() {
-    const dwt = new DevOpsWebTest(__dirname);
-
-    dwt.testRecord = getCommonConfig(dwt);
+    const dwt = createDWT();
 
     try {
         // 初始化项目
@@ -76,7 +78,18 @@ async function start() {
             await handleStartMockstar(dwt);
 
             // 启动 whistle
-            await handleStartWhistle(dwt);
+            await handleStartWhistle(dwt, {
+                getWhistleRules: () => {
+                    const whistleSetting = require(path.join(__dirname, '../whistle'));
+
+                    return whistleSetting.getProdRules({
+                        projectRootPath: dwt.testRecord.project.rootPath,
+                        shouldUseMockstar: true,
+                        mockstarPort: dwt.testRecord.mockstar.port,
+                        name: dwt.testRecord.whistle.namespace
+                    });
+                }
+            });
 
             // 安装和构建 matman
             await handleStartMatman(dwt);
@@ -97,5 +110,6 @@ async function start() {
 }
 
 module.exports = {
+    createDWT,
     start
 };
