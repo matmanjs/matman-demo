@@ -17,7 +17,41 @@ async function generateMochaReporterConfigFile(dwt, outputPath) {
     return mochaReporterConfigFile;
 }
 
-const { getActionConfigByDWTMode } = require('./pipelines');
+/**
+ * 根据运行模式确定一些行为
+ *
+ * @param {String} [dwtMode] 运行模式
+ * @return {Object}
+ */
+function getActionConfigByDWTMode(dwtMode) {
+    let shouldRunUnitTest;
+    let shouldRunE2ETest;
+
+    const DWT_MODE = {
+        UNIT: 'unit',
+        E2E: 'e2e'
+    };
+
+    switch (dwtMode) {
+        case DWT_MODE.UNIT:
+            shouldRunUnitTest = true;
+            shouldRunE2ETest = false;
+            break;
+        case DWT_MODE.E2E:
+            shouldRunUnitTest = false;
+            shouldRunE2ETest = true;
+            break;
+        default:
+            shouldRunUnitTest = true;
+            shouldRunE2ETest = true;
+            break;
+    }
+
+    return {
+        shouldRunUnitTest,
+        shouldRunE2ETest
+    };
+}
 
 async function handleInitProject(dwt) {
     const { testRecord } = dwt;
@@ -219,94 +253,14 @@ async function handleArchive(dwt) {
     await dwt.compressDir(testRecord.archive.rootPath, path.join(testRecord.archive.rootPath, 'output.zip'));
 }
 
-async function run() {
-    const dwt = new DevOpsWebTest(__dirname);
-
-    // 工作区间
-    const workspacePath = path.join(__dirname, '../../');
-
-    const {
-        shouldRunUnitTest,
-        shouldRunE2ETest
-    } = getActionConfigByDWTMode();
-
-    const testRecord = {
-        project: {
-            rootPath: workspacePath
-        },
-        mockstar: {
-            rootPath: path.join(workspacePath, 'DevOps/mockstar-app')
-        },
-        matman: {
-            rootPath: path.join(workspacePath, 'DevOps/matman-app')
-        },
-        unitTest: {
-            enableTest: shouldRunUnitTest,
-            runTestPath: workspacePath,
-            outputPath: path.join(dwt.outputPath, 'unit_test_report'),
-            coverageOutputPath: path.join(dwt.outputPath, 'unit_test_report/coverage')
-        },
-        e2eTest: {
-            enableTest: shouldRunE2ETest,
-            runTestPath: workspacePath,
-            outputPath: path.join(dwt.outputPath, 'e2e_test_report'),
-            coverageOutputPath: path.join(dwt.outputPath, 'e2e_test_report/coverage')
-        },
-        whistle: {
-            namespace: `dwt_${dwt.seqId}`
-        },
-        archive: {
-            rootPath: dwt.outputPath
-        }
-    };
-
-    dwt.testRecord = testRecord;
-
-    try {
-        // 初始化项目
-        await handleInitProject(dwt);
-
-        if (shouldRunUnitTest) {
-            // 执行单元测试
-            await handleRunUnitTest(dwt);
-        }
-
-        if (shouldRunE2ETest) {
-            // 构建项目
-            await handleBuildProject(dwt);
-
-            // 启动 mockstar
-            await handleStartMockstar(dwt);
-
-            // 启动 whistle
-            await handleStartWhistle(dwt);
-
-            // 安装和构建 matman
-            await handleStartMatman(dwt);
-
-            // 直接运行段对端测试命令
-            await handleRunE2ETestDirect(dwt);
-
-            // 归档
-            await handleArchive(dwt);
-        }
-    } catch (err) {
-        console.error('run catch err', err);
-
-        // 如果遇到异常情况，注意要清理被占用的资源，例如端口等
-    }
-
-    return dwt;
-}
-
 module.exports = {
-    run
+    handleInitProject,
+    handleRunUnitTest,
+    handleBuildProject,
+    handleStartMockstar,
+    handleStartWhistle,
+    handleStartMatman,
+    handleRunE2ETestDirect,
+    handleArchive,
+    getActionConfigByDWTMode
 };
-
-// run()
-//     .then((data) => {
-//         console.log(JSON.stringify(data, null, 2));
-//     })
-//     .catch((err) => {
-//         console.error(err);
-//     });

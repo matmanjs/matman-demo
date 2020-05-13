@@ -12,11 +12,11 @@
 //         console.error(err);
 //     });
 
-const { run } = require('../start');
+const { start } = require('../config');
 
 const opts = {};
 
-run(opts)
+start(opts)
     .then((data) => {
         console.log(JSON.stringify(data, null, 2));
     })
