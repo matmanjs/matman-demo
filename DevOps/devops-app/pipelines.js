@@ -157,28 +157,39 @@ async function handleStartMockstar(dwt, opts = {}) {
 async function handleStartWhistle(dwt, opts = {}) {
     const { testRecord } = dwt;
 
-    // 为 whistle 获得一个没有被占用的端口
-    const whistlePort = await dwt.findAvailablePort('whistle');
-    testRecord.whistle.port = whistlePort;
+    if (opts.port) {
+        // 如果传入了指定端口，则先杀掉这个端口
+        await util.killPort(opts.port);
+
+        // 停止 whistle
+        await dwt.runByExec('w2 stop');
+
+        // 直接使用指定的端口
+        testRecord.whistle.port = opts.port;
+    } else {
+        // 为 whistle 获得一个没有被占用的端口
+        testRecord.whistle.port = await dwt.findAvailablePort('whistle');
+    }
 
     // whistle 启动
-    testRecord.whistle.startCmd = `w2 start -S ${testRecord.whistle.namespace} -p ${whistlePort}`;
+    testRecord.whistle.startCmd = `w2 start -S ${testRecord.whistle.namespace} -p ${testRecord.whistle.port}`;
     const whistleStartCmd = await dwt.runByExec(testRecord.whistle.startCmd, {}, (data) => {
-        return data && data.indexOf(`127.0.0.1:${whistlePort}`) > -1;
+        return data && data.indexOf(`127.0.0.1:${testRecord.whistle.port}`) > -1;
     });
 
     testRecord.whistle.startPid = whistleStartCmd.pid;
 
     // 为 whistle 锁定这个已被占用的端口
-    await dwt.lockPort('whistle', whistlePort, testRecord.whistle.startPid);
+    await dwt.lockPort('whistle', testRecord.whistle.port, testRecord.whistle.startPid);
 
     // 检查 whistle 是否实际ok
-    await dwt.checkIfWhistleIsStarted(whistlePort);
+    await dwt.checkIfWhistleIsStarted(testRecord.whistle.port);
 
-    // 产生 whistle 规则配置文件
+    // whistle 规则配置文件存储的路径
     const whistleRulesConfigFile = path.join(dwt.outputPath, 'test.whistle.js');
     testRecord.whistle.whistleRulesConfigFile = whistleRulesConfigFile;
 
+    // 产生 whistle 规则配置文件
     await dwt.generateWhistleRulesConfigFile(whistleRulesConfigFile, opts.getWhistleRules);
 
     // 使用这个 whistle 规则文件
