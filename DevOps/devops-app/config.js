@@ -176,5 +176,6 @@ async function bootstrap() {
 
 module.exports = {
     createDWT,
-    start
+    start,
+    bootstrap
 };
