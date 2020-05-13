@@ -1,5 +1,5 @@
 const path = require('path');
-const { DevOpsWebTest } = require('devops-web-test');
+const { DevOpsWebTest, util } = require('devops-web-test');
 
 async function generateMochaReporterConfigFile(dwt, outputPath) {
     const mochaReporterConfigFile = path.join(outputPath, 'mocha-multi-reporters-config.json');
@@ -124,26 +124,34 @@ async function handleStartMockstar(dwt, opts = {}) {
     testRecord.mockstar.installCmd = 'npm install';
     await dwt.runByExec(testRecord.mockstar.installCmd, { cwd: testRecord.mockstar.rootPath });
 
-    // 为 mockstar 获得一个没有被占用的端口
-    const mockstarPort = await dwt.findAvailablePort('mockstar');
-    testRecord.mockstar.port = mockstarPort;
+    if (opts.port) {
+        // 如果传入了指定端口，则先杀掉这个端口
+        await util.killPort(opts.port);
+
+        // 直接使用指定的端口
+        testRecord.mockstar.port = opts.port;
+    } else {
+        // 为 mockstar 获得一个没有被占用的端口
+        testRecord.mockstar.port = await dwt.findAvailablePort('mockstar');
+    }
 
     // mockstar-app 启动
     if (opts.startCmd && opts.startCmd === 'string') {
         testRecord.mockstar.startCmd = opts.startCmd;
     } else if (opts.startCmd && opts.startCmd === 'function') {
-        testRecord.mockstar.startCmd = opts.startCmd(mockstarPort);
+        testRecord.mockstar.startCmd = opts.startCmd(testRecord.mockstar.port);
     } else {
-        testRecord.mockstar.startCmd = `npx mockstar run -p ${mockstarPort}`;
+        testRecord.mockstar.startCmd = `npx mockstar run -p ${testRecord.mockstar.port}`;
     }
+
     const mockstarStartCmd = await dwt.runByExec(testRecord.mockstar.startCmd, { cwd: testRecord.mockstar.rootPath }, (data) => {
-        return data && data.indexOf(`127.0.0.1:${mockstarPort}`) > -1;
+        return data && data.indexOf(`127.0.0.1:${testRecord.mockstar.port}`) > -1;
     });
 
     testRecord.mockstar.startPid = mockstarStartCmd.pid;
 
     // 为 mockstar 锁定这个已被占用的端口
-    await dwt.lockPort('mockstar', mockstarPort, testRecord.mockstar.startPid);
+    await dwt.lockPort('mockstar', testRecord.mockstar.port, testRecord.mockstar.startPid);
 }
 
 async function handleStartWhistle(dwt, opts = {}) {
