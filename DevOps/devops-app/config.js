@@ -12,7 +12,7 @@ const {
     handleRunE2ETestDirect,
     handleArchive,
     getActionConfigByDWTMode
-} = require('./start');
+} = require('./pipelines');
 
 function createDWT() {
     const dwt = new DevOpsWebTest(__dirname);
@@ -96,10 +96,10 @@ async function start() {
 
             // 直接运行段对端测试命令
             await handleRunE2ETestDirect(dwt);
-
-            // 归档
-            await handleArchive(dwt);
         }
+
+        // 归档
+        await handleArchive(dwt);
     } catch (err) {
         console.error('run catch err', err);
 

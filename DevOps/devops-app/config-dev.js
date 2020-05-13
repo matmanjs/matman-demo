@@ -1,8 +1,5 @@
 const path = require('path');
 const _ = require('lodash');
-const { DevOpsWebTest } = require('devops-web-test');
-
-const { getCommonConfig } = require('./config');
 
 const {
     handleInitProject,
@@ -14,7 +11,7 @@ const {
     handleRunE2ETestDirect,
     handleArchive,
     createDWT
-} = require('./start');
+} = require('./pipelines');
 
 async function start() {
     const dwt = createDWT();
