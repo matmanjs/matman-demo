@@ -53,6 +53,12 @@ function getActionConfigByDWTMode(dwtMode) {
     };
 }
 
+async function handleBeforeRun(dwt) {
+    const { testRecord } = dwt;
+
+    await dwt.clean();
+}
+
 async function handleInitProject(dwt) {
     const { testRecord } = dwt;
 
@@ -95,9 +101,15 @@ async function handleBuildProject(dwt, opts = {}) {
 
         // 启动构建，由于是监听端口的，因此需要自定义结束
         testRecord.project.buildCmd = `npx cross-env ENABLE_E2E_TEST=1 PORT=${projectPort} npm start`;
-        await dwt.runByExec(testRecord.project.buildCmd, { cwd: testRecord.project.rootPath }, (data) => {
+        const projectBuildCmd = await dwt.runByExec(testRecord.project.buildCmd, { cwd: testRecord.project.rootPath }, (data) => {
             return data && data.indexOf('Compiled successfully') > -1;
         });
+
+        testRecord.project.buildPid = projectBuildCmd.pid;
+
+        // 为项目锁定这个已被占用的端口
+        await dwt.lockPort('project', projectPort, testRecord.project.buildPid);
+
     } else {
         // 启动构建
         testRecord.project.buildCmd = 'npx cross-env ENABLE_E2E_TEST=1 npm run build';
@@ -190,13 +202,15 @@ async function handleRunE2ETestDirect(dwt) {
 async function handleArchive(dwt) {
     const { testRecord } = dwt;
 
-    // 将端对端测试的一些文件复制到测试归档目录中
-    await dwt.copyMatmanBuildOutputToArchive({
-        srcPath: path.join(testRecord.matman.rootPath, 'build'),
-        distPath: path.join(dwt.outputPath, 'e2e_test_build_output'),
-        generatedE2ECoverageDir: testRecord.e2eTest.generatedE2ECoverageDir,
-        coverageOutputPath: testRecord.e2eTest.coverageOutputPath
-    });
+    if (testRecord.e2eTest.enableTest) {
+        // 将端对端测试的一些文件复制到测试归档目录中
+        await dwt.copyMatmanBuildOutputToArchive({
+            srcPath: path.join(testRecord.matman.rootPath, 'build'),
+            distPath: path.join(dwt.outputPath, 'e2e_test_build_output'),
+            generatedE2ECoverageDir: testRecord.e2eTest.generatedE2ECoverageDir,
+            coverageOutputPath: testRecord.e2eTest.coverageOutputPath
+        });
+    }
 
     // 获得单元测试报告数据
     const unitTestReport = dwt.getTestReport('单元测试', {
@@ -217,20 +231,10 @@ async function handleArchive(dwt) {
     const indexData = {
         totalCost: `${dwt.getTotalCost() / 1000} 秒`,
         unitTest: {
-            msg: testRecord.unitTest.report.testResult.summary,
-            isTestSuccess: testRecord.unitTest.report.isTestSuccess,
-            isCoverageSuccess: testRecord.unitTest.report.isCoverageSuccess,
-            testOutputUrl: `${path.relative(dwt.outputPath, testRecord.unitTest.outputPath)}/mochawesome.html`,
-            coverageOutputUrl: `${path.relative(dwt.outputPath, testRecord.unitTest.coverageOutputPath)}/index.html`,
-            coverageMsg: testRecord.unitTest.report.coverageResult.htmlResult
+            msg: testRecord.unitTest.report.testResult.summary
         },
         e2eTest: {
-            msg: testRecord.e2eTest.report.testResult.summary,
-            isTestSuccess: testRecord.e2eTest.report.isTestSuccess,
-            isCoverageSuccess: testRecord.e2eTest.report.isCoverageSuccess,
-            testOutputUrl: `${path.relative(dwt.outputPath, testRecord.e2eTest.outputPath)}/mochawesome.html`,
-            coverageOutputUrl: `${path.relative(dwt.outputPath, testRecord.e2eTest.coverageOutputPath)}/index.html`,
-            coverageMsg: testRecord.e2eTest.report.coverageResult.htmlResult
+            msg: testRecord.e2eTest.report.testResult.summary
         },
         moreLinks: [{
             url: `output.zip`,
@@ -238,13 +242,39 @@ async function handleArchive(dwt) {
         }, {
             url: `test-record.json`,
             msg: 'test-record.json'
-        }, testRecord.e2eTest.enableTest ? {
-            url: path.basename(testRecord.whistle.whistleRulesConfigFile),
-            msg: path.basename(testRecord.whistle.whistleRulesConfigFile)
-        } : undefined]
+        }]
     };
 
-    // console.log(indexData);
+    // 单元测试
+    if (testRecord.unitTest.enableTest) {
+        if (testRecord.unitTest.report.isTestSuccess) {
+            indexData.unitTest.testOutputUrl = `${path.relative(dwt.outputPath, testRecord.unitTest.outputPath)}/mochawesome.html`;
+        }
+
+        if (testRecord.unitTest.report.isCoverageSuccess) {
+            indexData.unitTest.coverageOutputUrl = `${path.relative(dwt.outputPath, testRecord.unitTest.coverageOutputPath)}/index.html`;
+            indexData.unitTest.coverageMsg = testRecord.unitTest.report.coverageResult.htmlResult;
+        }
+    }
+
+    // 端对端测试
+    if (testRecord.e2eTest.enableTest) {
+        if (testRecord.e2eTest.report.isTestSuccess) {
+            indexData.e2eTest.testOutputUrl = `${path.relative(dwt.outputPath, testRecord.e2eTest.outputPath)}/mochawesome.html`;
+        }
+
+        if (testRecord.e2eTest.report.isCoverageSuccess) {
+            indexData.e2eTest.coverageOutputUrl = `${path.relative(dwt.outputPath, testRecord.e2eTest.coverageOutputPath)}/index.html`;
+            indexData.e2eTest.coverageMsg = testRecord.e2eTest.report.coverageResult.htmlResult;
+        }
+
+        indexData.moreLinks.push({
+            url: path.basename(testRecord.whistle.whistleRulesConfigFile),
+            msg: path.basename(testRecord.whistle.whistleRulesConfigFile)
+        });
+    }
+
+    console.log(indexData);
 
     // 产生自定义报告
     await dwt.saveOutputIndexHtml(indexData, testRecord.archive.rootPath);
@@ -256,7 +286,14 @@ async function handleArchive(dwt) {
     await dwt.compressDir(testRecord.archive.rootPath, path.join(testRecord.archive.rootPath, 'output.zip'));
 }
 
+async function handleAfterRun(dwt) {
+    const { testRecord } = dwt;
+
+    await dwt.clean({ doNotRemoveOutput: true });
+}
+
 module.exports = {
+    handleBeforeRun,
     handleInitProject,
     handleRunUnitTest,
     handleBuildProject,
@@ -265,5 +302,6 @@ module.exports = {
     handleStartMatman,
     handleRunE2ETestDirect,
     handleArchive,
+    handleAfterRun,
     getActionConfigByDWTMode
 };

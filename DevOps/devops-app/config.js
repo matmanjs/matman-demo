@@ -3,6 +3,7 @@ const _ = require('lodash');
 const { DevOpsWebTest } = require('devops-web-test');
 
 const {
+    handleBeforeRun,
     handleInitProject,
     handleRunUnitTest,
     handleBuildProject,
@@ -11,6 +12,7 @@ const {
     handleStartMatman,
     handleRunE2ETestDirect,
     handleArchive,
+    handleAfterRun,
     getActionConfigByDWTMode
 } = require('./pipelines');
 
@@ -62,6 +64,9 @@ async function start() {
     const dwt = createDWT();
 
     try {
+        // 开始
+        await handleBeforeRun(dwt);
+
         // 初始化项目
         await handleInitProject(dwt);
 
@@ -100,10 +105,14 @@ async function start() {
 
         // 归档
         await handleArchive(dwt);
+
+        // 结束
+        await handleAfterRun(dwt);
     } catch (err) {
         console.error('run catch err', err);
 
         // 如果遇到异常情况，注意要清理被占用的资源，例如端口等
+        await handleAfterRun(dwt);
     }
 
     return dwt;
