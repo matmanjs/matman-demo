@@ -117,7 +117,7 @@ async function handleBuildProject(dwt, opts = {}) {
     }
 }
 
-async function handleStartMockstar(dwt) {
+async function handleStartMockstar(dwt, opts = {}) {
     const { testRecord } = dwt;
 
     // mockstar-app 安装依赖
@@ -129,7 +129,13 @@ async function handleStartMockstar(dwt) {
     testRecord.mockstar.port = mockstarPort;
 
     // mockstar-app 启动
-    testRecord.mockstar.startCmd = `npx mockstar run -p ${mockstarPort}`;
+    if (opts.startCmd && opts.startCmd === 'string') {
+        testRecord.mockstar.startCmd = opts.startCmd;
+    } else if (opts.startCmd && opts.startCmd === 'function') {
+        testRecord.mockstar.startCmd = opts.startCmd(mockstarPort);
+    } else {
+        testRecord.mockstar.startCmd = `npx mockstar run -p ${mockstarPort}`;
+    }
     const mockstarStartCmd = await dwt.runByExec(testRecord.mockstar.startCmd, { cwd: testRecord.mockstar.rootPath }, (data) => {
         return data && data.indexOf(`127.0.0.1:${mockstarPort}`) > -1;
     });
