@@ -169,6 +169,8 @@ async function bootstrap() {
 
     } catch (err) {
         console.error('run catch err', err);
+
+        // 如果遇到异常情况，注意要清理被占用的资源，例如端口等
     }
 
     return dwt;
