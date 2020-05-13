@@ -1,143 +1,73 @@
 const path = require('path');
 const _ = require('lodash');
+const { DevOpsWebTest } = require('devops-web-test');
+
+const { getCommonConfig } = require('./config');
 
 const {
-    getPluginProject,
-    getPluginUnitTest,
-    getPluginMockstar,
-    getPluginWhistle,
-    getPluginE2ETest,
-    getPluginArchive,
-    getPluginExit,
-    getActionConfigByDWTMode
-} = require('./pipelines');
+    handleInitProject,
+    handleRunUnitTest,
+    handleBuildProject,
+    handleStartMockstar,
+    handleStartWhistle,
+    handleStartMatman,
+    handleRunE2ETestDirect,
+    handleArchive,
+    createDWT
+} = require('./start');
 
-/**
- * 获得自动化测试的配置
- *
- * @param {Object} [opts] 额外选项
- * @param {Boolean} [opts.shouldRunE2ETest] 是否执行端对端测试，默认值为 true
- * @param {Boolean} [opts.shouldRunUnitTest] 是否执行单元你测试，默认值为 true
- * @param {Function} [opts.getWhistleRules] 获得 whistle 的配置，接受两个参数 testRecord 和 opts<projectRootPath,shouldUseMockstar,mockstarPort,name>
- * @param {Object} [opts.customPluginParams] 插件的自定义配置，是一个 map ，key 值为 插件名字， value 为插件的自定义配置
- * @return {Object}
- */
-function getTestConfig(opts = {}) {
-    const { shouldRunUnitTest, shouldRunE2ETest } = getActionConfigByDWTMode(process.env.DWT_MODE);
+async function start() {
+    const dwt = createDWT();
 
-    const config = {
-        dwtPath: __dirname,
-        plugins: [
-            // 业务项目
-            getPluginProject(shouldRunE2ETest, {
-                usePort: true,
-                buildCmd: function (testRecord, port) {
-                    return port ? `npx cross-env PORT=${port} npm start` : 'npm start';
-                },
-                buildCompleteCheck: function (data) {
-                    return data && data.indexOf('Compiled successfully') > -1;
-                }
-            }),
+    try {
+        // 初始化项目
+        await handleInitProject(dwt);
 
-            // 单元测试
-            getPluginUnitTest(shouldRunUnitTest),
+        if (dwt.testRecord.shouldRunUnitTest) {
+            // 执行单元测试
+            await handleRunUnitTest(dwt);
+        }
 
-            // 数据 mock
-            getPluginMockstar(shouldRunE2ETest),
+        if (dwt.testRecord.shouldRunE2ETest) {
+            // 构建项目
+            await handleBuildProject(dwt, { isDevelopment: true });
 
-            // 代理配置
-            getPluginWhistle(shouldRunE2ETest, {
-                getWhistleRules: function (testRecord) {
+            // 启动 mockstar
+            await handleStartMockstar(dwt);
+
+            // 启动 whistle
+            await handleStartWhistle(dwt, {
+                getWhistleRules: () => {
                     const whistleSetting = require(path.join(__dirname, '../whistle'));
 
                     return whistleSetting.getDevRules({
-                        projectRootPath: testRecord.getPlugin('project').rootPath,
-                        projectDevPort: testRecord.getPlugin('project').port,
+                        projectRootPath: dwt.testRecord.project.rootPath,
+                        projectDevPort: dwt.testRecord.project.port,
                         shouldUseMockstar: true,
-                        mockstarPort: testRecord.getPlugin('mockstar').port,
-                        name: testRecord.getPlugin('whistle')._processKey
+                        mockstarPort: dwt.testRecord.mockstar.port,
+                        name: dwt.testRecord.whistle.namespace
                     });
                 }
-            }),
+            });
 
-            // 端对端测试
-            getPluginE2ETest(shouldRunE2ETest),
+            // 安装和构建 matman
+            await handleStartMatman(dwt);
+
+            // 直接运行段对端测试命令
+            await handleRunE2ETestDirect(dwt);
 
             // 归档
-            getPluginArchive(),
+            await handleArchive(dwt);
+        }
+    } catch (err) {
+        console.error('run catch err', err);
 
-            // 退出
-            getPluginExit()
-        ]
-    };
+        // 如果遇到异常情况，注意要清理被占用的资源，例如端口等
+    }
 
-    return _.merge(config, opts);
-}
-
-/**
- * 获得自动化测试的配置
- *
- * @param {Object} [opts] 额外选项
- * @param {Boolean} [opts.shouldRunE2ETest] 是否执行端对端测试，默认值为 true
- * @param {Boolean} [opts.shouldRunUnitTest] 是否执行单元你测试，默认值为 true
- * @param {Function} [opts.getWhistleRules] 获得 whistle 的配置，接受两个参数 testRecord 和 opts<projectRootPath,shouldUseMockstar,mockstarPort,name>
- * @param {Object} [opts.customPluginParams] 插件的自定义配置，是一个 map ，key 值为 插件名字， value 为插件的自定义配置
- * @return {Object}
- */
-function getBootstrapConfig(opts = {}) {
-    const shouldRunE2ETest = true;
-
-    const projectPort = process.env.PROJECT_PORT;
-    const mockstarPort = process.env.MOCKSTAR_PORT;
-    const whistlePort = process.env.WHISTLE_PORT;
-
-    const config = {
-        dwtPath: __dirname,
-        plugins: [
-            // 业务项目
-            getPluginProject(shouldRunE2ETest, {
-                usePort: true,
-                port: projectPort,
-                shouldReuse: true,
-                buildCmd: function (testRecord, port) {
-                    return port ? `npx cross-env PORT=${port} npm start` : 'npm start';
-                },
-                buildCompleteCheck: function (data) {
-                    return data && data.indexOf('Compiled successfully') > -1;
-                }
-            }),
-
-            // 数据 mock
-            getPluginMockstar(shouldRunE2ETest, {
-                port: mockstarPort,
-                startCmd: function (testRecord, port) {
-                    return `npx mockstar start -p ${port}`;
-                }
-            }),
-
-            // 代理配置
-            getPluginWhistle(shouldRunE2ETest, {
-                port: whistlePort,
-                shouldReuse: true,
-                getWhistleRules: function (testRecord) {
-                    const whistleSetting = require(path.join(__dirname, '../whistle'));
-
-                    return whistleSetting.getDevRules({
-                        projectRootPath: testRecord.getPlugin('project').rootPath,
-                        projectDevPort: testRecord.getPlugin('project').port,
-                        shouldUseMockstar: true,
-                        mockstarPort: testRecord.getPlugin('mockstar').port,
-                        name: this.shouldReuse ? '' : testRecord.getPlugin('whistle')._processKey
-                    });
-                }
-            })
-        ]
-    };
-
-    return _.merge(config, opts);
+    return dwt;
 }
 
 module.exports = {
-    getTestConfig,
-    getBootstrapConfig
+    start
 };

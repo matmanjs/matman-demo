@@ -85,12 +85,24 @@ async function handleRunUnitTest(dwt) {
     await dwt.runByExec(testRecord.unitTest.coverageCmd, { cwd: testRecord.project.rootPath });
 }
 
-async function handleBuildProject(dwt) {
+async function handleBuildProject(dwt, opts = {}) {
     const { testRecord } = dwt;
 
-    // 构建项目
-    testRecord.project.buildCmd = 'npx cross-env ENABLE_E2E_TEST=1 npm run build';
-    await dwt.runByExec(testRecord.project.buildCmd, { cwd: testRecord.project.rootPath });
+    if (opts.isDevelopment) {
+        // 为项目获得一个没有被占用的端口
+        const projectPort = await dwt.findAvailablePort('project');
+        testRecord.project.port = projectPort;
+
+        // 启动构建，由于是监听端口的，因此需要自定义结束
+        testRecord.project.buildCmd = `npx cross-env ENABLE_E2E_TEST=1 PORT=${projectPort} npm start`;
+        await dwt.runByExec(testRecord.project.buildCmd, { cwd: testRecord.project.rootPath }, (data) => {
+            return data && data.indexOf('Compiled successfully') > -1;
+        });
+    } else {
+        // 启动构建
+        testRecord.project.buildCmd = 'npx cross-env ENABLE_E2E_TEST=1 npm run build';
+        await dwt.runByExec(testRecord.project.buildCmd, { cwd: testRecord.project.rootPath });
+    }
 }
 
 async function handleStartMockstar(dwt) {
@@ -116,7 +128,7 @@ async function handleStartMockstar(dwt) {
     await dwt.lockPort('mockstar', mockstarPort, testRecord.mockstar.startPid);
 }
 
-async function handleStartWhistle(dwt) {
+async function handleStartWhistle(dwt, opts = {}) {
     const { testRecord } = dwt;
 
     // 为 whistle 获得一个没有被占用的端口
@@ -141,16 +153,7 @@ async function handleStartWhistle(dwt) {
     const whistleRulesConfigFile = path.join(dwt.outputPath, 'test.whistle.js');
     testRecord.whistle.whistleRulesConfigFile = whistleRulesConfigFile;
 
-    await dwt.generateWhistleRulesConfigFile(whistleRulesConfigFile, () => {
-        const whistleSetting = require(path.join(__dirname, '../whistle'));
-
-        return whistleSetting.getProdRules({
-            projectRootPath: testRecord.project.rootPath,
-            shouldUseMockstar: true,
-            mockstarPort: testRecord.mockstar.port,
-            name: testRecord.whistle.namespace
-        });
-    });
+    await dwt.generateWhistleRulesConfigFile(whistleRulesConfigFile, opts.getWhistleRules);
 
     // 使用这个 whistle 规则文件
     testRecord.whistle.useCmd = `w2 use ${whistleRulesConfigFile} -S ${testRecord.whistle.namespace} --force`;
