@@ -166,13 +166,19 @@ async function handleStartWhistle(dwt, opts = {}) {
 
         // 直接使用指定的端口
         testRecord.whistle.port = opts.port;
+
+        // 使用fastest自定义空间的命令字段参数，指定端口的场景下无需指定
+        testRecord.whistle.useNamespaceArgs = '';
     } else {
         // 为 whistle 获得一个没有被占用的端口
         testRecord.whistle.port = await dwt.findAvailablePort('whistle');
+
+        // 使用fastest自定义空间的命令字段参数
+        testRecord.whistle.useNamespaceArgs = `-S ${testRecord.whistle.namespace}`;
     }
 
     // whistle 启动
-    testRecord.whistle.startCmd = `w2 start -S ${testRecord.whistle.namespace} -p ${testRecord.whistle.port}`;
+    testRecord.whistle.startCmd = `w2 start ${testRecord.whistle.useNamespaceArgs} -p ${testRecord.whistle.port}`;
     const whistleStartCmd = await dwt.runByExec(testRecord.whistle.startCmd, {}, (data) => {
         return data && data.indexOf(`127.0.0.1:${testRecord.whistle.port}`) > -1;
     });
@@ -193,7 +199,7 @@ async function handleStartWhistle(dwt, opts = {}) {
     await dwt.generateWhistleRulesConfigFile(whistleRulesConfigFile, opts.getWhistleRules);
 
     // 使用这个 whistle 规则文件
-    testRecord.whistle.useCmd = `w2 use ${whistleRulesConfigFile} -S ${testRecord.whistle.namespace} --force`;
+    testRecord.whistle.useCmd = `w2 use ${whistleRulesConfigFile} ${testRecord.whistle.useNamespaceArgs} --force`;
     await dwt.runByExec(testRecord.whistle.useCmd);
 }
 
