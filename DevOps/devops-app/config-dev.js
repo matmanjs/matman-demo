@@ -91,7 +91,7 @@ async function bootstrap() {
         await handleInitProject(dwt);
 
         // 构建项目
-        await handleBuildProject(dwt);
+        await handleBuildProject(dwt, { isDevelopment: true });
 
         // 启动 mockstar
         await handleStartMockstar(dwt, {
@@ -107,8 +107,9 @@ async function bootstrap() {
             getWhistleRules: () => {
                 const whistleSetting = require(path.join(__dirname, '../whistle'));
 
-                return whistleSetting.getProdRules({
+                return whistleSetting.getDevRules({
                     projectRootPath: dwt.testRecord.project.rootPath,
+                    projectDevPort: dwt.testRecord.project.port,
                     shouldUseMockstar: true,
                     mockstarPort: dwt.testRecord.mockstar.port,
                     name: dwt.testRecord.whistle.namespace
