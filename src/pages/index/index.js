@@ -8,8 +8,8 @@ export default class PageIndex extends Component {
     render() {
         return (
             <div className="page-index">
-             <p>欢迎运行我们的 demo 项目，代码仓库地址为： <a href="https://git.code.oa.com/dwt/web-test-demo" target="_blank"
-                                               rel="noopener noreferrer">https://git.code.oa.com/dwt/web-test-demo</a>
+             <p>欢迎运行我们的 demo 项目，代码仓库地址为： <a href="https://github.com/matmanjs/matman-demo" target="_blank"
+                                               rel="noopener noreferrer">https://github.com/matmanjs/matman-demo</a>
                 </p>
 
                 <h2>1. 简单静态页面</h2>
@@ -23,7 +23,7 @@ export default class PageIndex extends Component {
                     <li><a href="https://now.qq.com/transaction" target="_blank"
                            rel="noopener noreferrer">https://now.qq.com/transaction</a></li>
                 </ul>
-                
+
                 <h2>hello, world!</h2>
                 <ul>
                     <li><NavLink to={`/simple`}>简单静态页面</NavLink></li>

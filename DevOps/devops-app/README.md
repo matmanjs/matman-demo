@@ -1,8 +1,4 @@
-# 在蓝盾中运行 web 自动化测试
-
-本项目用于在蓝盾平台 (http://devops.oa.com/) 跑 web 自动化测试。
-
-> 更多的资料请参考 http://web-test-guide.pages.oa.com/ 站点。
+# web自动化测试
 
 ## 开发调试
 
