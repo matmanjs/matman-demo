@@ -1,10 +1,6 @@
-const dwt = require('devops-web-test');
+const { bootstrap } = require('../config');
 
-const { getBootstrapConfig } = require('../config-prod');
-
-const testConfig = getBootstrapConfig();
-
-dwt.start(testConfig.dwtPath, testConfig)
+bootstrap()
     .then((data) => {
         console.log(data);
     })

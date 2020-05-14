@@ -1,14 +1,11 @@
-const dwt = require('devops-web-test');
+const { start } = require('../config');
 
-const { getTestConfig } = require('../config-prod');
+const opts = {};
 
-const testConfig = getTestConfig();
-
-dwt.start(testConfig.dwtPath, testConfig)
+start(opts)
     .then((data) => {
-        console.log(data);
+        console.log(JSON.stringify(data, null, 2));
     })
     .catch((err) => {
         console.error(err);
     });
-

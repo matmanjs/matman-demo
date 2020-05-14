@@ -1,5 +1,6 @@
 const path = require('path');
 const _ = require('lodash');
+const { DevOpsWebTest } = require('devops-web-test');
 
 const {
     handleBeforeRun,
@@ -11,11 +12,59 @@ const {
     handleStartMatman,
     handleRunE2ETestDirect,
     handleArchive,
-    handleAfterRun
+    handleAfterRun,
+    getActionConfigByDWTMode
 } = require('./pipelines');
 
-const { createDWT } = require('./config');
+function createDWT() {
+    const dwt = new DevOpsWebTest(__dirname);
 
+    // 项目工作区间
+    const workspacePath = path.join(__dirname, '../../');
+
+    // 是否单元测试和端对端测试
+    const { shouldRunUnitTest, shouldRunE2ETest } = getActionConfigByDWTMode(process.env.DWT_MODE);
+
+    dwt.testRecord = {
+        shouldRunUnitTest,
+        shouldRunE2ETest,
+        project: {
+            rootPath: workspacePath
+        },
+        mockstar: {
+            rootPath: path.join(workspacePath, 'DevOps/mockstar-app')
+        },
+        matman: {
+            rootPath: path.join(workspacePath, 'DevOps/matman-app')
+        },
+        unitTest: {
+            enableTest: shouldRunUnitTest,
+            runTestPath: workspacePath,
+            outputPath: path.join(dwt.outputPath, 'unit_test_report'),
+            coverageOutputPath: path.join(dwt.outputPath, 'unit_test_report/coverage')
+        },
+        e2eTest: {
+            enableTest: shouldRunE2ETest,
+            runTestPath: workspacePath,
+            outputPath: path.join(dwt.outputPath, 'e2e_test_report'),
+            coverageOutputPath: path.join(dwt.outputPath, 'e2e_test_report/coverage')
+        },
+        whistle: {
+            namespace: `dwt_${dwt.seqId}`
+        },
+        archive: {
+            rootPath: dwt.outputPath
+        }
+    };
+
+    return dwt;
+}
+
+/**
+ * 执行自动化测试
+ *
+ * @return {Promise<DevOpsWebTest>}
+ */
 async function start() {
     const dwt = createDWT();
 
@@ -33,7 +82,7 @@ async function start() {
 
         if (dwt.testRecord.shouldRunE2ETest) {
             // 构建项目
-            await handleBuildProject(dwt, { isDevelopment: true });
+            await handleBuildProject(dwt);
 
             // 启动 mockstar
             await handleStartMockstar(dwt);
@@ -43,9 +92,8 @@ async function start() {
                 getWhistleRules: () => {
                     const whistleSetting = require(path.join(__dirname, '../whistle'));
 
-                    return whistleSetting.getDevRules({
+                    return whistleSetting.getProdRules({
                         projectRootPath: dwt.testRecord.project.rootPath,
-                        projectDevPort: dwt.testRecord.project.port,
                         shouldUseMockstar: true,
                         mockstarPort: dwt.testRecord.mockstar.port,
                         name: dwt.testRecord.whistle.namespace
@@ -91,7 +139,7 @@ async function bootstrap() {
         await handleInitProject(dwt);
 
         // 构建项目
-        await handleBuildProject(dwt, { isDevelopment: true });
+        await handleBuildProject(dwt);
 
         // 启动 mockstar
         await handleStartMockstar(dwt, {
@@ -107,9 +155,8 @@ async function bootstrap() {
             getWhistleRules: () => {
                 const whistleSetting = require(path.join(__dirname, '../whistle'));
 
-                return whistleSetting.getDevRules({
+                return whistleSetting.getProdRules({
                     projectRootPath: dwt.testRecord.project.rootPath,
-                    projectDevPort: dwt.testRecord.project.port,
                     shouldUseMockstar: true,
                     mockstarPort: dwt.testRecord.mockstar.port,
                     name: dwt.testRecord.whistle.namespace
@@ -130,6 +177,7 @@ async function bootstrap() {
 }
 
 module.exports = {
+    createDWT,
     start,
     bootstrap
 };
