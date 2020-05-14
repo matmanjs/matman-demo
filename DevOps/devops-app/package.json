@@ -4,7 +4,7 @@
         "test": "cross-env DEBUG=nightmare node debug/test.js",
         "test:unit": "cross-env DWT_MODE=unit npm test",
         "test:e2e": "cross-env DWT_MODE=e2e npm test",
-        "bootstrap-prod": "cross-env MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap.js",
+        "bootstrap": "cross-env MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap.js",
         "test-dev": "cross-env DEBUG=nightmare node debug/test-dev.js",
         "test-dev:unit": "cross-env DWT_MODE=unit npm run test-dev",
         "test-dev:e2e": "cross-env DWT_MODE=e2e npm run test-dev",
