@@ -11,7 +11,7 @@
         "bootstrap-dev": "cross-env PROJECT_PORT=3000 MOCKSTAR_PORT=9527 WHISTLE_PORT=8899 node debug/bootstrap-dev.js"
     },
     "dependencies": {
-        "devops-web-test": "^1.1.0",
+        "devops-web-test": "^1.1.2",
         "lodash": "^4.17.15"
     },
     "devDependencies": {
