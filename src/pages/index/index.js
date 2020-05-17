@@ -14,7 +14,7 @@ export default class PageIndex extends Component {
 
                 <h2>1. 简单静态页面</h2>
                 <ul>
-                    <li><NavLink to={`/simple`}>/simple</NavLink></li>
+                    <li><NavLink to={`/simple`}>{window.location.origin}/simple</NavLink></li>
                 </ul>
 
                 <h2>2. 单一接口展示型页面</h2>
@@ -24,11 +24,16 @@ export default class PageIndex extends Component {
                            rel="noopener noreferrer">https://now.qq.com/transaction</a></li>
                 </ul>
 
-                <h2>hello, world!</h2>
+                <h2>3. 重交互页面</h2>
+                <p>注意，本页面需要走代理地址体验</p>
                 <ul>
-                    <li><NavLink to={`/simple`}>简单静态页面</NavLink></li>
-                    <li><NavLink to={`/transaction`}>单一接口展示型页面</NavLink></li>
-                    <li><NavLink to={`/withdraw`}>重交互页面</NavLink></li>
+                    <li><a href="https://now.qq.com/withdraw" target="_blank"
+                           rel="noopener noreferrer">https://now.qq.com/withdraw</a></li>
+                </ul>
+
+                <h2>4. Hybrid App</h2>
+                <ul>
+                    <li><NavLink to={`/hybrid-app`}>{window.location.origin}/hybrid-app</NavLink></li>
                 </ul>
             </div>
         );
