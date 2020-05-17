@@ -24,6 +24,8 @@ export default class PageHybridApp extends Component {
     }
 
     handleObserve = () => {
+        const self = this;
+
         // Select the node that will be observed for mutations
         const targetNode = document.querySelector('body');
 
@@ -40,14 +42,33 @@ export default class PageHybridApp extends Component {
                 } else if (mutation.type === 'attributes') {
                     console.log('The ' + mutation.attributeName + ' attribute was modified.');
                 }
-            }
 
-            try {
-                // iframe
-                // tnow://callByIframe
-                console.log(mutationsList[0].removedNodes[0].src);
-            } catch (e) {
+                // https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
+                // console.log(mutation)
 
+                if (mutation.type === 'childList') {
+                    try {
+                        if (mutation.addedNodes.length) {
+                            console.log('新增 node!', mutation.addedNodes.length, mutation.addedNodes);
+                            if (mutation.addedNodes[0].nodeName.toUpperCase() === 'IFRAME') {
+                                console.log('找到了一个 iframe：', mutation.addedNodes[0]);
+                                console.log('iframe 地址：', mutation.addedNodes[0].src);
+                                self.addLog(`监听到新增 iframe：${mutation.addedNodes[0].src}`);
+                            }
+                        }
+
+                        if (mutation.removedNodes.length) {
+                            console.log('移除 node!', mutation.removedNodes.length, mutation.removedNodes);
+                            if (mutation.removedNodes[0].nodeName.toUpperCase() === 'IFRAME') {
+                                console.log('找到了一个 iframe：', mutation.removedNodes[0]);
+                                console.log('iframe 地址：', mutation.removedNodes[0].src);
+                                self.addLog(`监听到移除 iframe ：${mutation.removedNodes[0].src}`);
+                            }
+                        }
+                    } catch (e) {
+
+                    }
+                }
             }
         };
 
