@@ -30,7 +30,7 @@ export default class PageHybridApp extends Component {
         const targetNode = document.querySelector('body');
 
         // Options for the observer (which mutations to observe)
-        const config = { attributes: true, childList: true, subtree: true };
+        const config = { childList: true };
 
         // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
         // Callback function to execute when mutations are observed
