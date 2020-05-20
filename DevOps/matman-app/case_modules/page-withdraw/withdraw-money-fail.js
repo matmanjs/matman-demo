@@ -1,6 +1,6 @@
 const env = require('./env');
 
-function getResult(opts) {
+module.exports = (opts) => {
     return env.createPageDriver(__filename, opts)
 
         // 加载页面地址
@@ -35,11 +35,9 @@ function getResult(opts) {
 
         // 结束，获取结果
         .end();
-}
+};
 
-module.exports = getResult;
-
-// getResult({
+// module.exports({
 //     show: true,
 //     doNotCloseBrowser: true,
 //     useRecorder: false,

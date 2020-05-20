@@ -1,6 +1,6 @@
 const env = require('./env');
 
-function getResult(opts) {
+module.exports = (opts) => {
     return env.createPageDriver(__filename, opts)
 
         // 设置浏览器参数
@@ -27,11 +27,9 @@ function getResult(opts) {
 
         // 结束，获取结果
         .end();
-}
+};
 
-module.exports = getResult;
-
-// getResult({ show: true, doNotCloseBrowser: true, useRecorder: false })
+// module.exports({ show: true, doNotCloseBrowser: true, useRecorder: false })
 //     .then(function (result) {
 //         console.log(JSON.stringify(result));
 //     })
