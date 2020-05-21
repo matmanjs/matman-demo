@@ -91,7 +91,7 @@ export default class PageHybridApp extends Component {
     }
 
     testJSBridge = () => {
-        const jsbridge = 'tnow://callByLocaiton';
+        const jsbridge = 'tnow://callByLocaiton?name=matman';
         console.log('=====testJSBridge======', jsbridge);
 
         callByLocaiton(jsbridge);
@@ -100,7 +100,7 @@ export default class PageHybridApp extends Component {
     };
 
     testJSBridgeIframe = () => {
-        const jsbridge = 'tnow://callByIframe';
+        const jsbridge = 'tnow://callByIframe?name=matman';
         console.log('=====testJSBridgeIframe======', jsbridge);
 
         callByIframe(jsbridge);
@@ -109,11 +109,11 @@ export default class PageHybridApp extends Component {
     };
 
     testJumpUrl = () => {
-        const url = 'https://www.baidu.com';
+        const url = 'https://www.baidu.com?name=matman';
         console.log('=====testJumpUrl======', url);
 
         setTimeout(() => {
-            window.location.href = 'https://now.qq.com';
+            window.location.href = url;
         }, 500);
 
         this.addLog(`点击跳转： ${url}，延时 500ms 执行`);
@@ -124,9 +124,9 @@ export default class PageHybridApp extends Component {
 
         return (
             <div className="page-hybrid-app">
-                <div className="btn" onClick={this.testJSBridge}>call JSBridge by location</div>
-                <div className="btn" onClick={this.testJSBridgeIframe}>call JSBridge by iframe</div>
-                <div className="btn" onClick={this.testJumpUrl}>url 跳转</div>
+                <div id="call-by-location" className="btn" onClick={this.testJSBridge}>call JSBridge by location</div>
+                <div id="call-by-iframe" className="btn" onClick={this.testJSBridgeIframe}>call JSBridge by iframe</div>
+                <div id="jump" className="btn" onClick={this.testJumpUrl}>url 跳转</div>
 
                 <ul className="msg">
                     {
