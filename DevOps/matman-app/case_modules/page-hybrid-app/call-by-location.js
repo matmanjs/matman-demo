@@ -12,9 +12,9 @@ module.exports = (opts) => {
             return nightmare.wait(500);
         })
 
-        // 第二步：点击使用 iframe 调用 jsbridge
+        // 第二步：点击使用 location 调用 jsbridge
         .addAction('selectQuota', function (nightmare) {
-            return nightmare.click('#call-by-iframe');
+            return nightmare.click('#call-by-location');
         })
 
         // 需要等待某些条件达成，才开始运行爬虫脚本
@@ -23,7 +23,7 @@ module.exports = (opts) => {
         // 爬虫脚本的函数，用于获取页面中的数据
         .evaluate(() => {
             return {
-                remarks: '调试使用 iframe 调用 jsbridge'
+                remarks: '调试使用 location 调用 jsbridge'
             };
         })
 
