@@ -91,7 +91,7 @@ export default class PageHybridApp extends Component {
     }
 
     testJSBridge = () => {
-        const jsbridge = 'tnow://callByLocaiton?name=matman';
+        const jsbridge = 'tnow://callByLocation?name=matman';
         console.log('=====testJSBridge======', jsbridge);
 
         callByLocaiton(jsbridge);
