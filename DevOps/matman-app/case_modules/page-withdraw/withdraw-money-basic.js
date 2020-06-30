@@ -63,25 +63,18 @@ module.exports = async pageDriverOpts => {
     await page.waitFor(1000);
   });
 
-  const matmanResult = await pageDriver.evaluate(
-    path.resolve(__dirname, './crawlers/get-page-info.js'),
-  );
-
-  // 是否跳转到了首页
-  matmanResult.isRedirectToPageIndex = matmanResult.isExistPage('/abc/index', {}, 200);
-
-  return matmanResult;
+  return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
-module
-  .exports({
-    show: true,
-    doNotCloseBrowser: false,
-    useRecorder: false,
-  })
-  .then(function (result) {
-    console.log(JSON.stringify(result));
-  })
-  .catch(function (error) {
-    console.error('failed:', error);
-  });
+// module
+//   .exports({
+//     show: true,
+//     doNotCloseBrowser: true,
+//     useRecorder: false,
+//   })
+//   .then(function (result) {
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(function (error) {
+//     console.error('failed:', error);
+//   });
