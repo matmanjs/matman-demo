@@ -1,4 +1,4 @@
-const { createPageDriver } = require('../../../helpers');
+const {createPageDriver} = require('../../../helpers');
 
 /**
  * mockstar 数据模拟中的基础桩数据设置
@@ -6,14 +6,14 @@ const { createPageDriver } = require('../../../helpers');
  * @type {Object}
  */
 const BASIC_QUERY_DATA_MAP = {
-    // 查询余额
-    'get_balance': 'success_2340',
+  // 查询余额
+  get_balance: 'success_2340',
 
-    // 拉取认证状态
-    'get_verify_status': 'success_all_ok',
+  // 拉取认证状态
+  get_verify_status: 'success_all_ok',
 
-    // 申请提现
-    'withdraw_money': 'success'
+  // 申请提现
+  withdraw_money: 'success',
 };
 
 /**
@@ -22,7 +22,7 @@ const BASIC_QUERY_DATA_MAP = {
  * @type {Object}
  */
 const WAIT = {
-    READY: '#loaded'
+  READY: '#loaded',
 };
 
 /**
@@ -32,19 +32,21 @@ const WAIT = {
  * @return {String}
  */
 function getPageUrl(isDev) {
-    return 'http://now.qq.com/withdraw';
+  return 'http://now.qq.com/withdraw';
 }
 
 module.exports = {
-    getPageUrl,
-    WAIT,
-    createPageDriver: (caseModuleFilePath, opts = {}) => {
-        // 设置默认的桩数据
-        opts.queryDataMap = Object.assign({}, BASIC_QUERY_DATA_MAP, opts.queryDataMap);
+  getPageUrl,
+  WAIT,
+  BASIC_QUERY_DATA_MAP,
+  createPageDriver: (caseModuleFilePath, opts = {}) => {
+    // 设置默认的桩数据
+    opts.queryDataMap = Object.assign({}, BASIC_QUERY_DATA_MAP, opts.queryDataMap);
 
-        return createPageDriver(caseModuleFilePath, opts)
-
-            // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
-            .setCookies('myuin=123456');
-    }
+    return (
+      createPageDriver(caseModuleFilePath, opts)
+        // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
+        .setCookies('myuin=123456')
+    );
+  },
 };
