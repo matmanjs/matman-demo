@@ -1,25 +1,35 @@
-const env = require('./env');
+const path = require('path');
+const matman = require('matman');
+const {BrowserRunner} = require('matman-runner-puppeteer');
 
-module.exports = (opts) => {
-    return env.createPageDriver(__filename, opts)
+module.exports = async pageDriverOpts => {
+    const pageDriver = await matman.launch(new BrowserRunner(), pageDriverOpts);
 
-        // 加载页面地址
-        .goto(env.getPageUrl())
+    // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
+    await pageDriver.useProxyServer(await matman.getLocalWhistleServer(8899));
 
-        // 需要等待某些条件达成，才开始运行爬虫脚本
-        .wait(env.WAIT.READY)
+    await pageDriver.setDeviceConfig('iPhone 6');
 
-        // 爬虫脚本的函数，用于获取页面中的数据
-        .evaluate('./crawlers/get-page-info.js')
+    await pageDriver.setScreenshotConfig(true);
 
-        // 结束，获取结果
-        .end();
+    await pageDriver.setPageUrl('http://now.qq.com/simple');
+
+    await pageDriver.addAction('scanPage', async page => {
+        await page.waitFor('#container');
+    });
+
+    return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
-// module.exports({ show: true, doNotCloseBrowser: true, useRecorder: false })
-//     .then(function (result) {
-//         console.log(JSON.stringify(result));
-//     })
-//     .catch(function (error) {
-//         console.error('failed:', error);
-//     });
+// module
+//   .exports({
+//     show: true,
+//     doNotCloseBrowser: true,
+//     useRecorder: false,
+//   })
+//   .then(function (result) {
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(function (error) {
+//     console.error('failed:', error);
+//   });

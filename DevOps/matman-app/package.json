@@ -7,11 +7,11 @@
     "build-dev": "matman build --dev"
   },
   "dependencies": {
-    "matman": "^5.0.6",
-    "mockstar": "^1.1.5",
+    "matman": "^6.0.2",
+    "matman-runner-puppeteer": "^6.0.1",
     "web-crawl-util": "^0.1.1"
   },
   "devDependencies": {
-    "matman-cli": "^5.0.6"
+    "matman-cli": "^6.0.2"
   }
 }
