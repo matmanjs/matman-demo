@@ -21,15 +21,15 @@ module.exports = async pageDriverOpts => {
   return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
-module
-  .exports({
-    show: true,
-    doNotCloseBrowser: true,
-    useRecorder: false,
-  })
-  .then(function (result) {
-    console.log(JSON.stringify(result));
-  })
-  .catch(function (error) {
-    console.error('failed:', error);
-  });
+// module
+//   .exports({
+//     show: true,
+//     doNotCloseBrowser: true,
+//     useRecorder: false,
+//   })
+//   .then(function (result) {
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(function (error) {
+//     console.error('failed:', error);
+//   });
