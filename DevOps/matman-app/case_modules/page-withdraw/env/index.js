@@ -1,5 +1,3 @@
-const {createPageDriver} = require('../../../helpers');
-
 /**
  * mockstar 数据模拟中的基础桩数据设置
  *
@@ -16,37 +14,6 @@ const BASIC_QUERY_DATA_MAP = {
   withdraw_money: 'success',
 };
 
-/**
- * 运行爬虫脚本之前的条件
- *
- * @type {Object}
- */
-const WAIT = {
-  READY: '#loaded',
-};
-
-/**
- * 获取页面的地址
- *
- * @param [isDev]
- * @return {String}
- */
-function getPageUrl(isDev) {
-  return 'http://now.qq.com/withdraw';
-}
-
 module.exports = {
-  getPageUrl,
-  WAIT,
   BASIC_QUERY_DATA_MAP,
-  createPageDriver: (caseModuleFilePath, opts = {}) => {
-    // 设置默认的桩数据
-    opts.queryDataMap = Object.assign({}, BASIC_QUERY_DATA_MAP, opts.queryDataMap);
-
-    return (
-      createPageDriver(caseModuleFilePath, opts)
-        // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
-        .setCookies('myuin=123456')
-    );
-  },
 };

@@ -1,53 +1,64 @@
-const env = require('./env');
+const path = require('path');
+const matman = require('matman');
+const {BrowserRunner} = require('matman-runner-puppeteer');
 
-module.exports = (opts) => {
-    return env.createPageDriver(__filename, opts)
+const {BASIC_QUERY_DATA_MAP} = require('./env');
 
-        // 加载页面地址
-        .goto(env.getPageUrl())
+module.exports = async pageDriverOpts => {
+  const pageDriver = await matman.launch(new BrowserRunner(), pageDriverOpts);
 
-        // 第一步：开始操作之前
-        .addAction('init', function (nightmare) {
-            // nightmare 支持所有的原始 nightmare 语法和对其定制的扩展功能
-            return nightmare.wait(500);
-        })
+  // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
+  await pageDriver.useProxyServer(await matman.getLocalWhistleServer(8899));
 
-        // 第二步：选中【5元】
-        .addAction('selectQuota', function (nightmare) {
-            return nightmare.click('#root .display-withdraw .display-withdraw-quotas .selection .i0');
-        })
+  await pageDriver.useMockstar(
+    Object.assign({}, BASIC_QUERY_DATA_MAP, pageDriverOpts.queryDataMap),
+  );
 
-        // 第三步：点击【确定】按钮
-        .addAction('clickSubmit', function (nightmare) {
-            return nightmare.click('#root .display-withdraw .withdraw-submit .now-button').wait(500);
-        })
+  await pageDriver.setDeviceConfig('iPhone 6');
 
-        // 第四步：点击弹窗中的【确定】按钮
-        .addAction('clickDlgOk', function (nightmare) {
-            return nightmare.click('.base-alert .dialog-inner .dialog-buttons .dialog-btn.ok');
-        })
+  await pageDriver.setScreenshotConfig(true);
 
-        // 需要等待某些条件达成，才开始运行爬虫脚本
-        .wait(env.WAIT.READY)
+  // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
+  await pageDriver.setCookieConfig('myuin=123456');
 
-        // 爬虫脚本的函数，用于获取页面中的数据
-        .evaluate('./crawlers/get-page-info.js')
+  await pageDriver.setPageUrl('http://now.qq.com/withdraw');
 
-        // 结束，获取结果
-        .end();
+  // 第一步：开始操作之前
+  await pageDriver.addAction('init', async page => {
+    await page.waitFor('#loaded');
+  });
+
+  // 第二步：选中【5元】
+  await pageDriver.addAction('selectQuota', async page => {
+    await page.click('#root .display-withdraw .display-withdraw-quotas .selection .i0');
+  });
+
+  // 第三步：点击【确定】按钮
+  await pageDriver.addAction('clickSubmit', async page => {
+    await page.click('#root .display-withdraw .withdraw-submit .now-button');
+    await page.waitFor(500);
+  });
+
+  // 第四步：点击弹窗中的【确定】按钮
+  await pageDriver.addAction('clickDlgOk', async page => {
+    await page.click('.base-alert .dialog-inner .dialog-buttons .dialog-btn.ok');
+  });
+
+  return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
-// module.exports({
+// module
+//   .exports({
 //     show: true,
 //     doNotCloseBrowser: true,
-//     useRecorder: false,
+//     useRecorder: true,
 //     queryDataMap: {
-//         'withdraw_money': 'error_20_active_empty'
-//     }
-// })
-//     .then(function (result) {
-//         console.log(JSON.stringify(result));
-//     })
-//     .catch(function (error) {
-//         console.error('failed:', error);
-//     });
+//       withdraw_money: 'error_20_active_empty',
+//     },
+//   })
+//   .then(function (result) {
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(function (error) {
+//     console.error('failed:', error);
+//   });
