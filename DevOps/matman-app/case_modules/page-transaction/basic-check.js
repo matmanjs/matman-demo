@@ -1,33 +1,36 @@
-const env = require('./env');
+const path = require('path');
+const {createPageDriver} = require('../../helpers');
+const {BASIC_QUERY_DATA_MAP, WAIT} = require('./env');
 
-module.exports = (opts) => {
-    return env.createPageDriver(__filename, opts)
+module.exports = async pageDriverOpts => {
+  // 创建 PageDriver
+  const pageDriver = await createPageDriver(__filename, pageDriverOpts, BASIC_QUERY_DATA_MAP);
 
-        // 加载页面地址
-        .goto(env.getPageUrl())
+  // 设置页面地址
+  await pageDriver.setPageUrl('http://now.qq.com/transaction');
 
-        // 需要等待某些条件达成，才开始运行爬虫脚本
-        .wait(env.WAIT.READY)
+  // 增加自定义动作
+  await pageDriver.addAction('init', async page => {
+    await page.waitFor(WAIT.READY);
+  });
 
-        // 爬虫脚本的函数，用于获取页面中的数据
-        .evaluate('./crawlers/get-page-info.js')
-
-        // 结束，获取结果
-        .end();
+  // 获取结果
+  return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
-// module.exports({
+// module
+//   .exports({
 //     show: true,
 //     doNotCloseBrowser: true,
-//     useRecorder: false,
+//     useRecorder: true,
 //     queryDataMap: {
-//         'get_flow': 'success_basic',
-//         // 'get_flow': 'success_empty',
-//     }
-// })
-//     .then(function (result) {
-//         console.log(JSON.stringify(result));
-//     })
-//     .catch(function (error) {
-//         console.error('failed:', error);
-//     });
+//       get_flow: 'success_basic',
+//       // get_flow: 'success_empty',
+//     },
+//   })
+//   .then(function (result) {
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(function (error) {
+//     console.error('failed:', error);
+//   });
