@@ -1,40 +1,38 @@
-const env = require('./env');
+const {createPageDriver} = require('../../helpers');
+const {WAIT} = require('./env');
 
-module.exports = (opts) => {
-    return env.createPageDriver(__filename, opts)
+module.exports = async pageDriverOpts => {
+  // 创建 PageDriver
+  const pageDriver = await createPageDriver(__filename, pageDriverOpts);
 
-        // 加载页面地址
-        .goto(env.getPageUrl())
+  await pageDriver.setPageUrl('http://now.qq.com/hybrid-app');
 
-        // 第一步：开始操作之前
-        .addAction('init', function (nightmare) {
-            // nightmare 支持所有的原始 nightmare 语法和对其定制的扩展功能
-            return nightmare.wait(500);
-        })
+  // 第一步：开始操作之前
+  await pageDriver.addAction('init', async page => {
+    await page.waitFor(WAIT.READY);
+  });
 
-        // 第二步：点击使用 location 调用 jsbridge
-        .addAction('selectQuota', function (nightmare) {
-            return nightmare.click('#call-by-location');
-        })
+  // 第二步：点击使用 location 调用 jsbridge
+  await pageDriver.addAction('clickJsBridge', async page => {
+    await page.click('#call-by-location');
+  });
 
-        // 需要等待某些条件达成，才开始运行爬虫脚本
-        .wait(env.WAIT.READY)
-
-        // 爬虫脚本的函数，用于获取页面中的数据
-        .evaluate(() => {
-            return {
-                remarks: '调试使用 location 调用 jsbridge'
-            };
-        })
-
-        // 结束，获取结果
-        .end();
+  return await pageDriver.evaluate(() => {
+    return {
+      remarks: '调试使用 location 调用 jsbridge',
+    };
+  });
 };
 
-// module.exports({ show: true, doNotCloseBrowser: true, useRecorder: true })
-//     .then(function (result) {
-//         console.log(JSON.stringify(result));
-//     })
-//     .catch(function (error) {
-//         console.error('failed:', error);
-//     });
+// module
+//   .exports({
+//     show: true,
+//     doNotCloseBrowser: true,
+//     useRecorder: true,
+//   })
+//   .then(function (result) {
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(function (error) {
+//     console.error('failed:', error);
+//   });
