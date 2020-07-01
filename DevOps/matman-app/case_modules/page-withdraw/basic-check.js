@@ -2,7 +2,7 @@ const path = require('path');
 const matman = require('matman');
 const {BrowserRunner} = require('matman-runner-puppeteer');
 
-const {BASIC_QUERY_DATA_MAP} = require('./env');
+const {BASIC_QUERY_DATA_MAP, WAIT} = require('./env');
 
 module.exports = async pageDriverOpts => {
   // 创建 PageDriver，API 详见 https://matmanjs.github.io/matman/api/
@@ -12,7 +12,9 @@ module.exports = async pageDriverOpts => {
   await pageDriver.useProxyServer(await matman.getLocalWhistleServer(8899));
 
   // 设置 mock server
-  await pageDriver.useMockstar(BASIC_QUERY_DATA_MAP);
+  await pageDriver.useMockstar(
+    Object.assign({}, BASIC_QUERY_DATA_MAP, pageDriverOpts.queryDataMap),
+  );
 
   // 设置浏览器设备型号
   await pageDriver.setDeviceConfig('iPhone 6');
@@ -20,12 +22,15 @@ module.exports = async pageDriverOpts => {
   // 设置截屏
   await pageDriver.setScreenshotConfig(true);
 
+  // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
+  await pageDriver.setCookieConfig('myuin=123456');
+
   // 设置页面地址
   await pageDriver.setPageUrl('http://now.qq.com/withdraw');
 
   // 增加自定义动作
-  await pageDriver.addAction('scanPage', async page => {
-    await page.waitFor('#loaded');
+  await pageDriver.addAction('init', async page => {
+    await page.waitFor(WAIT.READY);
   });
 
   // 获取结果

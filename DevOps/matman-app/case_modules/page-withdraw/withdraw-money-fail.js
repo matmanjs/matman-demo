@@ -2,7 +2,7 @@ const path = require('path');
 const matman = require('matman');
 const {BrowserRunner} = require('matman-runner-puppeteer');
 
-const {BASIC_QUERY_DATA_MAP} = require('./env');
+const {BASIC_QUERY_DATA_MAP, WAIT} = require('./env');
 
 module.exports = async pageDriverOpts => {
   const pageDriver = await matman.launch(new BrowserRunner(), pageDriverOpts);
@@ -25,7 +25,7 @@ module.exports = async pageDriverOpts => {
 
   // 第一步：开始操作之前
   await pageDriver.addAction('init', async page => {
-    await page.waitFor('#loaded');
+    await page.waitFor(WAIT.READY);
   });
 
   // 第二步：选中【5元】

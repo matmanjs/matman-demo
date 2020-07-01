@@ -14,6 +14,16 @@ const BASIC_QUERY_DATA_MAP = {
   withdraw_money: 'success',
 };
 
+/**
+ * 运行爬虫脚本之前的条件
+ *
+ * @type {Object}
+ */
+const WAIT = {
+  READY: '#loaded',
+};
+
 module.exports = {
   BASIC_QUERY_DATA_MAP,
+  WAIT,
 };
