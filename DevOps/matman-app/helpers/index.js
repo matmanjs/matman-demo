@@ -1,40 +1,39 @@
+const _ = require('lodash');
 const matman = require('matman');
-const { createMockStarQuery } = require('mockstar');
+const {BrowserRunner} = require('matman-runner-puppeteer');
 
 /**
  * 创建端对端测试的 page driver
  *
  * @param {String} caseModuleFilePath caseModule的根目录，必须要绝对路径
- * @param {Object} opts 额外参数
- * @return {matman.PageDriver}
+ * @param {Object} pageDriverOpts 额外参数
+ * @param {Object} [queryDataMap] 额外参数
  * @author helinjiang
  */
-function createPageDriver(caseModuleFilePath, opts = {}) {
-    const pageDriver = matman
+async function createPageDriver(caseModuleFilePath, pageDriverOpts, queryDataMap) {
+  // 创建 PageDriver，API 详见 https://matmanjs.github.io/matman/api/
+  const pageDriver = await matman.launch(
+    new BrowserRunner(),
+    _.merge({}, pageDriverOpts, {caseModuleFilePath}),
+  );
 
-        // 创建 Browser 对象，使用它对浏览器进行设置
-        .launch({ show: process.env.SHOW_BROWSER || opts.show })
+  // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
+  await pageDriver.useProxyServer(await matman.getLocalWhistleServer(8899));
 
-        // 创建 Page 对象，使用它可以实现对浏览器页面的控制
-        .newPage(caseModuleFilePath, opts)
+  // 使用 mockstar 来做 mock server 用于构造假数据
+  if (queryDataMap || pageDriverOpts.queryDataMap) {
+    pageDriver.useMockstar(_.merge({}, queryDataMap, pageDriverOpts.queryDataMap));
+  }
 
-        // 设置浏览器参数
-        .setDeviceConfig('mobile')
+  // 设置浏览器设备型号
+  await pageDriver.setDeviceConfig('iPhone 6');
 
-        // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
-        .useProxyServer(`127.0.0.1:${process.env.WHISTLE_PORT || 8899}`)
+  // 设置截屏
+  await pageDriver.setScreenshotConfig(true);
 
-        // 设置截屏
-        .setScreenshotConfig(true);
-
-    // 使用 mockstar 来做构造假数据
-    if (opts.queryDataMap) {
-        pageDriver.useMockstar(createMockStarQuery(opts.queryDataMap));
-    }
-
-    return pageDriver;
+  return pageDriver;
 }
 
 module.exports = {
-    createPageDriver
+  createPageDriver,
 };
