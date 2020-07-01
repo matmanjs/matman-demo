@@ -1,5 +1,4 @@
 const path = require('path');
-
 const {createPageDriver} = require('../../helpers');
 const {BASIC_QUERY_DATA_MAP, WAIT} = require('./env');
 

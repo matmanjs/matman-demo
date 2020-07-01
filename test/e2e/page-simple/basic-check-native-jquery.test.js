@@ -19,7 +19,7 @@ describe('simple 页面：常规检查-普通静态页面(使用原生jQuery语�
     let data;
 
     before(function () {
-      data = matmanResult.get('scanPage');
+      data = matmanResult.get('init');
     });
 
     it('顶层图片检查通过', function () {
