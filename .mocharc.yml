@@ -1,0 +1,6 @@
+require:
+  - 'babel-core/register'
+reporter: 'mochawesome'
+reporterOptions:
+  - 'reportDir=.dwt_output/mochawesome'
+recursive: true
