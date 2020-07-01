@@ -1,20 +1,11 @@
 const path = require('path');
-const matman = require('matman');
-const {BrowserRunner} = require('matman-runner-puppeteer');
 
+const {createPageDriver} = require('../../helpers');
 const {BASIC_QUERY_DATA_MAP, WAIT} = require('./env');
 
 module.exports = async pageDriverOpts => {
-  const pageDriver = await matman.launch(new BrowserRunner(), pageDriverOpts);
-
-  // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
-  await pageDriver.useProxyServer(await matman.getLocalWhistleServer(8899));
-
-  await pageDriver.useMockstar(BASIC_QUERY_DATA_MAP);
-
-  await pageDriver.setDeviceConfig('iPhone 6');
-
-  await pageDriver.setScreenshotConfig(true);
+  // 创建 PageDriver
+  const pageDriver = await createPageDriver(__filename, pageDriverOpts, BASIC_QUERY_DATA_MAP);
 
   // 本页面实际需要有登录态信息，自动化测试时手动设置 cookie
   await pageDriver.setCookieConfig('myuin=123456');
