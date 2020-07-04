@@ -3,7 +3,8 @@
   "description": "matman-app",
   "version": "1.0.0",
   "scripts": {
-    "build": "matman build"
+    "build": "matman build",
+    "build-dev": "matman build --dev"
   },
   "dependencies": {
     "lodash": "^4.17.15",

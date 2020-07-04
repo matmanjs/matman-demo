@@ -20,7 +20,7 @@ $ npm install
 ```sh
 # 开发模式
 $ npm start
-```
+
 
 
 ### 1.2 代理
