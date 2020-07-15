@@ -6,7 +6,7 @@ const { createPageDriver } = require('../../../helpers');
  * @type {Object}
  */
 const WAIT = {
-    READY: '#root .page-hybrid-app'
+  READY: '#root .page-hybrid-app',
 };
 
 /**
@@ -16,11 +16,11 @@ const WAIT = {
  * @return {String}
  */
 function getPageUrl(isDev) {
-    return 'http://now.qq.com/hybrid-app';
+  return 'http://now.qq.com/hybrid-app';
 }
 
 module.exports = {
-    getPageUrl,
-    WAIT,
-    createPageDriver
+  getPageUrl,
+  WAIT,
+  createPageDriver,
 };

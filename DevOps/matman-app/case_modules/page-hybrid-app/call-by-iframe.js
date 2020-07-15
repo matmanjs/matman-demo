@@ -1,5 +1,5 @@
-const {createPageDriver} = require('../../helpers');
-const {WAIT} = require('./env');
+const { createPageDriver } = require('../../helpers');
+const { WAIT } = require('./env');
 
 module.exports = async pageDriverOpts => {
   // 创建 PageDriver

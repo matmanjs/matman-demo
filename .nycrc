@@ -1,0 +1,10 @@
+{
+    "include": [
+        "src/**/data/**/*.js"
+    ],
+    "exclude": [
+        "DevOps/**/*.js",
+        "src/**/modules/**/*.js",
+        "src/**/assets/**/*.js"
+    ]
+}

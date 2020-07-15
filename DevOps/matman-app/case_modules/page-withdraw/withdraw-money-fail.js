@@ -1,6 +1,6 @@
 const path = require('path');
-const {createPageDriver} = require('../../helpers');
-const {BASIC_QUERY_DATA_MAP, WAIT} = require('./env');
+const { createPageDriver } = require('../../helpers');
+const { BASIC_QUERY_DATA_MAP, WAIT } = require('./env');
 
 module.exports = async pageDriverOpts => {
   // 创建 PageDriver

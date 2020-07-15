@@ -1,4 +1,4 @@
-const {createPageDriver} = require('../../helpers');
+const { createPageDriver } = require('../../helpers');
 
 module.exports = async pageDriverOpts => {
   // 创建 PageDriver

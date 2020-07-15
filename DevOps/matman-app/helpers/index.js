@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const matman = require('matman');
-const {BrowserRunner} = require('matman-runner-puppeteer');
+const { BrowserRunner } = require('matman-runner-puppeteer');
 
 /**
  * 创建端对端测试的 page driver
@@ -14,7 +14,7 @@ async function createPageDriver(caseModuleFilePath, pageDriverOpts, queryDataMap
   // 创建 PageDriver，API 详见 https://matmanjs.github.io/matman/api/
   const pageDriver = await matman.launch(
     new BrowserRunner(),
-    _.merge({}, pageDriverOpts, {caseModuleFilePath}),
+    _.merge({}, pageDriverOpts, { caseModuleFilePath }),
   );
 
   // 走指定的代理服务，由代理服务配置请求加载本地项目，从而达到同源测试的目的
