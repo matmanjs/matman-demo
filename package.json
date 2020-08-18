@@ -61,7 +61,7 @@
         "istanbul-instrumenter-loader": "^3.0.1",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
-        "matman-e2e-test": "^1.0.0",
+        "matman-e2e-test": "^1.0.1",
         "mocha": "^8.0.1",
         "mochawesome": "^6.1.1",
         "nyc": "^15.1.0",
