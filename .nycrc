@@ -1,10 +1,17 @@
 {
+    "all": true,
     "include": [
-        "src/**/data/**/*.js"
+        "src/**/*.js"
     ],
     "exclude": [
-        "DevOps/**/*.js",
+        "src/**/node/**/*.js",
         "src/**/modules/**/*.js",
         "src/**/assets/**/*.js"
-    ]
+    ],
+    "reporter":[
+         "text-summary",
+         "html",
+         "lcovonly"
+    ],
+    "report-dir": ".matman_output/coverage"
 }

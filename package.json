@@ -6,10 +6,12 @@
         "build": "react-app-rewired build",
         "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
         "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
-        "test": "cd DevOps/devops-app && npm install && npm run test",
-        "test:unit": "cross-env BABEL_ENV=test mocha test/unit",
-        "test:e2e": "cd DevOps/devops-app && npm install && npm run test:e2e",
-        "test:e2e:direct": "mocha test/e2e"
+        "test": "npm run test:unit && npm run test:e2e ",
+        "test:unit": "npm run coverage",
+        "test:e2e": "node test/run-e2e-test.js",
+        "test:unit:direct": "cross-env BABEL_ENV=test mocha test/unit",
+        "test:e2e:direct": "mocha test/e2e",
+        "coverage": "nyc npm run test:unit:direct"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -59,8 +61,10 @@
         "istanbul-instrumenter-loader": "^3.0.1",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
+        "matman-e2e-test": "^1.0.0",
         "mocha": "^8.0.1",
         "mochawesome": "^6.1.1",
+        "nyc": "^15.1.0",
         "prettier": "^2.0.5",
         "react-app-rewired": "^2.1.5",
         "react-scripts": "^3.3.0"

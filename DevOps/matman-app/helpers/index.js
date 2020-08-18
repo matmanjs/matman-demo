@@ -22,7 +22,7 @@ async function createPageDriver(caseModuleFilePath, pageDriverOpts, queryDataMap
 
   // 使用 mockstar 来做 mock server 用于构造假数据
   if (queryDataMap || pageDriverOpts.queryDataMap) {
-    pageDriver.useMockstar(_.merge({}, queryDataMap, pageDriverOpts.queryDataMap));
+    await pageDriver.useMockstar(_.merge({}, queryDataMap, pageDriverOpts.queryDataMap));
   }
 
   // 设置浏览器设备型号
