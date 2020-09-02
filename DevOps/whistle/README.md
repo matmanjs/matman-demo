@@ -10,10 +10,10 @@ whistle 官方文档： https://wproxy.org/whistle/ 。
 
 ``` 
 # 本地开发模式
-$ npm run start-dev
+$ npm run use-dev
 
 # 生产构建模式
-$ npm run start-prod
+$ npm run use-prod
 ```
 
 
@@ -29,4 +29,4 @@ $ npm run start-prod
 
 ## 提供给自动化测试的接口
 
-在 `index.js` 里面提供了两个方法，可以动态生成代理规则，不同的项目需要自行进行更改。
+在 `index.js` 里面提供了两个方法，可以动态生成代理规则，不同项目需要自行进行更改。
