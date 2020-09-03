@@ -2,7 +2,7 @@ const path = require('path');
 const { E2ERunner } = require('matman-e2e-test');
 const whistle = require('../DevOps/whistle');
 
-const bootstrapProjectPort = 3333 || process.env.PROJECT_PORT;
+const bootstrapProjectPort = 3000 || process.env.PROJECT_PORT;
 const bootstrapMockstarPort = 9527 || process.env.MOCKSTAR_PORT;
 const bootstrapWhistlePort = 8899 || process.env.WHISTLE_PORT;
 
@@ -25,8 +25,8 @@ const bootstrapWhistlePort = 8899 || process.env.WHISTLE_PORT;
       cwd: WORKSPACE_PATH,
       port: bootstrapProjectPort,
       usePort: true,
-      customCloseHandler: data => {
-        return data && data.indexOf('Compiled successfully') > -1;
+      checkIfBuildCompleted: stdoutData => {
+        return stdoutData && stdoutData.indexOf('Compiled successfully') > -1;
       },
     },
   );
