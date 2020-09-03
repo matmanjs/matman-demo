@@ -3,10 +3,8 @@ import React from 'react';
 import './index.less';
 
 export default function PageSimple() {
-  const anchorPic1 =
-    '//pic.url.cn/hy_personal/33ab1df8c733dfb724654cb8d9b8fe91647fc4ed4ade9ec4002d92f0e8867248/640';
-  const anchorPic2 =
-    '//pic.url.cn/hy_personal/e308b9c90742cc3c5c67334b6db49b19f891e8d507212fde3af431b8b8597b02/640';
+  const anchorPic1 = '//pic.url.cn/hy_personal/33ab1df8c733dfb724654cb8d9b8fe91647fc4ed4ade9ec4002d92f0e8867248/640';
+  const anchorPic2 = '//pic.url.cn/hy_personal/e308b9c90742cc3c5c67334b6db49b19f891e8d507212fde3af431b8b8597b02/640';
 
   return (
     <div id="container">

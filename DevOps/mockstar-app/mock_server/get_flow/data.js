@@ -32,7 +32,7 @@ function getFlowDataItem(money, opType, taskId, timestamp) {
     flow_timestamp: parseInt(timestamp / 1000, 10),
     flow_op: opType,
     ext_info: {
-      task_id: taskId + '',
+      task_id: `${taskId}`,
     },
   };
 }
