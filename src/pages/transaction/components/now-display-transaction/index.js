@@ -20,5 +20,5 @@ export default class DisplayTransaction extends Component {
                 }
             </div>
         );
-    };
+    }
 }
