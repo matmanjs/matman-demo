@@ -4,8 +4,8 @@
     "scripts": {
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
-        "use-whistle-dev": "cd DevOps/whistle && npm run start-dev",
-        "use-whistle-prod": "cd DevOps/whistle && npm run start-prod",
+        "use-whistle-dev": "cd DevOps/whistle && npm run use-dev",
+        "use-whistle-prod": "cd DevOps/whistle && npm run use-prod",
         "test": "npm run test:unit && npm run test:e2e ",
         "test:unit": "npm run coverage",
         "test:e2e": "node test/run-e2e-test.js",
