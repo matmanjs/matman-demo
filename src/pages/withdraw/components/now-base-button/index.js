@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './index.less';
 
-//支持的 size
+// 支持的 size
 const sizeList = ['small', 'large', 'middle'];
 
 export default class Button extends Component {
@@ -26,7 +26,7 @@ export default class Button extends Component {
       console.warn('now-button 支持的 size 只支持 small middle large');
     }
 
-    let buttonClass = `now-button now-button-type${type} now-button-${size}` + (className || '');
+    let buttonClass = `now-button now-button-type${type} now-button-${size}${className || ''}`;
 
     buttonClass += disabled ? ' disabled' : '';
 

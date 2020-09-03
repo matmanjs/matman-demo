@@ -11,12 +11,12 @@ export default class Dialog extends Component {
       document.body.appendChild(opts.dom);
     }
 
-    const dom = opts.dom;
+    const { dom } = opts;
 
     ReactDOM.render(React.createElement(this, opts), dom);
 
     return {
-      remove: function () {
+      remove() {
         ReactDOM.unmountComponentAtNode(dom);
         document.body.removeChild(dom);
       },
@@ -27,7 +27,7 @@ export default class Dialog extends Component {
     const { skin, text, title, onEnter, onCancel, enterText, cancelText } = this.props;
 
     return (
-      <div className={'dialog-wrapper ' + (skin || '')}>
+      <div className={`dialog-wrapper ${skin || ''}`}>
         <div className="dialog-inner">
           <div className="dialog-text">
             {title ? <div className="title">{title}</div> : null}

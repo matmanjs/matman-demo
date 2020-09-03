@@ -41,7 +41,7 @@ export function showAlert(opts) {
  * @param {Object | String} opts
  */
 function showByBaseDialog(opts) {
-  let params = Object.assign(
+  const params = Object.assign(
     {
       text: '提示文案',
       enterText: '确定',
@@ -52,7 +52,7 @@ function showByBaseDialog(opts) {
 
   let dlg;
 
-  let removeDlg = () => {
+  const removeDlg = () => {
     if (typeof dlg !== 'undefined') {
       dlg.remove();
     }

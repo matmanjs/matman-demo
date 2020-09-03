@@ -9,7 +9,7 @@
  */
 export function getData(data = {}) {
   // 这里的钱单位都是分
-  let obj = {
+  const obj = {
     available: data.cur_money || 0,
     quotas: data.quotas || [],
   };

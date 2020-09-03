@@ -33,14 +33,14 @@ class PageWithdraw extends Component {
     }
 
     this.fetch()
-      .then(data => {
+      .then((data) => {
         if (process.env.NODE_ENV !== 'production') {
           console.log('[withdraw] this.fetch() then', data);
         }
 
         this.handleOnReady(true, data);
       })
-      .catch(err => {
+      .catch((err) => {
         if (process.env.NODE_ENV !== 'production') {
           console.log('[withdraw] this.fetch() catch', err);
         }

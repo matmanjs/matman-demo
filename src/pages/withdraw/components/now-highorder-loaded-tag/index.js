@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 class HighorderLoadedTag extends PureComponent {
   render() {
-    let { isBalanceInfoLoaded, isVerifyInfoLoaded } = this.props;
+    const { isBalanceInfoLoaded, isVerifyInfoLoaded } = this.props;
     if (!isBalanceInfoLoaded || !isVerifyInfoLoaded) {
       return null;
     }
@@ -13,7 +13,7 @@ class HighorderLoadedTag extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  let { balanceInfo, verifyInfo } = state;
+  const { balanceInfo, verifyInfo } = state;
 
   return {
     isBalanceInfoLoaded: balanceInfo.isLoaded,

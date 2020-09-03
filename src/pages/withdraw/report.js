@@ -7,7 +7,7 @@ export function reportPv(params) {
         report_id: 987,
       },
     })
-    .catch(err => {
+    .catch((err) => {
       if (process.env.NODE_ENV !== 'production') {
         console.log('reportPv err', err, params);
       }

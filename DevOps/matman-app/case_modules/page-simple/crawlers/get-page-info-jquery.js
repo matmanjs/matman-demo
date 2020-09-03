@@ -37,8 +37,7 @@ function getMiddleRule() {
   };
 
   if (result.isExist) {
-    result.text = $.trim($(parentSelector)
-      .text());
+    result.text = $.trim($(parentSelector).text());
   }
 
   return result;
@@ -55,10 +54,8 @@ function getButtonCondition() {
   };
 
   if (result.isExist) {
-    result.active_btn = $.trim($('.active', parentSelector)
-      .text());
-    result.disable_btn = $.trim($('.disable', parentSelector)
-      .text());
+    result.active_btn = $.trim($('.active', parentSelector).text());
+    result.disable_btn = $.trim($('.disable', parentSelector).text());
   }
 
   return result;
@@ -75,10 +72,9 @@ function getOneLineText() {
   };
 
   if (result.isExist) {
-    const computedStyle = document.defaultView.getComputedStyle($('div.long-word', parentSelector)[0]);
+    const computedStyle = document.defaultView.getComputedStyle($('div.long-word', parentSelector)[0],);
     result.isOneLine = parseInt(computedStyle.height) === parseInt(computedStyle.lineHeight);
-    result.text = $.trim($('div.long-word', parentSelector)
-      .text());
+    result.text = $.trim($('div.long-word', parentSelector).text());
   }
 
   return result;

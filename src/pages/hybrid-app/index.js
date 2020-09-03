@@ -36,11 +36,11 @@ export default class PageHybridApp extends Component {
     // Callback function to execute when mutations are observed
     const callback = function (mutationsList, observer) {
       // Use traditional 'for loops' for IE 11
-      for (let mutation of mutationsList) {
+      for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
           console.log('A child node has been added or removed.');
         } else if (mutation.type === 'attributes') {
-          console.log('The ' + mutation.attributeName + ' attribute was modified.');
+          console.log(`The ${mutation.attributeName} attribute was modified.`);
         }
 
         // https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
@@ -133,9 +133,7 @@ export default class PageHybridApp extends Component {
         </div>
 
         <ul className="msg">
-          {logs.map((log, index) => {
-            return <li key={index}>{log}</li>;
-          })}
+          {logs.map((log, index) => <li key={index}>{log}</li>)}
         </ul>
       </div>
     );

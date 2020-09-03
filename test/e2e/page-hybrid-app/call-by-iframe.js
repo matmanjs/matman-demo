@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 const checkPage = require('../../../DevOps/matman-app/case_modules/page-hybrid-app/call-by-iframe');
 
@@ -7,7 +7,7 @@ describe('hybrid 页面：使用 iframe 方式调用 jsbridge', function () {
 
   let matmanResult;
 
-  before(async function () {
+  before(async () => {
     matmanResult = await checkPage({
       show: false,
       doNotCloseBrowser: false,
@@ -15,35 +15,35 @@ describe('hybrid 页面：使用 iframe 方式调用 jsbridge', function () {
     });
   });
 
-  describe('实际调用了 tnow://callByIframe?name=matman', function () {
+  describe('实际调用了 tnow://callByIframe?name=matman', () => {
     let data;
 
-    before(function () {
+    before(() => {
       data = matmanResult.data;
     });
 
-    it('tnow://callByIframe 匹配成功', function () {
+    it('tnow://callByIframe 匹配成功', () => {
       expect(matmanResult.isExistJSBridge('tnow://callByIframe')).to.be.true;
     });
 
-    it('tnow://callByIframe?name=matman 匹配成功', function () {
+    it('tnow://callByIframe?name=matman 匹配成功', () => {
       expect(matmanResult.isExistJSBridge('tnow://callByIframe?name=matman')).to.be.true;
     });
 
-    it('tnow://callByIframe 且 {"name":"matman"} 匹配成功', function () {
-      expect(matmanResult.isExistJSBridge('tnow://callByIframe', {name: 'matman'})).to.be.true;
+    it('tnow://callByIframe 且 {"name":"matman"} 匹配成功', () => {
+      expect(matmanResult.isExistJSBridge('tnow://callByIframe', { name: 'matman' })).to.be.true;
     });
 
-    it('tnow://callByIframeSomeOne 匹配失败', function () {
+    it('tnow://callByIframeSomeOne 匹配失败', () => {
       expect(matmanResult.isExistJSBridge('tnow://callByIframeSomeOne')).to.be.false;
     });
 
-    it('tnow://callByIframe?name=matman222 匹配失败', function () {
+    it('tnow://callByIframe?name=matman222 匹配失败', () => {
       expect(matmanResult.isExistJSBridge('tnow://callByIframe?name=matman222')).to.be.false;
     });
 
-    it('tnow://callByIframe 且 {"name":"matman222"} 匹配失败', function () {
-      expect(matmanResult.isExistJSBridge('tnow://callByIframe', {name: 'matman222'})).to.be.false;
+    it('tnow://callByIframe 且 {"name":"matman222"} 匹配失败', () => {
+      expect(matmanResult.isExistJSBridge('tnow://callByIframe', { name: 'matman222' })).to.be.false;
     });
   });
 });

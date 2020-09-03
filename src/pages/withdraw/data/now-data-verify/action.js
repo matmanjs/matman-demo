@@ -19,7 +19,5 @@ function fetchVerifyInfo() {
 }
 
 export function loadVerifyInfo() {
-  return dispatch => {
-    return dispatch(fetchVerifyInfo());
-  };
+  return dispatch => dispatch(fetchVerifyInfo());
 }

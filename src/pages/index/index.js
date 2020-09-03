@@ -47,7 +47,7 @@ export default class PageIndex extends Component {
         <h2>4. Hybrid App</h2>
         <ul>
           <li>
-            <NavLink to={`/hybrid-app`}>{window.location.origin}/hybrid-app</NavLink>
+            <NavLink to={'/hybrid-app'}>{window.location.origin}/hybrid-app</NavLink>
           </li>
         </ul>
       </div>

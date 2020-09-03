@@ -57,7 +57,7 @@ export function getCurUid() {
  */
 export function jumpToIndexPage() {
   setTimeout(() => {
-    window.location.href = `/abc/index`;
+    window.location.href = '/abc/index';
   }, 1000);
 }
 
@@ -66,7 +66,7 @@ export function jumpToIndexPage() {
  */
 export function jumpToVerifyPhonePage() {
   setTimeout(() => {
-    window.location.href = `/abc/verify-phone`;
+    window.location.href = '/abc/verify-phone';
   }, 1000);
 }
 
@@ -75,7 +75,7 @@ export function jumpToVerifyPhonePage() {
  */
 export function jumpToVerifyIdPage() {
   setTimeout(() => {
-    window.location.href = `/abc/verify-id`;
+    window.location.href = '/abc/verify-id';
   }, 1000);
 }
 
@@ -93,7 +93,7 @@ export function jumpToVerifyIdPage() {
 export function dealWithdraw(params) {
   const { withdrawHandler } = params;
 
-  return checkResultBeforeWithdraw(params).then(type => {
+  return checkResultBeforeWithdraw(params).then((type) => {
     switch (type) {
       case CHECK_RESULT.GO_WITHDRAW:
         withdrawHandler();
@@ -131,7 +131,7 @@ export function dealWithdraw(params) {
 export function checkResultBeforeWithdraw(params) {
   const { withdrawMoney, maxWithdrawMoney, isPhoneVerified, isIdVerified } = params;
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (!withdrawMoney) {
       resolve(CHECK_RESULT.WITHDRAW_EMPTY);
     } else if (withdrawMoney > maxWithdrawMoney) {
@@ -177,10 +177,10 @@ export function checkSelectQuota(value, maxWithdrawMoney) {
  */
 export function dealWithdrawResultSuccess(result = {}, withdrawMoney, afterTaxedMoney) {
   return new Promise((resolve, reject) => {
-    let data = result.data || {};
+    const data = result.data || {};
 
     if (data.isSuccess) {
-      let tips = `你的${withdrawMoney / 100}元（税前）提现申请已提交，税后实际到账${
+      const tips = `你的${withdrawMoney / 100}元（税前）提现申请已提交，税后实际到账${
         afterTaxedMoney / 100
       }元。请到QQ钱包-点击QQ钱包余额数字-交易记录查看。`;
 
@@ -191,7 +191,7 @@ export function dealWithdrawResultSuccess(result = {}, withdrawMoney, afterTaxed
 
           resolve();
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     } else {
@@ -208,8 +208,8 @@ export function dealWithdrawResultSuccess(result = {}, withdrawMoney, afterTaxed
  */
 export function dealWithdrawResultFail(error = {}) {
   return new Promise((resolve, reject) => {
-    let err = error.error || error || {};
-    let codeTips = err.retcode ? `(code=${err.retcode})` : '';
+    const err = error.error || error || {};
+    const codeTips = err.retcode ? `(code=${err.retcode})` : '';
 
     // 处理异常的错误码
     if (ERR_MSG[err.retcode]) {

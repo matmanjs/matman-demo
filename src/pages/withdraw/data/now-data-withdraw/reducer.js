@@ -12,7 +12,7 @@ const initialState = {
 
 export default function withdrawMoneyInfo(state = initialState, action) {
   const { transferParam, type } = action;
-  let update = {};
+  const update = {};
 
   switch (type) {
     case WITHDRAW_MONEY_REQUEST_SUCCESS:

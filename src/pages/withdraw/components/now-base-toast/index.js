@@ -15,7 +15,7 @@ export default class AppToast extends Component {
 
     opts.appear = true;
 
-    const dom = opts.dom;
+    const { dom } = opts;
 
     ReactDOM.render(React.createElement(this, opts), dom);
 
@@ -35,7 +35,7 @@ export default class AppToast extends Component {
     }
 
     return {
-      remove: remove,
+      remove,
     };
   }
 
@@ -47,7 +47,7 @@ export default class AppToast extends Component {
   };
 
   render() {
-    let { content, type, top, style, children, show = true } = this.props;
+    const { content, type, top, style, children, show = true } = this.props;
 
     let toastClass = '';
     switch (type) {
@@ -67,7 +67,7 @@ export default class AppToast extends Component {
     }
 
     const toastStyle = Object.assign({}, style, {
-      paddingTop: top + 8 + 'px',
+      paddingTop: `${top + 8}px`,
     });
 
     return (

@@ -47,18 +47,18 @@ export default class DisplayWithdraw extends Component {
    * 处理提交提现操作的逻辑
    */
   handleWithdrawMoney = () => {
-    let { withdrawMoney, afterTaxedMoney, maxWithdrawMoney } = this.state;
+    const { withdrawMoney, afterTaxedMoney, maxWithdrawMoney } = this.state;
 
     this.props
       .handleWithdrawMoney(withdrawMoney, afterTaxedMoney, maxWithdrawMoney)
-      .then(newMaxWithdrawMoney => {
+      .then((newMaxWithdrawMoney) => {
         this.setState({
           maxWithdrawMoney: newMaxWithdrawMoney,
           withdrawMoney: 0,
           afterTaxedMoney: 0,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         if (process.env.NODE_ENV !== 'production') {
           console.log('handleWithdrawMoney err', err);
         }
@@ -69,20 +69,20 @@ export default class DisplayWithdraw extends Component {
    * 处理选择提现金额时的逻辑
    * @param {Number} index 提现额度按钮的序号
    */
-  handleSelectQuota = index => {
+  handleSelectQuota = (index) => {
     const { maxWithdrawMoney } = this.state;
     const { quotas } = this.props;
     const quotaValue = quotas[index];
 
     this.props
       .handleSelectQuota(quotaValue, maxWithdrawMoney)
-      .then(result => {
+      .then((result) => {
         this.setState({
           withdrawMoney: result.withdrawMoney,
           afterTaxedMoney: result.afterTaxedMoney,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         if (process.env.NODE_ENV !== 'production') {
           console.error('handleSelectQuota err', err, quotaValue, maxWithdrawMoney);
         }
@@ -90,8 +90,8 @@ export default class DisplayWithdraw extends Component {
   };
 
   render() {
-    let { uid, quotas } = this.props;
-    let { maxWithdrawMoney, withdrawMoney, afterTaxedMoney } = this.state;
+    const { uid, quotas } = this.props;
+    const { maxWithdrawMoney, withdrawMoney, afterTaxedMoney } = this.state;
 
     return (
       <div className="display-withdraw">

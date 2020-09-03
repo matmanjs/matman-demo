@@ -45,7 +45,7 @@ export default class Animation extends Component {
     }
   }
 
-  onAnimationEnd = e => {
+  onAnimationEnd = (e) => {
     if (this.state.animationState === ENTERING) {
       this.setState({
         animationState: HAS_ENTER,

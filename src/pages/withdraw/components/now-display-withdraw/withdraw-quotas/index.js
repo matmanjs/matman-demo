@@ -19,7 +19,7 @@ class DisplayWithdrawQuatosItem extends PureComponent {
     const { num, index, withdrawMoney, maxWithdrawMoney } = this.props;
 
     const className = classnames({
-      ['i' + index]: true,
+      [`i${index}`]: true,
       item: true,
       available: num <= maxWithdrawMoney,
       active: withdrawMoney === num,
@@ -28,7 +28,7 @@ class DisplayWithdrawQuatosItem extends PureComponent {
     return (
       <span className={className} onClick={this.handleClick}>
         {' '}
-        {num / 100 + '元'}{' '}
+        {`${num / 100}元`}{' '}
       </span>
     );
   }
@@ -42,8 +42,7 @@ export default function DisplayWithdrawQuotas(props) {
       <span className="title">提现金额(元)</span>
 
       <div className="selection">
-        {quotas.map((item, index) => {
-          return (
+        {quotas.map((item, index) => (
             <DisplayWithdrawQuatosItem
               key={index}
               index={index}
@@ -52,8 +51,7 @@ export default function DisplayWithdrawQuotas(props) {
               maxWithdrawMoney={maxWithdrawMoney}
               selectQuota={selectQuota}
             />
-          );
-        })}
+        ))}
       </div>
 
       {afterTaxedMoney ? (

@@ -6,11 +6,11 @@ function getUrl(url, param) {
 }
 
 function getParam(obj) {
-  var str = [];
-  for (var k in obj) {
+  const str = [];
+  for (const k in obj) {
     if (obj.hasOwnProperty(k)) {
-      var v = typeof obj[k] !== 'undefined' ? obj[k] : '';
-      str.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+      const v = typeof obj[k] !== 'undefined' ? obj[k] : '';
+      str.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
     }
   }
   return str.join('&');
@@ -24,8 +24,8 @@ export function callByLocaiton(url, param) {
 
 export function callByIframe(url, param) {
   url = getUrl(url, param);
-  const iframe = document.createElement('iframe'),
-    body = document.getElementsByTagName('body')[0];
+  const iframe = document.createElement('iframe');
+  const body = document.getElementsByTagName('body')[0];
 
   body.appendChild(iframe);
 
@@ -42,12 +42,12 @@ export function callByIframe(url, param) {
     opacity: 0,
     visibility: 'hidden',
   };
-  for (let k in style) {
+  for (const k in style) {
     iframe.style[k] = style[k];
   }
   iframe.src = url;
 
-  setTimeout(function () {
+  setTimeout(() => {
     try {
       // 有可能某些情况下执行 jsbridge，但是在 2s 内用户可能跳走，
       // 如果 webview 本身未做释放，则可能会继续执行该逻辑，从而导致出错

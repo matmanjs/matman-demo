@@ -13,11 +13,11 @@ function fetchWithdrawMoney(amount) {
       url: '//cgi.now.qq.com/cgi-bin/a/b/withdraw_money',
       type: 'get',
       data: {
-        amount: amount,
+        amount,
         activeid: 10001,
       },
       transferParam: {
-        amount: amount,
+        amount,
       },
       convert: getData,
     },
@@ -25,7 +25,5 @@ function fetchWithdrawMoney(amount) {
 }
 
 export function loadWithdrawMoney(amount) {
-  return dispatch => {
-    return dispatch(fetchWithdrawMoney(amount));
-  };
+  return dispatch => dispatch(fetchWithdrawMoney(amount));
 }

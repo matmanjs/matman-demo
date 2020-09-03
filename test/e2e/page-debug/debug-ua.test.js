@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 const checkPage = require('../../../DevOps/matman-app/case_modules/page-debug/debug-ua');
 
@@ -7,7 +7,7 @@ describe('debug 页面：调试UA', function () {
 
   let matmanResult;
 
-  before(async function () {
+  before(async () => {
     matmanResult = await checkPage({
       show: false,
       doNotCloseBrowser: false,
@@ -15,17 +15,15 @@ describe('debug 页面：调试UA', function () {
     });
   });
 
-  describe('检查基本信息', function () {
+  describe('检查基本信息', () => {
     let data;
 
-    before(function () {
+    before(() => {
       data = matmanResult.get('init');
     });
 
-    it('ua符合预期（包含了自定义字符串 mycustomua）', function () {
-      expect(data.ua).to.equal(
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36 mycustomua',
-      );
+    it('ua符合预期（包含了自定义字符串 mycustomua）', () => {
+      expect(data.ua).to.equal('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36 mycustomua',);
     });
   });
 });

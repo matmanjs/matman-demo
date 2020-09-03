@@ -21,7 +21,5 @@ function fetchBalanceInfo() {
 }
 
 export function loadBalanceInfo() {
-  return dispatch => {
-    return dispatch(fetchBalanceInfo());
-  };
+  return dispatch => dispatch(fetchBalanceInfo());
 }
