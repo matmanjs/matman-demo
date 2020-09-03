@@ -1,11 +1,3 @@
-module.exports = () => ({
-  topImageInfo: getTopImageInfo(),
-  middleRule: getMiddleRule(),
-  buttonCondition: getButtonCondition(),
-  oneLineText: getOneLineText(),
-  remarks: 'Got data by native jQuery!',
-});
-
 /**
  * 顶层图片信息
  */
@@ -79,3 +71,11 @@ function getOneLineText() {
 
   return result;
 }
+
+module.exports = () => ({
+  topImageInfo: getTopImageInfo(),
+  middleRule: getMiddleRule(),
+  buttonCondition: getButtonCondition(),
+  oneLineText: getOneLineText(),
+  remarks: 'Got data by native jQuery!',
+});

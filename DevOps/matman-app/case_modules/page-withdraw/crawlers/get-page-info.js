@@ -1,13 +1,5 @@
 const { useJquery } = require('web-crawl-util');
 
-module.exports = () => ({
-  noticeInfo: getNoticeInfo(),
-  withdrawInfo: getWithdrawInfo(),
-  ruleInfo: getRuleInfo(),
-  alertInfo: getAlertInfo(),
-  toastInfo: getToastInfo(),
-});
-
 /**
  * 消息提示
  */
@@ -61,7 +53,8 @@ function getWithdrawInfo() {
     result.balanceTips = useJquery.getText('.withdraw-balance-tips', parentSelector);
 
     result.submitTxt = useJquery.getText('.withdraw-submit .now-button', parentSelector);
-    result.isSubmitActive = !$('.withdraw-submit .now-button', parentSelector).hasClass('disabled');
+    result.isSubmitActive = !$('.withdraw-submit .now-button', parentSelector)
+      .hasClass('disabled');
   }
 
   return result;
@@ -83,9 +76,11 @@ function getRuleInfo() {
 
       const title = useJquery.getText('h2', jqDom);
       const rules = [];
-      $('p', jqDom).each(function () {
-        rules.push($.trim($(this).text()));
-      });
+      $('p', jqDom)
+        .each(function () {
+          rules.push($.trim($(this)
+            .text()));
+        });
 
       return {
         title,
@@ -140,3 +135,11 @@ function getToastInfo() {
 
   return result;
 }
+
+module.exports = () => ({
+  noticeInfo: getNoticeInfo(),
+  withdrawInfo: getWithdrawInfo(),
+  ruleInfo: getRuleInfo(),
+  alertInfo: getAlertInfo(),
+  toastInfo: getToastInfo(),
+});
