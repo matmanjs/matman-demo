@@ -2,6 +2,7 @@ const path = require('path');
 const { E2ERunner } = require('matman-e2e-test');
 const whistle = require('../DevOps/whistle');
 
+const bootstrapProjectPort = 3333 || process.env.PROJECT_PORT;
 const bootstrapMockstarPort = 9527 || process.env.MOCKSTAR_PORT;
 const bootstrapWhistlePort = 8899 || process.env.WHISTLE_PORT;
 
@@ -17,10 +18,18 @@ const bootstrapWhistlePort = 8899 || process.env.WHISTLE_PORT;
   // 开始启动
   await e2eRunner.start();
 
-  // 构建项目
-  await e2eRunner.buildProject('npx cross-env ENABLE_E2E_TEST=1 npm start', {
-    cwd: WORKSPACE_PATH,
-  });
+  // 构建项目，create-react-app 可以通过 PORT 来指定启动端口，默认是 3000
+  const projectPort = await e2eRunner.buildProject(
+    port => `npx cross-env ENABLE_E2E_TEST=1 PORT=${port} npm start`,
+    {
+      cwd: WORKSPACE_PATH,
+      port: bootstrapProjectPort,
+      usePort: true,
+      customCloseHandler: data => {
+        return data && data.indexOf('Compiled successfully') > -1;
+      },
+    },
+  );
 
   // 启动 mockstar
   const mockstarAppPath = path.join(WORKSPACE_PATH, './DevOps/mockstar-app');
@@ -37,6 +46,7 @@ const bootstrapWhistlePort = 8899 || process.env.WHISTLE_PORT;
         projectRootPath: WORKSPACE_PATH,
         shouldUseMockstar: true,
         mockstarPort,
+        projectPort,
       });
     },
   });
@@ -47,8 +57,10 @@ const bootstrapWhistlePort = 8899 || process.env.WHISTLE_PORT;
 
   // debug 日志
   console.log({
+    bootstrapProjectPort,
     bootstrapMockstarPort,
     bootstrapWhistlePort,
+    projectPort,
     mockstarPort,
     whistlePort,
   });

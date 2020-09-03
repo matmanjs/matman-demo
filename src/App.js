@@ -13,17 +13,17 @@ import PageHybridApp from './pages/hybrid-app';
 import './App.less';
 
 export default function App() {
-    return (
-        <Router>
-            <Switch>
-                <Route exact path={`/`} component={PageIndex} />
-                <Route path={`/abc/:pageName`} component={PageAbc} />
-                <Route path={`/simple`} component={PageSimple} />
-                <Route path={`/transaction`} component={PageTransaction} />
-                <Route path={`/withdraw`} component={PageWithdraw} />
-                <Route path={`/debug`} component={PageDebug} />
-                <Route path={`/hybrid-app`} component={PageHybridApp} />
-            </Switch>
-        </Router>
-    );
+  return (
+    <Router>
+      <Switch>
+        <Route exact path={`/`} component={PageIndex} />
+        <Route path={`/abc/:pageName`} component={PageAbc} />
+        <Route path={`/simple`} component={PageSimple} />
+        <Route path={`/transaction`} component={PageTransaction} />
+        <Route path={`/withdraw`} component={PageWithdraw} />
+        <Route path={`/debug`} component={PageDebug} />
+        <Route path={`/hybrid-app`} component={PageHybridApp} />
+      </Switch>
+    </Router>
+  );
 }
