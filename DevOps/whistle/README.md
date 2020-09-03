@@ -8,14 +8,13 @@ whistle 官方文档： https://wproxy.org/whistle/ 。
 
 目前已经提供了两个 npm script 命令：
 
-``` 
+```
 # 本地开发模式
 $ npm run use-dev
 
 # 生产构建模式
 $ npm run use-prod
 ```
-
 
 ## 使用自定义规则的生成文件
 
@@ -24,8 +23,7 @@ $ npm run use-prod
 推荐如下实践：
 
 - 因为可能有多个规则文件，因此规则文件放置在 `rules` 目录下集中管理；
-- 规则文件命名规则为 `whistle.xxx.js` ，例如 `whistle.dev.js` 和 `whistle.prod.js` ； 
-
+- 规则文件命名规则为 `whistle.xxx.js` ，例如 `whistle.dev.js` 和 `whistle.prod.js` ；
 
 ## 提供给自动化测试的接口
 

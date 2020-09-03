@@ -1,4 +1,4 @@
-const whistle = require('../index');
+const { getProdRules } = require('../index');
 
 /**
  * 动态生成 whistle 规则
@@ -9,13 +9,13 @@ const whistle = require('../index');
  * @param {Function} [util.existsPlugin] 判断指定的 whistle 插件是否存在，接受一个 name 参数，返回一个 Boolean 值
  */
 module.exports = (cb, util) => {
-    console.log('即将动态设置 whistle 规则...');
+  console.log(`[whistle.prod.js]即将动态设置 whistle 规则（ whistle 端口号为 ${util.port}）...`);
 
-    const result = whistle.getProdRules();
+  const result = getProdRules();
 
-    console.log('whistle 规则信息为：\n', JSON.stringify(result, null, 2));
+  console.log('[whistle.prod.js]whistle 规则信息为：\n', JSON.stringify(result, null, 2));
 
-    cb(result);
+  cb(result);
 
-    console.log('动态设置 whistle 规则已完成！');
+  console.log('[whistle.prod.js]动态设置 whistle 规则已完成！');
 };
