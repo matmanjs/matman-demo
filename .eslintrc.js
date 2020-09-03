@@ -12,7 +12,7 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ['plugin:react/recommended', '@tencent/eslint-config-tencent'],
+  extends: ['plugin:react/recommended', 'eslint:recommended'],
   settings: {
     react: {
       version: 'detect',
