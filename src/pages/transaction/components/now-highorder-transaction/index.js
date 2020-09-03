@@ -7,9 +7,7 @@ class HighorderTransaction extends Component {
   render() {
     const { isLoaded, list } = this.props;
 
-    return (
-            <DisplayTransaction isLoaded={isLoaded} list={list} />
-    );
+    return <DisplayTransaction isLoaded={isLoaded} list={list} />;
   }
 }
 

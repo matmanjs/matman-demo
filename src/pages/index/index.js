@@ -20,7 +20,7 @@ export default class PageIndex extends Component {
         <h2>1. 简单静态页面</h2>
         <ul>
           <li>
-            <NavLink to={`/simple`}>{window.location.origin}/simple</NavLink>
+            <NavLink to={'/simple'}>{window.location.origin}/simple</NavLink>
           </li>
         </ul>
 
