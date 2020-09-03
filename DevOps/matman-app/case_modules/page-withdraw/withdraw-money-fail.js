@@ -2,7 +2,7 @@ const path = require('path');
 const { createPageDriver } = require('../../helpers');
 const { BASIC_QUERY_DATA_MAP, WAIT } = require('./env');
 
-module.exports = async pageDriverOpts => {
+module.exports = async (pageDriverOpts) => {
   // 创建 PageDriver
   const pageDriver = await createPageDriver(__filename, pageDriverOpts, BASIC_QUERY_DATA_MAP);
 
@@ -12,27 +12,27 @@ module.exports = async pageDriverOpts => {
   await pageDriver.setPageUrl('http://now.qq.com/withdraw');
 
   // 第一步：开始操作之前
-  await pageDriver.addAction('init', async page => {
+  await pageDriver.addAction('init', async (page) => {
     await page.waitFor(WAIT.READY);
   });
 
   // 第二步：选中【5元】
-  await pageDriver.addAction('selectQuota', async page => {
+  await pageDriver.addAction('selectQuota', async (page) => {
     await page.click('#root .display-withdraw .display-withdraw-quotas .selection .i0');
   });
 
   // 第三步：点击【确定】按钮
-  await pageDriver.addAction('clickSubmit', async page => {
+  await pageDriver.addAction('clickSubmit', async (page) => {
     await page.click('#root .display-withdraw .withdraw-submit .now-button');
     await page.waitFor(500);
   });
 
   // 第四步：点击弹窗中的【确定】按钮
-  await pageDriver.addAction('clickDlgOk', async page => {
+  await pageDriver.addAction('clickDlgOk', async (page) => {
     await page.click('.base-alert .dialog-inner .dialog-buttons .dialog-btn.ok');
   });
 
-  return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
+  return pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
 // module

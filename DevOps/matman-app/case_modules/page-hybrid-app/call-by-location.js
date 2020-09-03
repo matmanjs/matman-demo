@@ -1,27 +1,25 @@
 const { createPageDriver } = require('../../helpers');
 const { WAIT } = require('./env');
 
-module.exports = async pageDriverOpts => {
+module.exports = async (pageDriverOpts) => {
   // 创建 PageDriver
   const pageDriver = await createPageDriver(__filename, pageDriverOpts);
 
   await pageDriver.setPageUrl('http://now.qq.com/hybrid-app');
 
   // 第一步：开始操作之前
-  await pageDriver.addAction('init', async page => {
+  await pageDriver.addAction('init', async (page) => {
     await page.waitFor(WAIT.READY);
   });
 
   // 第二步：点击使用 location 调用 jsbridge
-  await pageDriver.addAction('clickJsBridge', async page => {
+  await pageDriver.addAction('clickJsBridge', async (page) => {
     await page.click('#call-by-location');
   });
 
-  return await pageDriver.evaluate(() => {
-    return {
-      remarks: '调试使用 location 调用 jsbridge',
-    };
-  });
+  return pageDriver.evaluate(() => ({
+    remarks: '调试使用 location 调用 jsbridge',
+  }));
 };
 
 // module

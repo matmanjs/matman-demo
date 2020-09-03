@@ -1,12 +1,10 @@
-module.exports = () => {
-  return {
-    topImageInfo: getTopImageInfo(),
-    middleRule: getMiddleRule(),
-    buttonCondition: getButtonCondition(),
-    oneLineText: getOneLineText(),
-    remarks: 'Got data by native jQuery!',
-  };
-};
+module.exports = () => ({
+  topImageInfo: getTopImageInfo(),
+  middleRule: getMiddleRule(),
+  buttonCondition: getButtonCondition(),
+  oneLineText: getOneLineText(),
+  remarks: 'Got data by native jQuery!',
+});
 
 /**
  * 顶层图片信息
@@ -20,10 +18,9 @@ function getTopImageInfo() {
 
   if (result.isExist) {
     result.anchor1 = $.trim($('.use-img', parentSelector).attr('src'));
-    result.anchor2 =
-      (document.defaultView
-        .getComputedStyle($('.use-background', parentSelector)[0])
-        .backgroundImage.match(/url\("(.*)"\)/) || [])[1] || '';
+    result.anchor2 = (document.defaultView
+      .getComputedStyle($('.use-background', parentSelector)[0])
+      .backgroundImage.match(/url\("(.*)"\)/) || [])[1] || '';
   }
 
   return result;
@@ -40,7 +37,8 @@ function getMiddleRule() {
   };
 
   if (result.isExist) {
-    result.text = $.trim($(parentSelector).text());
+    result.text = $.trim($(parentSelector)
+      .text());
   }
 
   return result;
@@ -57,8 +55,10 @@ function getButtonCondition() {
   };
 
   if (result.isExist) {
-    result.active_btn = $.trim($('.active', parentSelector).text());
-    result.disable_btn = $.trim($('.disable', parentSelector).text());
+    result.active_btn = $.trim($('.active', parentSelector)
+      .text());
+    result.disable_btn = $.trim($('.disable', parentSelector)
+      .text());
   }
 
   return result;
@@ -75,9 +75,10 @@ function getOneLineText() {
   };
 
   if (result.isExist) {
-    const computedStyle = document.defaultView.getComputedStyle($('div.long-word', parentSelector)[0],);
+    const computedStyle = document.defaultView.getComputedStyle($('div.long-word', parentSelector)[0]);
     result.isOneLine = parseInt(computedStyle.height) === parseInt(computedStyle.lineHeight);
-    result.text = $.trim($('div.long-word', parentSelector).text());
+    result.text = $.trim($('div.long-word', parentSelector)
+      .text());
   }
 
   return result;

@@ -1,6 +1,6 @@
 const { createPageDriver } = require('../../helpers');
 
-module.exports = async pageDriverOpts => {
+module.exports = async (pageDriverOpts) => {
   // 创建 PageDriver
   const pageDriver = await createPageDriver(__filename, pageDriverOpts);
 
@@ -17,19 +17,17 @@ module.exports = async pageDriverOpts => {
 
   await pageDriver.setPageUrl('http://now.qq.com/debug');
 
-  await pageDriver.addAction('init', async page => {
+  await pageDriver.addAction('init', async (page) => {
     await page.waitFor('#debug-ua .ua');
   });
 
-  return await pageDriver.evaluate(() => {
-    return {
-      remarks: '调试UA',
-      ua: document.querySelector('#debug-ua .ua').innerText,
-      title: document.title,
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-  });
+  return pageDriver.evaluate(() => ({
+    remarks: '调试UA',
+    ua: document.querySelector('#debug-ua .ua').innerText,
+    title: document.title,
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }));
 };
 
 // module

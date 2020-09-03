@@ -32,6 +32,6 @@ function getErrorData(errCode, errMsg) {
 }
 
 module.exports = {
-  getSuccessData: getSuccessData,
-  getErrorData: getErrorData,
+  getSuccessData,
+  getErrorData,
 };

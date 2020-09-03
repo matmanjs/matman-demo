@@ -1,14 +1,12 @@
 const { useJquery } = require('web-crawl-util');
 
-module.exports = () => {
-  return {
-    topImageInfo: getTopImageInfo(),
-    middleRule: getMiddleRule(),
-    buttonCondition: getButtonCondition(),
-    oneLineText: getOneLineText(),
-    remarks: 'Got data by npm package: web-crawl-util',
-  };
-};
+module.exports = () => ({
+  topImageInfo: getTopImageInfo(),
+  middleRule: getMiddleRule(),
+  buttonCondition: getButtonCondition(),
+  oneLineText: getOneLineText(),
+  remarks: 'Got data by npm package: web-crawl-util',
+});
 
 /**
  * 顶层图片信息

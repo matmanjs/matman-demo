@@ -2,7 +2,7 @@ const path = require('path');
 const { createPageDriver } = require('../../helpers');
 const { BASIC_QUERY_DATA_MAP, WAIT } = require('./env');
 
-module.exports = async pageDriverOpts => {
+module.exports = async (pageDriverOpts) => {
   // 创建 PageDriver
   const pageDriver = await createPageDriver(__filename, pageDriverOpts, BASIC_QUERY_DATA_MAP);
 
@@ -13,7 +13,7 @@ module.exports = async pageDriverOpts => {
   await pageDriver.setPageUrl('http://now.qq.com/withdraw');
 
   // 增加自定义动作
-  await pageDriver.addAction('init', async page => {
+  await pageDriver.addAction('init', async (page) => {
     await page.waitFor(WAIT.READY);
   });
 

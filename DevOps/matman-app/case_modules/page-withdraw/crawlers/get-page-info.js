@@ -1,14 +1,12 @@
 const { useJquery } = require('web-crawl-util');
 
-module.exports = () => {
-  return {
-    noticeInfo: getNoticeInfo(),
-    withdrawInfo: getWithdrawInfo(),
-    ruleInfo: getRuleInfo(),
-    alertInfo: getAlertInfo(),
-    toastInfo: getToastInfo(),
-  };
-};
+module.exports = () => ({
+  noticeInfo: getNoticeInfo(),
+  withdrawInfo: getWithdrawInfo(),
+  ruleInfo: getRuleInfo(),
+  alertInfo: getAlertInfo(),
+  toastInfo: getToastInfo(),
+});
 
 /**
  * 消息提示
@@ -47,7 +45,7 @@ function getWithdrawInfo() {
     );
 
     function getQuotaItem(i) {
-      const jqDom = $('.display-withdraw-quotas .selection .item.i' + i, parentSelector);
+      const jqDom = $(`.display-withdraw-quotas .selection .item.i${i}`, parentSelector);
       return {
         text: useJquery.getText(jqDom),
         isAvailable: jqDom.hasClass('available'),
@@ -81,7 +79,7 @@ function getRuleInfo() {
 
   if (result.isExist) {
     function getRuleItem(i) {
-      const jqDom = $('.section-' + i, parentSelector);
+      const jqDom = $(`.section-${i}`, parentSelector);
 
       const title = useJquery.getText('h2', jqDom);
       const rules = [];

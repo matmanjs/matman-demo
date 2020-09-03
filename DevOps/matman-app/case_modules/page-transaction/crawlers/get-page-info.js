@@ -1,10 +1,8 @@
 const { useJquery } = require('web-crawl-util');
 
-module.exports = () => {
-  return {
-    transactionListInfo: getTransactionListInfo(),
-  };
-};
+module.exports = () => ({
+  transactionListInfo: getTransactionListInfo(),
+});
 
 /**
  * 列表项信息
