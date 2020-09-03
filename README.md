@@ -145,6 +145,8 @@ now.qq.com/manifest.json [project_path]/build/manifest.json
 
 - 调试地址: https://now.qq.com/simple
 
+![](.assets/simple.jpg)
+
 
 ### 4.2 单一接口展示型页面(transaction)
 
@@ -152,9 +154,13 @@ now.qq.com/manifest.json [project_path]/build/manifest.json
 
 - 调试地址: https://now.qq.com/transaction
 
+![](.assets/transaction.jpg)
+
 
 ### 4.3 重交互页面(withdraw)
 
 移动端 H5 页面，依赖多条接口数据来展示，且有多个用户交互逻辑。
 
 - 调试地址: https://now.qq.com/withdraw
+
+![](.assets/withdraw.jpg)
