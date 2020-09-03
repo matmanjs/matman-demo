@@ -6,11 +6,13 @@
         "build": "react-app-rewired build",
         "use-whistle-dev": "cd DevOps/whistle && npm run use-dev",
         "use-whistle-prod": "cd DevOps/whistle && npm run use-prod",
-        "test": "npm run test:unit && npm run test:e2e ",
+        "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "npm run coverage",
-        "test:e2e": "node test/run-e2e-test.js",
         "test:unit:direct": "cross-env BABEL_ENV=test mocha test/unit",
+        "test:e2e": "node test/run-e2e-test.js",
         "test:e2e:direct": "mocha test/e2e",
+        "test:e2e:bootstrap": "node test/bootstrap-sut.js",
+        "test:e2e:bootstrap:dev": "node test/bootstrap-sut-dev.js",
         "coverage": "nyc npm run test:unit:direct"
     },
     "eslintConfig": {
