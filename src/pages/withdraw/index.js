@@ -9,93 +9,88 @@ import Notice from './components/now-display-notice';
 import { loadBalanceInfo } from './data/now-data-balance';
 import { loadVerifyInfo } from './data/now-data-verify';
 
-import {reportPv} from './report'
+import { reportPv } from './report';
 
 import './index.less';
 
-
 class PageWithdraw extends Component {
-    constructor(...props){
-        super(...props);
+  constructor(...props) {
+    super(...props);
 
-        reportPv();
+    reportPv();
+  }
+
+  componentDidMount() {
+    this.loadRemoteData();
+  }
+
+  /**
+   * 加载远程数据
+   */
+  loadRemoteData = () => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[withdraw] loadRemoteData()');
     }
 
-    componentDidMount() {
-        this.loadRemoteData();
-    }
-
-    /**
-     * 加载远程数据
-     */
-    loadRemoteData = () => {
+    this.fetch()
+      .then(data => {
         if (process.env.NODE_ENV !== 'production') {
-            console.log('[withdraw] loadRemoteData()');
+          console.log('[withdraw] this.fetch() then', data);
         }
 
-        this.fetch()
-            .then((data) => {
-                if (process.env.NODE_ENV !== 'production') {
-                    console.log('[withdraw] this.fetch() then', data);
-                }
-
-                this.handleOnReady(true, data);
-            })
-            .catch((err) => {
-                if (process.env.NODE_ENV !== 'production') {
-                    console.log('[withdraw] this.fetch() catch', err);
-                }
-
-                this.handleOnReady(false, err);
-            });
-    };
-
-    /**
-     * 调用接口，获得CGI数据，后续的页面渲染和展示，依赖这个CGI的返回
-     */
-    fetch = () => {
-        const fetchPromise = [
-            this.props.loadBalanceInfo(),
-            this.props.loadVerifyInfo()
-        ];
-
-        return Promise.all(fetchPromise);
-    };
-
-    handleOnReady = () => {
+        this.handleOnReady(true, data);
+      })
+      .catch(err => {
         if (process.env.NODE_ENV !== 'production') {
-            console.log('[withdraw] handleOnReady()');
+          console.log('[withdraw] this.fetch() catch', err);
         }
-    };
 
-    render() {
-        return (
-            <div id="root">
-                <LoadedTag />
+        this.handleOnReady(false, err);
+      });
+  };
 
-                <Notice />
-                <Withdraw />
-                <Rule />
-            </div>
-        );
+  /**
+   * 调用接口，获得CGI数据，后续的页面渲染和展示，依赖这个CGI的返回
+   */
+  fetch = () => {
+    const fetchPromise = [this.props.loadBalanceInfo(), this.props.loadVerifyInfo()];
+
+    return Promise.all(fetchPromise);
+  };
+
+  handleOnReady = () => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[withdraw] handleOnReady()');
     }
+  };
+
+  render() {
+    return (
+      <div id="root">
+        <LoadedTag />
+
+        <Notice />
+        <Withdraw />
+        <Rule />
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    return {};
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        loadBalanceInfo() {
-            return dispatch(loadBalanceInfo());
-        },
+  return {
+    loadBalanceInfo() {
+      return dispatch(loadBalanceInfo());
+    },
 
-        loadVerifyInfo() {
-            return dispatch(loadVerifyInfo());
-        }
-    };
+    loadVerifyInfo() {
+      return dispatch(loadVerifyInfo());
+    },
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWithdraw);
-

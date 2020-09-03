@@ -2,9 +2,9 @@ import React from 'react';
 import './index.less';
 
 function TransactionListItem(props) {
-    const { item } = props;
+  const { item } = props;
 
-    return (
+  return (
         <div
             className={`list-item ${item.isDated ? 'dated' : ''}`}
             data-id={`${item.id}`}
@@ -32,21 +32,19 @@ function TransactionListItem(props) {
             </div>
 
         </div>
-    );
+  );
 }
 
 export default function TransactionList(props) {
-    const { list } = props;
+  const { list } = props;
 
-    return (
+  return (
         <div className="display-transaction-list">
             {
-                list.map((item, index) => {
-                    return (
+                list.map((item, index) => (
                         <TransactionListItem key={index} index={index} item={item} />
-                    );
-                })
+                ))
             }
         </div>
-    );
+  );
 }

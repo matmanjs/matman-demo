@@ -8,14 +8,14 @@
  * @return {Object}
  */
 export function getData(data = {}) {
-    // 这里的钱单位都是分
-    let obj = {
-        result: data.result,
-        err: data.err || '',
-        isSuccess: data.result === 0
-    };
+  // 这里的钱单位都是分
+  let obj = {
+    result: data.result,
+    err: data.err || '',
+    isSuccess: data.result === 0,
+  };
 
-    obj._cgi_data = data;
+  obj._cgi_data = data;
 
-    return obj;
+  return obj;
 }

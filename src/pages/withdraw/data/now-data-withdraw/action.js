@@ -7,25 +7,25 @@ export const WITHDRAW_MONEY_REQUEST_SUCCESS = 'WITHDRAW_MONEY_REQUEST_SUCCESS';
 export const WITHDRAW_MONEY_REQUEST_FAIL = 'WITHDRAW_MONEY_REQUEST_FAIL';
 
 function fetchWithdrawMoney(amount) {
-    return {
-        [CALL_API]: {
-            types: [WITHDRAW_MONEY_REQUEST, WITHDRAW_MONEY_REQUEST_SUCCESS, WITHDRAW_MONEY_REQUEST_FAIL],
-            url: '//cgi.now.qq.com/cgi-bin/a/b/withdraw_money',
-            type: 'get',
-            data: {
-                amount: amount,
-                activeid: 10001
-            },
-            transferParam: {
-                amount: amount
-            },
-            convert: getData
-        }
-    };
+  return {
+    [CALL_API]: {
+      types: [WITHDRAW_MONEY_REQUEST, WITHDRAW_MONEY_REQUEST_SUCCESS, WITHDRAW_MONEY_REQUEST_FAIL],
+      url: '//cgi.now.qq.com/cgi-bin/a/b/withdraw_money',
+      type: 'get',
+      data: {
+        amount: amount,
+        activeid: 10001,
+      },
+      transferParam: {
+        amount: amount,
+      },
+      convert: getData,
+    },
+  };
 }
 
 export function loadWithdrawMoney(amount) {
-    return (dispatch) => {
-        return dispatch(fetchWithdrawMoney(amount));
-    };
+  return dispatch => {
+    return dispatch(fetchWithdrawMoney(amount));
+  };
 }

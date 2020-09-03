@@ -1,3 +1,3 @@
 export function closeCurrentWebView() {
-    console.log('==closeCurrentWebView==');
+  console.log('==closeCurrentWebView==');
 }

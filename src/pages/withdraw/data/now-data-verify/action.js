@@ -7,19 +7,19 @@ export const VERIFY_INFO_REQUEST_SUCCESS = 'VERIFY_INFO_REQUEST_SUCCESS';
 export const VERIFY_INFO_REQUEST_FAIL = 'VERIFY_INFO_REQUEST_FAIL';
 
 function fetchVerifyInfo() {
-    return {
-        [CALL_API]: {
-            types: [VERIFY_INFO_REQUEST, VERIFY_INFO_REQUEST_SUCCESS, VERIFY_INFO_REQUEST_FAIL],
-            url: '//cgi.now.qq.com/cgi-bin/a/b/get_verify_status',
-            type: 'get',
-            data: {},
-            convert: getData
-        }
-    };
+  return {
+    [CALL_API]: {
+      types: [VERIFY_INFO_REQUEST, VERIFY_INFO_REQUEST_SUCCESS, VERIFY_INFO_REQUEST_FAIL],
+      url: '//cgi.now.qq.com/cgi-bin/a/b/get_verify_status',
+      type: 'get',
+      data: {},
+      convert: getData,
+    },
+  };
 }
 
 export function loadVerifyInfo() {
-    return (dispatch) => {
-        return dispatch(fetchVerifyInfo());
-    };
+  return dispatch => {
+    return dispatch(fetchVerifyInfo());
+  };
 }

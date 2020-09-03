@@ -4,22 +4,22 @@ import { connect } from 'react-redux';
 import DisplayTransaction from '../now-display-transaction';
 
 class HighorderTransaction extends Component {
-    render() {
-        let { isLoaded, list } = this.props;
+  render() {
+    const { isLoaded, list } = this.props;
 
-        return (
+    return (
             <DisplayTransaction isLoaded={isLoaded} list={list} />
-        );
-    }
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    let { transactionInfo } = state;
+  const { transactionInfo } = state;
 
-    return {
-        isLoaded: transactionInfo.isLoaded,
-        list: transactionInfo.list
-    };
+  return {
+    isLoaded: transactionInfo.isLoaded,
+    list: transactionInfo.list,
+  };
 }
 
 export default connect(mapStateToProps)(HighorderTransaction);

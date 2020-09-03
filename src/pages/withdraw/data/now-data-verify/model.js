@@ -8,14 +8,14 @@
  * @return {Object}
  */
 export function getData(data = {}) {
-    // 这里的钱单位都是分
-    let obj = {
-        idVerifyTs: data.id_verify_ts || 0,
-        phoneVerifyTs: data.phone_verify_ts || 0
-    };
+  // 这里的钱单位都是分
+  let obj = {
+    idVerifyTs: data.id_verify_ts || 0,
+    phoneVerifyTs: data.phone_verify_ts || 0,
+  };
 
-    obj.isIdVerified = !!obj.idVerifyTs;
-    obj.isPhoneVerified = !!obj.phoneVerifyTs;
+  obj.isIdVerified = !!obj.idVerifyTs;
+  obj.isPhoneVerified = !!obj.phoneVerifyTs;
 
-    return obj;
+  return obj;
 }

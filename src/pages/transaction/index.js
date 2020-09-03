@@ -8,35 +8,35 @@ import { loadFlow } from './data/now-data-transaction';
 import './index.less';
 
 class PageTransaction extends Component {
-    componentDidMount() {
-        this.props.loadFlow();
-    }
+  componentDidMount() {
+    // 请求接口
+    this.props.loadFlow();
+  }
 
-    render() {
-        return (
-            <div className="page-transaction">
-                <Transaction />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="page-transaction">
+        <Transaction />
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    let { transactionInfo } = state;
+  const { transactionInfo } = state;
 
-    return {
-        isLoaded: transactionInfo.isLoaded,
-        list: transactionInfo.list
-    };
+  return {
+    isLoaded: transactionInfo.isLoaded,
+    list: transactionInfo.list,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        loadFlow() {
-            return dispatch(loadFlow());
-        }
-    };
+  return {
+    loadFlow() {
+      return dispatch(loadFlow());
+    },
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageTransaction);
-

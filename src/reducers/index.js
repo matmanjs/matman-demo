@@ -6,10 +6,10 @@ import { verifyInfo } from '../pages/withdraw/data/now-data-verify';
 import { withdrawInfo } from '../pages/withdraw/data/now-data-withdraw';
 
 const rootReducer = combineReducers({
-    transactionInfo,
-    balanceInfo,
-    verifyInfo,
-    withdrawInfo
+  transactionInfo,
+  balanceInfo,
+  verifyInfo,
+  withdrawInfo,
 });
 
 export default rootReducer;
