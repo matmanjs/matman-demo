@@ -107,8 +107,72 @@ async function runE2ETestDirect(e2eRunner, config = {}) {
   };
 }
 
+/**
+ * 执行：初始化环境
+ * @param {Object} [params]
+ * @param {Number} [params.projectPort] Whistle 需要的端口
+ * @param {Number} [params.whistlePort] Whistle 需要的端口
+ * @param {Number} [params.mockstarPort] MockStar 需要的端口
+ * @param {Boolean} [params.useCurrentStartedWhistle] 是否复用当前可能启动的 whistle，适合开发场景下使用
+ * @param {Boolean} [params.isBuildDev] 当前构建是否是 dev 场景
+ * @return {Promise<void>}
+ */
+async function bootstrap(params) {
+  const { projectPort, mockstarPort, whistlePort, useCurrentStartedWhistle, isBuildDev } = params;
+
+  // 创建 E2ERunner
+  const e2eRunner = await createE2ERunner();
+
+  // 设置启动
+  await e2eRunner.start();
+
+  // 测试之前准备环境
+  const prepareSUTResult = await prepareSUT(e2eRunner, {
+    projectPort,
+    mockstarPort,
+    whistlePort,
+    useCurrentStartedWhistle,
+    isBuildDev,
+  });
+
+  // debug 日志
+  console.log(prepareSUTResult);
+  console.log(e2eRunner);
+}
+
+/**
+ * 执行：端对端测试
+ * @param {Object} [params]
+ * @param {Boolean} [params.isBuildDev] 当前构建是否是 dev 场景
+ * @return {Promise<void>}
+ */
+async function run(params = {}) {
+  const { isBuildDev } = params;
+
+  // 创建 E2ERunner
+  const e2eRunner = await createE2ERunner();
+
+  // 设置启动
+  await e2eRunner.start();
+
+  // 测试之前准备环境
+  const prepareSUTResult = await prepareSUT(e2eRunner, { isBuildDev });
+  const { whistlePort, matmanAppPath } = prepareSUTResult;
+
+  // 直接执行测试文件
+  await runE2ETestDirect(e2eRunner, {
+    whistlePort,
+    matmanAppPath,
+  });
+
+  // 设置结束
+  await e2eRunner.stop();
+}
+
 module.exports = {
   createE2ERunner,
   prepareSUT,
   runE2ETestDirect,
+  bootstrap,
+  run,
 };
