@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 const checkPage = require('../../../DevOps/matman-app/case_modules/page-transaction/basic-check');
 
@@ -7,7 +7,7 @@ describe('transaction 页面：无流水信息检查', function () {
 
   let matmanResult;
 
-  before(async function () {
+  before(async () => {
     matmanResult = await checkPage({
       show: false,
       doNotCloseBrowser: false,
@@ -18,14 +18,14 @@ describe('transaction 页面：无流水信息检查', function () {
     });
   });
 
-  describe('检查基本信息', function () {
+  describe('检查基本信息', () => {
     let data;
 
-    before(function () {
+    before(() => {
       data = matmanResult.get('init');
     });
 
-    it('数据快照校验通过', function () {
+    it('数据快照校验通过', () => {
       expect(data).to.eql({
         transactionListInfo: {
           // 'emptyPic': 'http://now.qq.com/img/nopkdata@2x_c3c9fbba.png',

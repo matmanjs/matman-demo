@@ -57,7 +57,7 @@ function getDevRules(opts = {}) {
   ];
 
   return {
-    name: name,
+    name,
     rules: ruleList.join('\n'),
   };
 }
@@ -80,7 +80,7 @@ function getProdRules(opts = {}) {
   // whistle 规则集的名字，会展示在 whistle 管理端 Rules 这个 tab 下
   // 实际上这个名字是可以任意字符串，详见： http://wproxy.org/whistle/webui/rules.html
   // 我们建议每一个项目都创建一个独立的规则集，因此获取项目名做规则集名字，大部分情况可以区分不同项目了
-  const name = opts.name || getRuleName(`prod`);
+  const name = opts.name || getRuleName('prod');
 
   // 规则内容，具体语法请参考： http://wproxy.org/whistle/
   // 注意：如果涉及到正则表达式，则 \ 需要修改为 \\ (用两个反斜杠)，否则自动设置到 whistle 时会被丢失
@@ -93,7 +93,7 @@ function getProdRules(opts = {}) {
   ];
 
   return {
-    name: name,
+    name,
     rules: ruleList.join('\n'),
   };
 }

@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 const checkPage = require('../../../DevOps/matman-app/case_modules/page-simple/basic-check');
 
@@ -7,7 +7,7 @@ describe('simple 页面：常规检查-普通静态页面', function () {
 
   let matmanResult;
 
-  before(async function () {
+  before(async () => {
     matmanResult = await checkPage({
       show: false,
       doNotCloseBrowser: false,
@@ -15,14 +15,14 @@ describe('simple 页面：常规检查-普通静态页面', function () {
     });
   });
 
-  describe('检查基本信息', function () {
+  describe('检查基本信息', () => {
     let data;
 
-    before(function () {
+    before(() => {
       data = matmanResult.get('init');
     });
 
-    it('顶层图片检查通过', function () {
+    it('顶层图片检查通过', () => {
       expect(data.topImageInfo).to.eql({
         anchor1:
           '//pic.url.cn/hy_personal/33ab1df8c733dfb724654cb8d9b8fe91647fc4ed4ade9ec4002d92f0e8867248/640',
@@ -32,7 +32,7 @@ describe('simple 页面：常规检查-普通静态页面', function () {
       });
     });
 
-    it('规则文案检查通过', function () {
+    it('规则文案检查通过', () => {
       expect(data.middleRule).to.eql({
         isExist: true,
         text:
@@ -40,7 +40,7 @@ describe('simple 页面：常规检查-普通静态页面', function () {
       });
     });
 
-    it('按钮样式检查通过', function () {
+    it('按钮样式检查通过', () => {
       expect(data.buttonCondition).to.eql({
         isExist: true,
         active_btn: '同意',
@@ -48,7 +48,7 @@ describe('simple 页面：常规检查-普通静态页面', function () {
       });
     });
 
-    it('文字单行检查通过', function () {
+    it('文字单行检查通过', () => {
       expect(data.oneLineText).to.eql({
         isExist: true,
         isOneLine: true,

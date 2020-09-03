@@ -2,13 +2,13 @@ const path = require('path');
 const { createPageDriver } = require('../../helpers');
 const { WAIT } = require('./env');
 
-module.exports = async pageDriverOpts => {
+module.exports = async (pageDriverOpts) => {
   // 创建 PageDriver
   const pageDriver = await createPageDriver(__filename, pageDriverOpts);
 
   await pageDriver.setPageUrl('http://now.qq.com/simple');
 
-  await pageDriver.addAction('init', async page => {
+  await pageDriver.addAction('init', async (page) => {
     await page.waitFor(WAIT.READY);
   });
 

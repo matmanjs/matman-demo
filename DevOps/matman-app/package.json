@@ -8,11 +8,11 @@
   },
   "dependencies": {
     "lodash": "^4.17.15",
-    "matman": "^6.0.5",
-    "matman-runner-puppeteer": "^6.0.5",
-    "web-crawl-util": "^0.1.1"
+    "matman": "^6.0.17",
+    "matman-runner-puppeteer": "^6.0.17",
+    "web-crawl-util": "^1.0.2"
   },
   "devDependencies": {
-    "matman-cli": "^6.0.5"
+    "matman-cli": "^6.0.17"
   }
 }

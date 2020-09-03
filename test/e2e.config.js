@@ -37,9 +37,7 @@ async function prepareSUT(e2eRunner, config = {}) {
         cwd: e2eRunner.workspacePath,
         port: config.projectPort,
         usePort: true,
-        checkIfBuildCompleted: stdoutData => {
-          return stdoutData && stdoutData.indexOf('Compiled successfully') > -1;
-        },
+        checkIfBuildCompleted: stdoutData => stdoutData && stdoutData.indexOf('Compiled successfully') > -1,
       },
     );
   } else {

@@ -75,9 +75,7 @@ function getOneLineText() {
   };
 
   if (result.isExist) {
-    let computedStyle = document.defaultView.getComputedStyle(
-      $('div.long-word', parentSelector)[0],
-    );
+    const computedStyle = document.defaultView.getComputedStyle($('div.long-word', parentSelector)[0],);
     result.isOneLine = parseInt(computedStyle.height) === parseInt(computedStyle.lineHeight);
     result.text = $.trim($('div.long-word', parentSelector).text());
   }
