@@ -20,6 +20,7 @@ async function createE2ERunner() {
  * @param {E2ERunner} e2eRunner
  * @param {Object} [config]
  * @param {Boolean} [config.isBuildDev] 当前构建是否是 dev 场景
+ * @param {Number} [config.projectPort] 启动项目时需要的端口
  * @param {Number} [config.mockstarPort] MockStar 需要的端口
  * @param {Number} [config.whistlePort] Whistle 需要的端口
  * @param {Boolean} [config.useCurrentStartedWhistle] 是否复用当前可能启动的 whistle，适合开发场景下使用
@@ -27,12 +28,25 @@ async function createE2ERunner() {
  */
 async function prepareSUT(e2eRunner, config = {}) {
   // 第一步：构建项目
-  const buildProjectCmd = `npx cross-env ENABLE_E2E_TEST=1 npm run ${
-    config.isBuildDev ? 'start' : 'build'
-  }`;
-  await e2eRunner.buildProject(buildProjectCmd, {
-    cwd: e2eRunner.workspacePath,
-  });
+  // 注意开发模式下是需要端口的，create-react-app 可以通过 PORT 来指定启动端口，默认是 3000
+  let projectPort;
+  if (config.isBuildDev) {
+    projectPort = await e2eRunner.buildProject(
+      port => `npx cross-env ENABLE_E2E_TEST=1 PORT=${port} npm start`,
+      {
+        cwd: e2eRunner.workspacePath,
+        port: config.projectPort,
+        usePort: true,
+        checkIfBuildCompleted: stdoutData => {
+          return stdoutData && stdoutData.indexOf('Compiled successfully') > -1;
+        },
+      },
+    );
+  } else {
+    await e2eRunner.buildProject('npx cross-env ENABLE_E2E_TEST=1 npm run build', {
+      cwd: e2eRunner.workspacePath,
+    });
+  }
 
   // 第二步：启动 mockstar
   const mockstarAppPath = path.join(e2eRunner.workspacePath, './DevOps/mockstar-app');
@@ -50,7 +64,7 @@ async function prepareSUT(e2eRunner, config = {}) {
         mockstarPort,
       };
       return config.isBuildDev
-        ? whistle.getDevRules(getRulesOpts)
+        ? whistle.getDevRules({ ...getRulesOpts, projectPort })
         : whistle.getProdRules(getRulesOpts);
     },
   });
@@ -61,6 +75,7 @@ async function prepareSUT(e2eRunner, config = {}) {
 
   return {
     config,
+    projectPort,
     mockstarPort,
     whistlePort,
     matmanAppPath,
