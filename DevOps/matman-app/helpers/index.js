@@ -8,7 +8,7 @@ const { BrowserRunner } = require('matman-runner-puppeteer');
  * 内置的设备：https://github.com/puppeteer/puppeteer/blob/main/src/common/DeviceDescriptors.ts
  * 更多实践请查阅：https://github.com/matmanjs/test-automation-training/tree/master/matman/04.device-emulation
  */
-export const DEVICE = {
+const DEVICE = {
   // 内置的设备（iOS）：iPhone 6
   IOS_IPHONE_6: 'iPhone 6',
 
