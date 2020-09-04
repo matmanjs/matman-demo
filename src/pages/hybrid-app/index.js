@@ -13,6 +13,7 @@ export default class PageHybridApp extends Component {
     };
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillMount() {
     this.handleObserve();
   }
@@ -34,7 +35,7 @@ export default class PageHybridApp extends Component {
 
     // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
     // Callback function to execute when mutations are observed
-    const callback = function (mutationsList, observer) {
+    const callback = function (mutationsList) {
       // Use traditional 'for loops' for IE 11
       for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {

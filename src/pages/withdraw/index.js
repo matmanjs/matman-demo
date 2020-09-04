@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadedTag from './components/now-highorder-loaded-tag';
@@ -77,8 +78,13 @@ class PageWithdraw extends Component {
   }
 }
 
+PageWithdraw.propTypes = {
+  loadBalanceInfo: PropTypes.func,
+  loadVerifyInfo: PropTypes.func,
+};
+
 function mapStateToProps(state) {
-  return {};
+  return state;
 }
 
 function mapDispatchToProps(dispatch) {

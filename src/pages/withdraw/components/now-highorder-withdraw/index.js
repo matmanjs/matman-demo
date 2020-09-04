@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import DisplayWithdraw from '../now-display-withdraw';
@@ -109,6 +110,16 @@ class HighorderWithdraw extends Component {
     );
   }
 }
+
+HighorderWithdraw.propTypes = {
+  isLoaded: PropTypes.bool,
+  available: PropTypes.bool,
+  quotas: PropTypes.array,
+  isPhoneVerified: PropTypes.bool,
+  isIdVerified: PropTypes.bool,
+  loadWithdrawMoney: PropTypes.func,
+  loadBalanceInfo: PropTypes.func,
+};
 
 function mapStateToProps(state) {
   const { balanceInfo, verifyInfo } = state;

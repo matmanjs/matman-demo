@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import './index.less';
@@ -34,6 +35,14 @@ class DisplayWithdrawQuatosItem extends PureComponent {
   }
 }
 
+DisplayWithdrawQuatosItem.propTypes = {
+  num: PropTypes.number,
+  index: PropTypes.number,
+  withdrawMoney: PropTypes.number,
+  maxWithdrawMoney: PropTypes.number,
+  selectQuota: PropTypes.func,
+};
+
 export default function DisplayWithdrawQuotas(props) {
   const { maxWithdrawMoney, withdrawMoney, afterTaxedMoney, quotas, selectQuota } = props;
 
@@ -43,14 +52,14 @@ export default function DisplayWithdrawQuotas(props) {
 
       <div className="selection">
         {quotas.map((item, index) => (
-            <DisplayWithdrawQuatosItem
-              key={index}
-              index={index}
-              num={item}
-              withdrawMoney={withdrawMoney}
-              maxWithdrawMoney={maxWithdrawMoney}
-              selectQuota={selectQuota}
-            />
+          <DisplayWithdrawQuatosItem
+            key={index}
+            index={index}
+            num={item}
+            withdrawMoney={withdrawMoney}
+            maxWithdrawMoney={maxWithdrawMoney}
+            selectQuota={selectQuota}
+          />
         ))}
       </div>
 
@@ -63,3 +72,11 @@ export default function DisplayWithdrawQuotas(props) {
     </div>
   );
 }
+
+DisplayWithdrawQuotas.propTypes = {
+  quotas: PropTypes.array,
+  afterTaxedMoney: PropTypes.number,
+  withdrawMoney: PropTypes.number,
+  maxWithdrawMoney: PropTypes.number,
+  selectQuota: PropTypes.func,
+};

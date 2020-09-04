@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import WithdrawWalletTips from './withdraw-wallet-tips';
 import WithdrawQuotas from './withdraw-quotas';
 import WithdrawBalanceTips from './withdraw-balance-tips';
@@ -22,6 +24,7 @@ export default class DisplayWithdraw extends Component {
     };
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
     // 可提现的最大值为用户红包的余额值
     if (nextProps.available !== this.props.available) {
@@ -112,3 +115,11 @@ export default class DisplayWithdraw extends Component {
     );
   }
 }
+
+DisplayWithdraw.propTypes = {
+  uid: PropTypes.string,
+  available: PropTypes.bool,
+  quotas: PropTypes.array,
+  handleSelectQuota: PropTypes.func,
+  handleWithdrawMoney: PropTypes.func,
+};
