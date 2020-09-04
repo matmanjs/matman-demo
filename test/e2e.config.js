@@ -10,8 +10,7 @@ const whistle = require('../DevOps/whistle');
 async function createE2ERunner() {
   return new E2ERunner({
     workspacePath: path.join(__dirname, '../'),
-    outputPath: path.join(__dirname, '../.matman_output'),
-    NPM: 'npm',
+    outputPath: path.join(__dirname, '../.matman_output')
   });
 }
 

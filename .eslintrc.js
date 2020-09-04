@@ -12,7 +12,7 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ['plugin:react/recommended', 'eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
   settings: {
     react: {
       version: 'detect',
