@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './index.less';
 
@@ -12,3 +13,8 @@ export default function TransactionEmpty(props) {
     </div>
   );
 }
+
+TransactionEmpty.propTypes = {
+  wording: PropTypes.string,
+};
+

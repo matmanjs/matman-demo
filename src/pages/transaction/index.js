@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Transaction from './components/now-highorder-transaction';
@@ -21,6 +22,10 @@ class PageTransaction extends Component {
     );
   }
 }
+
+PageTransaction.propTypes = {
+  loadFlow: PropTypes.func,
+};
 
 function mapStateToProps(state) {
   const { transactionInfo } = state;

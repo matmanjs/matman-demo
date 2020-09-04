@@ -16,6 +16,7 @@ function getFullUrl(url) {
   return `${window.location.protocol}//${window.location.hostname}${url}`;
 }
 
+// eslint-disable-next-line no-unused-vars
 export default store => next => (action) => {
   /**
    * opts 字段说明：
@@ -45,14 +46,14 @@ export default store => next => (action) => {
    * @returns {*}
    */
   function actionWith(_action) {
-    _action = Object.assign(action, _action);
+    const newAction = Object.assign(action, _action);
 
     // 'wait' 'fetching' 'success' 'fail'
     const obj = {
       [STATUS]: 'fetching',
     };
 
-    switch (_action.type) {
+    switch (newAction.type) {
       case successType:
         obj[STATUS] = 'success';
         break;
@@ -64,12 +65,12 @@ export default store => next => (action) => {
     }
 
     if (obj[STATUS] !== 'fetching') {
-      _action.data = Object.assign(_action.data || {}, obj);
+      newAction.data = Object.assign(newAction.data || {}, obj);
     } else {
-      _action.data = {};
+      newAction.data = {};
     }
 
-    const finalAction = _action;
+    const finalAction = newAction;
 
     delete finalAction[CALL_API];
 

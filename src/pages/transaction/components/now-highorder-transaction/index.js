@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import DisplayTransaction from '../now-display-transaction';
@@ -10,6 +11,11 @@ class HighorderTransaction extends Component {
     return <DisplayTransaction isLoaded={isLoaded} list={list} />;
   }
 }
+
+HighorderTransaction.propTypes = {
+  isLoaded: PropTypes.bool,
+  list: PropTypes.array,
+};
 
 function mapStateToProps(state) {
   const { transactionInfo } = state;

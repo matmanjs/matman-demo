@@ -5,6 +5,7 @@ import { connect, Provider } from 'react-redux';
 import createStore from './store';
 import App from './App';
 
+// eslint-disable-next-line no-underscore-dangle
 const store = createStore(window.__initialState);
 
 function mapStateToProps(state) {

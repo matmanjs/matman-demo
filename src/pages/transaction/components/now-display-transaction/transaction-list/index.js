@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './index.less';
 
 function TransactionListItem(props) {
@@ -35,6 +37,11 @@ function TransactionListItem(props) {
   );
 }
 
+TransactionListItem.propTypes = {
+  item: PropTypes.object,
+};
+
+
 export default function TransactionList(props) {
   const { list } = props;
 
@@ -48,3 +55,7 @@ export default function TransactionList(props) {
         </div>
   );
 }
+
+TransactionList.propTypes = {
+  list: PropTypes.array,
+};
