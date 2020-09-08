@@ -108,7 +108,7 @@ async function runE2ETestDirect(e2eRunner, config = {}) {
 /**
  * 执行：初始化环境
  * @param {Object} [params]
- * @param {Number} [params.projectPort] Whistle 需要的端口
+ * @param {Number} [params.projectPort] 项目启动需要的端口
  * @param {Number} [params.whistlePort] Whistle 需要的端口
  * @param {Number} [params.mockstarPort] MockStar 需要的端口
  * @param {Boolean} [params.useCurrentStartedWhistle] 是否复用当前可能启动的 whistle，适合开发场景下使用

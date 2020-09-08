@@ -18,7 +18,7 @@ module.exports = async (pageDriverOpts) => {
   });
 
   // 获取结果
-  return await pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
+  return pageDriver.evaluate(path.resolve(__dirname, './crawlers/get-page-info.js'));
 };
 
 // module
