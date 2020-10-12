@@ -1,7 +1,0 @@
-{
-  "name": "whistle",
-  "scripts": {
-    "use-dev": "w2 add rules/whistle.dev.js --force",
-    "use-prod": "w2 add rules/whistle.prod.js --force"
-  }
-}
